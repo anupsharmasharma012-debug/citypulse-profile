@@ -1,1 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CityPulse - App Settings & Security</title>
+    <link rel="stylesheet" href="https://anupsharmasharma012-debug.github.io/citypulse-core/style.css">
+</head>
+<body>
+    <div class="max-width-container">
+        <!-- Core Header Integration -->
+        <city-header></city-header>
+
+        <main style="padding: 10px 16px; display: flex; flex-direction: column; gap: 16px;">
+            <h3 style="font-size: 16px; font-weight: 700; color: #fff;">App Settings & Preferences</h3>
+
+            <!-- Settings Menu Group -->
+            <div style="background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 16px; overflow: hidden;">
+                <!-- Theme Option -->
+                <div style="display: flex; justify-content: space-between; align-items: center; padding: 14px 16px; border-bottom: 1px solid var(--card-border); color: #fff; font-size: 14px;">
+                    <div style="display: flex; align-items: center; gap: 12px;">
+                        <span>🌙</span> Dark Mode Theme
+                    </div>
+                    <span style="font-size: 12px; color: var(--accent-success); font-weight: 600;">Active</span>
+                </div>
+
+                <!-- App Lock / Security -->
+                <div style="display: flex; justify-content: space-between; align-items: center; padding: 14px 16px; border-bottom: 1px solid var(--card-border); color: #fff; font-size: 14px;">
+                    <div style="display: flex; align-items: center; gap: 12px;">
+                        <span>🔒</span> App Lock & Biometrics
+                    </div>
+                    <span style="font-size: 12px; color: var(--text-muted);">Disabled</span>
+                </div>
+
+                <!-- Help & Support -->
+                <a href="#" style="display: flex; justify-content: space-between; align-items: center; padding: 14px 16px; text-decoration: none; border-bottom: 1px solid var(--card-border); color: #fff; font-size: 14px;">
+                    <div style="display: flex; align-items: center; gap: 12px;">
+                        <span>💬</span> Help & Support Desk
+                    </div>
+                    <span style="color: var(--text-muted);">›</span>
+                </a>
+
+                <!-- Privacy Policy -->
+                <a href="#" style="display: flex; justify-content: space-between; align-items: center; padding: 14px 16px; text-decoration: none; color: #fff; font-size: 14px;">
+                    <div style="display: flex; align-items: center; gap: 12px;">
+                        <span>🛠️</span> Privacy Policy & Terms
+                    </div>
+                    <span style="color: var(--text-muted);">›</span>
+                </a>
+            </div>
+        </main>
+
+        <!-- Core Bottom Navigation Integration -->
+        <bottom-nav></bottom-nav>
+    </div>
+
+    <script src="https://anupsharmasharma012-debug.github.io/citypulse-core/components.js"></script>
+</body>
+</html>
 
