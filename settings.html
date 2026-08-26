@@ -3,35 +3,41 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CityPulse - App Settings & Security</title>
+    <title>CityPulse - Settings</title>
     <link rel="stylesheet" href="https://anupsharmasharma012-debug.github.io/citypulse-core/style.css">
 </head>
 <body>
     <div class="max-width-container">
         <city-header></city-header>
-        <main style="padding: 10px 16px; display: flex; flex-direction: column; gap: 16px; margin-bottom: 70px;">
-            <h3 style="font-size: 16px; font-weight: 700; color: var(--text-main);">App Settings & Preferences</h3>
-            <div style="background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 16px; overflow: hidden;">
-                <div onclick="toggleTheme()" style="display: flex; justify-content: space-between; align-items: center; padding: 14px 16px; border-bottom: 1px solid var(--card-border); color: var(--text-main); font-size: 14px; cursor: pointer;">
-                    <div style="display: flex; align-items: center; gap: 12px;"><span>🌙</span> Dark / Light Mode Theme</div>
-                    <span style="font-size: 12px; color: #3b82f6; font-weight: 600;">Toggle ⚡</span>
+        <main style="padding: 10px 16px; margin-bottom: 80px;" class="flex-column gap-3">
+            <h3 style="margin: 0; font-size: 16px;">App Settings & Preferences</h3>
+            
+            <div class="cp-card" style="padding: 0; overflow: hidden;">
+                <!-- Theme Toggle connected to global function -->
+                <div onclick="toggleTheme()" class="flex-between" style="padding: 16px; border-bottom: 1px solid var(--card-border); cursor: pointer; font-size: 14px;">
+                    <div class="d-flex gap-2"><span>🌙</span> Dark / Light Mode</div>
+                    <span style="font-size: 12px; color: var(--accent-blue); font-weight: 600;">Toggle ⚡</span>
                 </div>
-                <div style="display: flex; justify-content: space-between; align-items: center; padding: 14px 16px; border-bottom: 1px solid var(--card-border); color: var(--text-main); font-size: 14px;">
-                    <div style="display: flex; align-items: center; gap: 12px;"><span>🔒</span> App Lock & Biometrics</div>
-                    <span style="font-size: 12px; color: var(--text-muted);">Disabled</span>
+                <div class="flex-between" style="padding: 16px; border-bottom: 1px solid var(--card-border); font-size: 14px;">
+                    <div class="d-flex gap-2"><span>🔒</span> Biometric App Lock</div>
+                    <span style="font-size: 12px; color: var(--text-muted);">Coming Soon</span>
                 </div>
-                <a href="#" style="display: flex; justify-content: space-between; align-items: center; padding: 14px 16px; text-decoration: none; border-bottom: 1px solid var(--card-border); color: var(--text-main); font-size: 14px;">
-                    <div style="display: flex; align-items: center; gap: 12px;"><span>💬</span> Help & Support Desk</div>
+                <div class="flex-between" style="padding: 16px; border-bottom: 1px solid var(--card-border); font-size: 14px; cursor: pointer;">
+                    <div class="d-flex gap-2"><span>💬</span> Help & Support</div>
                     <span style="color: var(--text-muted);">›</span>
-                </a>
-                <a href="#" style="display: flex; justify-content: space-between; align-items: center; padding: 14px 16px; text-decoration: none; color: var(--text-main); font-size: 14px;">
-                    <div style="display: flex; align-items: center; gap: 12px;"><span>🛠️</span> Privacy Policy & Terms</div>
+                </div>
+                <div class="flex-between" style="padding: 16px; font-size: 14px; cursor: pointer;">
+                    <div class="d-flex gap-2"><span>🛠️</span> Privacy Policy</div>
                     <span style="color: var(--text-muted);">›</span>
-                </a>
+                </div>
             </div>
         </main>
         <bottom-nav></bottom-nav>
     </div>
+    <!-- Master Scripts -->
+    <script src="https://anupsharmasharma012-debug.github.io/citypulse-core/config.js"></script>
+    <script src="https://anupsharmasharma012-debug.github.io/citypulse-core/store.js"></script>
     <script src="https://anupsharmasharma012-debug.github.io/citypulse-core/components.js"></script>
 </body>
 </html>
+
