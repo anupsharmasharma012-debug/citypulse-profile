@@ -3,42 +3,51 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CityPulse - Notification Center</title>
+    <title>CityPulse - Notifications</title>
     <link rel="stylesheet" href="https://anupsharmasharma012-debug.github.io/citypulse-core/style.css">
 </head>
 <body>
     <div class="max-width-container">
         <city-header></city-header>
-        <main style="padding: 10px 16px; display: flex; flex-direction: column; gap: 16px; margin-bottom: 70px;">
-            <div style="display: flex; justify-content: space-between; align-items: center;">
-                <h3 style="font-size: 16px; font-weight: 700; color: var(--text-main);">Notifications & Alerts</h3>
-                <button style="background: transparent; border: none; color: #3b82f6; font-size: 12px; font-weight: 600; cursor: pointer;">Mark all as read</button>
+        <main style="padding: 10px 16px; margin-bottom: 80px;" class="flex-column gap-3">
+            <div class="flex-between">
+                <h3 style="margin: 0; font-size: 16px;">Notifications</h3>
+                <button style="background: transparent; border: none; color: var(--accent-blue); font-size: 12px; font-weight: 600; cursor: pointer;" onclick="showToast('Marked as read')">Mark all as read</button>
             </div>
-            <div style="display: flex; flex-direction: column; gap: 12px;">
-                <div style="background: var(--card-bg); border: 1px solid var(--card-border); border-left: 3px solid #3b82f6; border-radius: 12px; padding: 14px; display: flex; gap: 12px;">
-                    <span style="font-size: 20px;">🏛️</span>
-                    <div style="flex: 1;">
-                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
-                            <h4 style="font-size: 13px; font-weight: 700; color: var(--text-main);">Civic Update: Water Supply</h4>
-                            <span style="font-size: 10px; color: var(--text-muted);">10m ago</span>
+            
+            <div class="flex-column gap-2">
+                <div class="cp-card" style="border-left: 3px solid var(--accent-blue); padding: 14px; margin-bottom: 0;">
+                    <div class="d-flex gap-3">
+                        <span style="font-size: 20px;">🏛️</span>
+                        <div>
+                            <div class="flex-between" style="margin-bottom: 4px;">
+                                <h4 style="margin: 0; font-size: 13px;">Civic Update: Water Supply</h4>
+                                <span style="font-size: 10px; color: var(--text-muted);">10m ago</span>
+                            </div>
+                            <p style="margin: 0; font-size: 12px; color: var(--text-muted); line-height: 1.4;">Scheduled maintenance in Ward No. 12 area today.</p>
                         </div>
-                        <p style="font-size: 12px; color: var(--text-muted); line-height: 1.4;">Scheduled maintenance in Ward No. 12 area today between 2 PM to 5 PM.</p>
                     </div>
                 </div>
-                <div style="background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 12px; padding: 14px; display: flex; gap: 12px; opacity: 0.8;">
-                    <span style="font-size: 20px;">🚨</span>
-                    <div style="flex: 1;">
-                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
-                            <h4 style="font-size: 13px; font-weight: 700; color: var(--text-main);">Complaint Status Resolved</h4>
-                            <span style="font-size: 10px; color: var(--text-muted);">Yesterday</span>
+
+                <div class="cp-card" style="opacity: 0.7; padding: 14px; margin-bottom: 0;">
+                    <div class="d-flex gap-3">
+                        <span style="font-size: 20px;">✅</span>
+                        <div>
+                            <div class="flex-between" style="margin-bottom: 4px;">
+                                <h4 style="margin: 0; font-size: 13px;">Complaint Resolved</h4>
+                                <span style="font-size: 10px; color: var(--text-muted);">Yesterday</span>
+                            </div>
+                            <p style="margin: 0; font-size: 12px; color: var(--text-muted); line-height: 1.4;">Your street light repair request (#CP-8492) is fixed.</p>
                         </div>
-                        <p style="font-size: 12px; color: var(--text-muted); line-height: 1.4;">Your street light repair request (#CP-8492) has been successfully resolved.</p>
                     </div>
                 </div>
             </div>
         </main>
         <bottom-nav></bottom-nav>
     </div>
+    <!-- Master Scripts -->
+    <script src="https://anupsharmasharma012-debug.github.io/citypulse-core/config.js"></script>
+    <script src="https://anupsharmasharma012-debug.github.io/citypulse-core/store.js"></script>
     <script src="https://anupsharmasharma012-debug.github.io/citypulse-core/components.js"></script>
 </body>
 </html>
