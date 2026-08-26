@@ -8,52 +8,30 @@
 </head>
 <body>
     <div class="max-width-container">
-        <!-- Core Header Integration -->
         <city-header></city-header>
-
         <main style="padding: 10px 16px; display: flex; flex-direction: column; gap: 16px; margin-bottom: 70px;">
-            <h3 style="font-size: 16px; font-weight: 700; color: #fff;">App Settings & Preferences</h3>
-
-            <!-- Settings Menu Group -->
+            <h3 style="font-size: 16px; font-weight: 700; color: var(--text-main);">App Settings & Preferences</h3>
             <div style="background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 16px; overflow: hidden;">
-                <!-- Functional Dark Mode Theme Toggle -->
-                <div onclick="toggleTheme()" style="display: flex; justify-content: space-between; align-items: center; padding: 14px 16px; border-bottom: 1px solid var(--card-border); color: #fff; font-size: 14px; cursor: pointer;">
-                    <div style="display: flex; align-items: center; gap: 12px;">
-                        <span>🌙</span> Dark / Light Mode Theme
-                    </div>
-                    <span style="font-size: 12px; color: var(--accent); font-weight: 600;">Toggle ⚡</span>
+                <div onclick="toggleTheme()" style="display: flex; justify-content: space-between; align-items: center; padding: 14px 16px; border-bottom: 1px solid var(--card-border); color: var(--text-main); font-size: 14px; cursor: pointer;">
+                    <div style="display: flex; align-items: center; gap: 12px;"><span>🌙</span> Dark / Light Mode Theme</div>
+                    <span style="font-size: 12px; color: #3b82f6; font-weight: 600;">Toggle ⚡</span>
                 </div>
-
-                <!-- App Lock / Security -->
-                <div style="display: flex; justify-content: space-between; align-items: center; padding: 14px 16px; border-bottom: 1px solid var(--card-border); color: #fff; font-size: 14px;">
-                    <div style="display: flex; align-items: center; gap: 12px;">
-                        <span>🔒</span> App Lock & Biometrics
-                    </div>
+                <div style="display: flex; justify-content: space-between; align-items: center; padding: 14px 16px; border-bottom: 1px solid var(--card-border); color: var(--text-main); font-size: 14px;">
+                    <div style="display: flex; align-items: center; gap: 12px;"><span>🔒</span> App Lock & Biometrics</div>
                     <span style="font-size: 12px; color: var(--text-muted);">Disabled</span>
                 </div>
-
-                <!-- Help & Support -->
-                <a href="#" style="display: flex; justify-content: space-between; align-items: center; padding: 14px 16px; text-decoration: none; border-bottom: 1px solid var(--card-border); color: #fff; font-size: 14px;">
-                    <div style="display: flex; align-items: center; gap: 12px;">
-                        <span>💬</span> Help & Support Desk
-                    </div>
+                <a href="#" style="display: flex; justify-content: space-between; align-items: center; padding: 14px 16px; text-decoration: none; border-bottom: 1px solid var(--card-border); color: var(--text-main); font-size: 14px;">
+                    <div style="display: flex; align-items: center; gap: 12px;"><span>💬</span> Help & Support Desk</div>
                     <span style="color: var(--text-muted);">›</span>
                 </a>
-
-                <!-- Privacy Policy -->
-                <a href="#" style="display: flex; justify-content: space-between; align-items: center; padding: 14px 16px; text-decoration: none; color: #fff; font-size: 14px;">
-                    <div style="display: flex; align-items: center; gap: 12px;">
-                        <span>🛠️</span> Privacy Policy & Terms
-                    </div>
+                <a href="#" style="display: flex; justify-content: space-between; align-items: center; padding: 14px 16px; text-decoration: none; color: var(--text-main); font-size: 14px;">
+                    <div style="display: flex; align-items: center; gap: 12px;"><span>🛠️</span> Privacy Policy & Terms</div>
                     <span style="color: var(--text-muted);">›</span>
                 </a>
             </div>
         </main>
-
-        <!-- Core Bottom Navigation Integration -->
         <bottom-nav></bottom-nav>
     </div>
-
     <script src="https://anupsharmasharma012-debug.github.io/citypulse-core/components.js"></script>
 </body>
 </html>
