@@ -8,43 +8,73 @@
 </head>
 <body>
     <div class="max-width-container">
-        <city-header></city-header>
+        <!-- NAYA BACK BUTTON WALA TOPBAR -->
+        <city-topbar title="Notifications"></city-topbar>
+        
         <main style="padding: 10px 16px; margin-bottom: 80px;" class="flex-column gap-3">
+            
             <div class="flex-between">
-                <h3 style="margin: 0; font-size: 16px;">Notifications</h3>
-                <button style="background: transparent; border: none; color: var(--accent-blue); font-size: 12px; font-weight: 600; cursor: pointer;" onclick="showToast('Marked as read')">Mark all as read</button>
+                <span style="font-size: 12px; font-weight: 600; color: var(--text-muted);">RECENT ALERTS</span>
+                <button style="background: transparent; border: none; color: var(--accent-blue); font-size: 12px; font-weight: 600; cursor: pointer;" onclick="showToast('All marked as read ✅')">Mark all as read</button>
             </div>
             
-            <div class="flex-column gap-2">
-                <div class="cp-card" style="border-left: 3px solid var(--accent-blue); padding: 14px; margin-bottom: 0;">
-                    <div class="d-flex gap-3">
-                        <span style="font-size: 20px;">🏛️</span>
-                        <div>
-                            <div class="flex-between" style="margin-bottom: 4px;">
-                                <h4 style="margin: 0; font-size: 13px;">Civic Update: Water Supply</h4>
-                                <span style="font-size: 10px; color: var(--text-muted);">10m ago</span>
+            <div class="flex-column gap-3">
+                <!-- Today Section -->
+                <div>
+                    <h4 style="font-size: 11px; color: var(--text-muted); margin: 0 0 8px 10px; font-weight: 700; text-transform: uppercase;">Today</h4>
+                    
+                    <div class="cp-card" style="border-left: 3px solid var(--accent-blue); padding: 14px; margin-bottom: 8px;">
+                        <div class="d-flex gap-3">
+                            <span style="font-size: 20px;">🏛️</span>
+                            <div>
+                                <div class="flex-between" style="margin-bottom: 4px;">
+                                    <h4 style="margin: 0; font-size: 13px;">Civic Update: Water Supply</h4>
+                                    <span style="font-size: 10px; color: var(--accent-blue); font-weight: 600;">10m ago</span>
+                                </div>
+                                <p style="margin: 0; font-size: 12px; color: var(--text-muted); line-height: 1.4;">Scheduled maintenance in Ward No. 12 area today from 2 PM to 5 PM.</p>
                             </div>
-                            <p style="margin: 0; font-size: 12px; color: var(--text-muted); line-height: 1.4;">Scheduled maintenance in Ward No. 12 area today.</p>
+                        </div>
+                    </div>
+
+                    <div class="cp-card" style="border-left: 3px solid #f59e0b; padding: 14px; margin-bottom: 0;">
+                        <div class="d-flex gap-3">
+                            <span style="font-size: 20px;">🎁</span>
+                            <div>
+                                <div class="flex-between" style="margin-bottom: 4px;">
+                                    <h4 style="margin: 0; font-size: 13px;">Reward Coins Credited!</h4>
+                                    <span style="font-size: 10px; color: var(--text-muted);">2 hrs ago</span>
+                                </div>
+                                <p style="margin: 0; font-size: 12px; color: var(--text-muted); line-height: 1.4;">You received 50 CP Coins for daily login. Check your wallet.</p>
+                            </div>
                         </div>
                     </div>
                 </div>
 
-                <div class="cp-card" style="opacity: 0.7; padding: 14px; margin-bottom: 0;">
-                    <div class="d-flex gap-3">
-                        <span style="font-size: 20px;">✅</span>
-                        <div>
-                            <div class="flex-between" style="margin-bottom: 4px;">
-                                <h4 style="margin: 0; font-size: 13px;">Complaint Resolved</h4>
-                                <span style="font-size: 10px; color: var(--text-muted);">Yesterday</span>
+                <!-- Yesterday Section -->
+                <div>
+                    <h4 style="font-size: 11px; color: var(--text-muted); margin: 10px 0 8px 10px; font-weight: 700; text-transform: uppercase;">Yesterday</h4>
+                    
+                    <div class="cp-card" style="opacity: 0.7; padding: 14px; margin-bottom: 8px;">
+                        <div class="d-flex gap-3">
+                            <span style="font-size: 20px;">✅</span>
+                            <div>
+                                <div class="flex-between" style="margin-bottom: 4px;">
+                                    <h4 style="margin: 0; font-size: 13px;">Complaint Resolved</h4>
+                                    <span style="font-size: 10px; color: var(--text-muted);">1 day ago</span>
+                                </div>
+                                <p style="margin: 0; font-size: 12px; color: var(--text-muted); line-height: 1.4;">Your street light repair request (#CP-8492) has been fixed by the authority.</p>
                             </div>
-                            <p style="margin: 0; font-size: 12px; color: var(--text-muted); line-height: 1.4;">Your street light repair request (#CP-8492) is fixed.</p>
                         </div>
                     </div>
                 </div>
+
             </div>
         </main>
+        
+        <!-- Bottom Nav zaroori hai -->
         <bottom-nav></bottom-nav>
     </div>
+
     <!-- Master Scripts -->
     <script src="https://anupsharmasharma012-debug.github.io/citypulse-core/config.js"></script>
     <script src="https://anupsharmasharma012-debug.github.io/citypulse-core/store.js"></script>
