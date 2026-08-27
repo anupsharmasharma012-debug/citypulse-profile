@@ -3,31 +3,39 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CityPulse - Settings</title>
+    <title>CityPulse - Settings & Security</title>
     <link rel="stylesheet" href="https://anupsharmasharma012-debug.github.io/citypulse-core/style.css">
+    <style>
+        /* Native App Style Toggle Switch */
+        .toggle-switch { position: relative; display: inline-block; width: 40px; height: 22px; }
+        .toggle-switch input { opacity: 0; width: 0; height: 0; }
+        .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: var(--card-border); transition: .4s; border-radius: 22px; }
+        .slider:before { position: absolute; content: ""; height: 16px; width: 16px; left: 3px; bottom: 3px; background-color: white; transition: .4s; border-radius: 50%; }
+        input:checked + .slider { background-color: var(--accent-blue); }
+        input:checked + .slider:before { transform: translateX(18px); }
+
+        /* Bottom Sheet Modal Styles */
+        .sheet-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 1999; display: none; backdrop-filter: blur(2px); opacity: 0; transition: opacity 0.3s; }
+        .bottom-sheet { position: fixed; bottom: -100%; left: 50%; transform: translateX(-50%); width: 100%; max-width: 480px; background: var(--bg-color); border-radius: 24px 24px 0 0; z-index: 2000; padding: 24px; box-sizing: border-box; transition: bottom 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); border-top: 1px solid var(--card-border); }
+        
+        /* Utility class to show modals */
+        .show-modal .sheet-overlay { display: block; opacity: 1; }
+        .show-modal .bottom-sheet { bottom: 0; }
+    </style>
 </head>
 <body>
-    <div class="max-width-container">
-        <!-- Naya Back Button Wala Topbar -->
-        <city-topbar title="Settings & Privacy"></city-topbar>
+    <div class="max-width-container" id="main-container">
+        <city-topbar title="App Settings"></city-topbar>
         
         <main style="padding: 10px 16px; margin-bottom: 80px;" class="flex-column gap-4">
             
-            <!-- App Appearance Settings -->
+            <!-- 1. General Settings -->
             <div>
-                <h4 style="font-size: 12px; color: var(--text-muted); margin: 0 0 10px 10px; font-weight: 700; text-transform: uppercase;">Display & Appearance</h4>
+                <h4 style="font-size: 11px; color: var(--text-muted); margin: 0 0 8px 10px; font-weight: 800; text-transform: uppercase;">General</h4>
                 <div class="cp-card" style="padding: 0; overflow: hidden; margin: 0;">
-                    <div onclick="toggleTheme()" class="flex-between" style="padding: 16px; border-bottom: 1px solid var(--card-border); cursor: pointer;">
-                        <div class="d-flex gap-3 align-items-center">
-                            <span style="font-size: 20px;">🌙</span>
-                            <div>
-                                <div style="font-size: 14px; font-weight: 600;">Theme Mode</div>
-                                <div style="font-size: 11px; color: var(--text-muted);">Switch between Dark & Light</div>
-                            </div>
-                        </div>
-                        <span style="font-size: 12px; color: var(--accent-blue); font-weight: 700;">Toggle ⚡</span>
-                    </div>
-                    <div class="flex-between" style="padding: 16px;">
+                    
+                    <!-- Language Modal Trigger -->
+                    <div class="flex-between" style="padding: 16px; border-bottom: 1px solid var(--card-border); cursor: pointer;" onclick="openModal('lang-modal')">
                         <div class="d-flex gap-3 align-items-center">
                             <span style="font-size: 20px;">🗣️</span>
                             <div>
@@ -35,51 +43,187 @@
                                 <div style="font-size: 11px; color: var(--text-muted);">Currently: English</div>
                             </div>
                         </div>
-                        <span style="color: var(--text-muted);">›</span>
+                        <span style="color: var(--text-muted); font-size: 18px;">›</span>
+                    </div>
+
+                    <!-- Theme Toggle -->
+                    <div class="flex-between" style="padding: 16px; border-bottom: 1px solid var(--card-border);">
+                        <div class="d-flex gap-3 align-items-center">
+                            <span style="font-size: 20px;">🌙</span>
+                            <div style="font-size: 14px; font-weight: 600;">Dark Mode</div>
+                        </div>
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="theme-toggle" onchange="toggleTheme()">
+                            <span class="slider"></span>
+                        </label>
                     </div>
                 </div>
             </div>
 
-            <!-- Security Settings -->
+            <!-- 2. Privacy & Security -->
             <div>
-                <h4 style="font-size: 12px; color: var(--text-muted); margin: 0 0 10px 10px; font-weight: 700; text-transform: uppercase;">Privacy & Security</h4>
+                <h4 style="font-size: 11px; color: var(--text-muted); margin: 0 0 8px 10px; font-weight: 800; text-transform: uppercase;">Security & Permissions</h4>
                 <div class="cp-card" style="padding: 0; overflow: hidden; margin: 0;">
-                    <div class="flex-between" style="padding: 16px; border-bottom: 1px solid var(--card-border);">
+                    
+                    <div class="flex-between" style="padding: 16px; border-bottom: 1px solid var(--card-border); cursor: pointer;" onclick="openModal('applock-modal')">
                         <div class="d-flex gap-3 align-items-center">
                             <span style="font-size: 20px;">🔒</span>
-                            <div style="font-size: 14px; font-weight: 600;">Biometric App Lock</div>
+                            <div style="font-size: 14px; font-weight: 600;">App Lock & MPIN</div>
                         </div>
-                        <input type="checkbox" style="width: 18px; height: 18px; accent-color: var(--accent-blue);" disabled>
+                        <span style="font-size: 11px; color: var(--text-muted);">Disabled ›</span>
                     </div>
-                    <div class="flex-between" style="padding: 16px; border-bottom: 1px solid var(--card-border);">
+
+                    <div class="flex-between" style="padding: 16px; border-bottom: 1px solid var(--card-border); cursor: pointer;" onclick="openModal('devices-modal')">
+                        <div class="d-flex gap-3 align-items-center">
+                            <span style="font-size: 20px;">📱</span>
+                            <div style="font-size: 14px; font-weight: 600;">Manage Devices</div>
+                        </div>
+                        <span style="font-size: 11px; color: var(--accent-blue); font-weight: 700;">1 Active ›</span>
+                    </div>
+
+                    <div class="flex-between" style="padding: 16px;">
                         <div class="d-flex gap-3 align-items-center">
                             <span style="font-size: 20px;">📍</span>
-                            <div style="font-size: 14px; font-weight: 600;">Location Access</div>
+                            <div>
+                                <div style="font-size: 14px; font-weight: 600;">Precise Location Access</div>
+                                <div style="font-size: 10px; color: var(--text-muted);">Needed for marketplace & rides</div>
+                            </div>
                         </div>
-                        <span style="font-size: 11px; color: var(--accent-green); font-weight: 600;">Allowed</span>
-                    </div>
-                    <div class="flex-between" style="padding: 16px; color: var(--accent-red); cursor: pointer;" onclick="showToast('This will wipe local storage!')">
-                        <div class="d-flex gap-3 align-items-center">
-                            <span style="font-size: 20px;">🗑️</span>
-                            <div style="font-size: 14px; font-weight: 600;">Clear App Cache Data</div>
-                        </div>
+                        <label class="toggle-switch">
+                            <input type="checkbox" checked>
+                            <span class="slider"></span>
+                        </label>
                     </div>
                 </div>
             </div>
 
-            <!-- About -->
-            <div style="text-align: center; color: var(--text-muted); margin-top: 10px;">
-                <div style="font-weight: 700; font-size: 14px; color: var(--text-main);">CityPulse Super App</div>
-                <div style="font-size: 11px;">Version 1.0.0 (Beta)</div>
-                <div style="font-size: 11px; margin-top: 4px;">Designed with ❤️ for Local Communities</div>
+            <!-- 3. Notifications -->
+            <div>
+                <h4 style="font-size: 11px; color: var(--text-muted); margin: 0 0 8px 10px; font-weight: 800; text-transform: uppercase;">Notifications</h4>
+                <div class="cp-card" style="padding: 0; overflow: hidden; margin: 0;">
+                    
+                    <div class="flex-between" style="padding: 16px; border-bottom: 1px solid var(--card-border);">
+                        <div style="font-size: 14px; font-weight: 600;">Transactions & Alerts</div>
+                        <label class="toggle-switch"><input type="checkbox" checked disabled><span class="slider"></span></label>
+                    </div>
+
+                    <div class="flex-between" style="padding: 16px; border-bottom: 1px solid var(--card-border);">
+                        <div style="font-size: 14px; font-weight: 600;">Marketing & Offers</div>
+                        <label class="toggle-switch"><input type="checkbox"><span class="slider"></span></label>
+                    </div>
+
+                    <div class="flex-between" style="padding: 16px;">
+                        <div style="font-size: 14px; font-weight: 600;">Do Not Disturb (DND)</div>
+                        <label class="toggle-switch"><input type="checkbox" onchange="showToast('DND mode enabled for 8 hours')"><span class="slider"></span></label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Danger Zone -->
+            <div style="text-align: center; margin-top: 10px;">
+                <button style="background: transparent; border: 1px solid rgba(239, 68, 68, 0.3); color: var(--accent-red); font-size: 13px; font-weight: 600; padding: 12px 24px; border-radius: 10px; cursor: pointer; width: 100%;" onclick="confirmDelete()">
+                    🗑️ Delete My Account & Data
+                </button>
             </div>
 
         </main>
-        <bottom-nav></bottom-nav>
     </div>
+
+    <!-- ================= MODALS SECTION ================= -->
+
+    <div class="sheet-overlay" id="overlay" onclick="closeAllModals()"></div>
+
+    <!-- 1. Language Switcher Modal -->
+    <div class="bottom-sheet" id="lang-modal">
+        <div style="width: 40px; height: 5px; background: var(--card-border); border-radius: 10px; margin: 0 auto 20px auto;"></div>
+        <h3 style="margin: 0 0 16px 0; font-size: 18px;">Choose Language</h3>
+        <div class="flex-column gap-3">
+            <div class="cp-card flex-between" style="margin:0; border-color: var(--accent-blue); background: rgba(59,130,246,0.05);" onclick="showToast('Language updated to English'); closeAllModals()">
+                <div style="font-weight: 700;">English</div>
+                <div style="width: 20px; height: 20px; background: var(--accent-blue); border-radius: 50%; color: #fff; display: flex; align-items: center; justify-content: center; font-size: 10px;">✓</div>
+            </div>
+            <div class="cp-card flex-between" style="margin:0;" onclick="showToast('Language updated to Hindi'); closeAllModals()">
+                <div style="font-weight: 700;">हिंदी (Hindi)</div>
+            </div>
+            <div class="cp-card flex-between" style="margin:0;" onclick="showToast('Language updated to Bengali'); closeAllModals()">
+                <div style="font-weight: 700;">বাংলা (Bengali)</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 2. Manage Devices Modal -->
+    <div class="bottom-sheet" id="devices-modal">
+        <div style="width: 40px; height: 5px; background: var(--card-border); border-radius: 10px; margin: 0 auto 20px auto;"></div>
+        <h3 style="margin: 0 0 16px 0; font-size: 18px;">Active Sessions</h3>
+        <div class="flex-column gap-3">
+            <div class="flex-between" style="padding: 12px; background: rgba(16,185,129,0.1); border: 1px solid var(--accent-green); border-radius: 10px;">
+                <div>
+                    <div style="font-size: 13px; font-weight: 700;">Current Device (Chrome)</div>
+                    <div style="font-size: 11px; color: var(--text-muted);">Bhatpara, WB • Active Now</div>
+                </div>
+                <span style="font-size: 11px; color: var(--accent-green); font-weight: 700;">This Phone</span>
+            </div>
+            <div class="flex-between" style="padding: 12px; border: 1px solid var(--card-border); border-radius: 10px;">
+                <div>
+                    <div style="font-size: 13px; font-weight: 700;">Desktop (Windows 11)</div>
+                    <div style="font-size: 11px; color: var(--text-muted);">Kolkata, WB • Last seen 2 days ago</div>
+                </div>
+                <button style="background: rgba(239, 68, 68, 0.1); border: none; color: var(--accent-red); padding: 6px 12px; border-radius: 8px; font-size: 11px; font-weight: 700; cursor: pointer;">Logout</button>
+            </div>
+            <button class="cp-btn-primary" style="margin-top: 10px; background: var(--text-main); color: var(--bg-color);" onclick="showToast('Logged out from all other devices'); closeAllModals()">Log out from all other devices</button>
+        </div>
+    </div>
+
+    <!-- 3. App Lock Modal -->
+    <div class="bottom-sheet" id="applock-modal">
+        <div style="width: 40px; height: 5px; background: var(--card-border); border-radius: 10px; margin: 0 auto 20px auto;"></div>
+        <h3 style="margin: 0 0 8px 0; font-size: 18px; text-align: center;">Set 4-Digit MPIN</h3>
+        <p style="font-size: 12px; color: var(--text-muted); text-align: center; margin-bottom: 20px;">Use this PIN to securely open CityPulse or authorize payments.</p>
+        
+        <div style="display: flex; justify-content: center; gap: 15px; margin-bottom: 30px;">
+            <input type="password" maxlength="1" style="width: 45px; height: 50px; font-size: 24px; text-align: center; border-radius: 10px; border: 1px solid var(--accent-blue); background: var(--bg-color); color: var(--text-main);" placeholder="•">
+            <input type="password" maxlength="1" style="width: 45px; height: 50px; font-size: 24px; text-align: center; border-radius: 10px; border: 1px solid var(--accent-blue); background: var(--bg-color); color: var(--text-main);" placeholder="•">
+            <input type="password" maxlength="1" style="width: 45px; height: 50px; font-size: 24px; text-align: center; border-radius: 10px; border: 1px solid var(--accent-blue); background: var(--bg-color); color: var(--text-main);" placeholder="•">
+            <input type="password" maxlength="1" style="width: 45px; height: 50px; font-size: 24px; text-align: center; border-radius: 10px; border: 1px solid var(--accent-blue); background: var(--bg-color); color: var(--text-main);" placeholder="•">
+        </div>
+        
+        <button class="cp-btn-primary" onclick="showLoader(); setTimeout(() => { hideLoader(); showToast('App Lock Enabled Successfully!'); closeAllModals(); }, 1500)">Save & Enable Biometrics</button>
+    </div>
+
     <!-- Master Scripts -->
     <script src="https://anupsharmasharma012-debug.github.io/citypulse-core/config.js"></script>
     <script src="https://anupsharmasharma012-debug.github.io/citypulse-core/store.js"></script>
     <script src="https://anupsharmasharma012-debug.github.io/citypulse-core/components.js"></script>
+
+    <script>
+        // Set initial toggle state based on theme
+        document.addEventListener("DOMContentLoaded", () => {
+            const themeToggle = document.getElementById('theme-toggle');
+            themeToggle.checked = CityStore.getTheme() === 'dark';
+        });
+
+        // Bottom Sheet Logic
+        function openModal(modalId) {
+            document.getElementById('main-container').classList.add('show-modal');
+            document.querySelectorAll('.bottom-sheet').forEach(sheet => {
+                sheet.style.bottom = '-100%'; // Hide all first
+            });
+            document.getElementById(modalId).style.bottom = '0';
+        }
+
+        function closeAllModals() {
+            document.getElementById('main-container').classList.remove('show-modal');
+            document.querySelectorAll('.bottom-sheet').forEach(sheet => {
+                sheet.style.bottom = '-100%';
+            });
+        }
+
+        function confirmDelete() {
+            let res = confirm("DANGER: This action is irreversible. All your wallet data, complaints, and KYC will be deleted. Do you want to proceed?");
+            if(res) {
+                showToast("Account deletion request submitted.");
+            }
+        }
+    </script>
 </body>
 </html>
