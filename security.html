@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CityPulse - Security & Device Management</title>
+    <title>CityPulse - Security</title>
     <link rel="stylesheet" href="https://anupsharmasharma012-debug.github.io/citypulse-core/style.css">
     <style>
         .toggle-switch { position: relative; display: inline-block; width: 40px; height: 22px; }
@@ -16,55 +16,47 @@
 </head>
 <body>
     <div class="max-width-container">
-        <city-topbar title="Security & Devices"></city-topbar>
+        <city-topbar title="Security & App Lock"></city-topbar>
         
         <main style="padding: 10px 16px; margin-bottom: 80px;" class="flex-column gap-4">
             
-            <!-- Biometric & PIN Security -->
+            <!-- App Lock Deep Options -->
             <div class="cp-card flex-column gap-3" style="margin: 0;">
-                <h3 style="margin: 0; font-size: 14px;">App Lock & Biometrics</h3>
+                <h3 style="margin: 0; font-size: 14px;">App Lock Settings</h3>
                 
                 <div class="flex-between" style="border-bottom: 1px solid var(--card-border); padding-bottom: 12px;">
                     <div>
-                        <div style="font-size: 13px; font-weight: 700;">Fingerprint / Face ID</div>
-                        <div style="font-size: 11px; color: var(--text-muted);">Use device biometrics to unlock CityPulse</div>
+                        <div style="font-size: 13px; font-weight: 700;">Biometric Unlock</div>
+                        <div style="font-size: 11px; color: var(--text-muted);">Use Fingerprint or Face ID</div>
                     </div>
-                    <label class="toggle-switch">
-                        <input type="checkbox" checked onchange="showToast('Biometric Lock Updated')">
-                        <span class="slider"></span>
-                    </label>
+                    <label class="toggle-switch"><input type="checkbox" checked><span class="slider"></span></label>
                 </div>
 
-                <div class="flex-between" style="cursor: pointer;" onclick="showToast('OTP sent to change MPIN')">
+                <div style="border-bottom: 1px solid var(--card-border); padding-bottom: 12px;">
+                    <label style="font-size: 11px; color: var(--text-muted); font-weight: 600;">Fallback Lock Type</label>
+                    <select class="cp-input" style="margin-top: 6px;">
+                        <option selected>4-Digit PIN</option>
+                        <option>Pattern Lock</option>
+                        <option>Alphanumeric Password</option>
+                    </select>
+                </div>
+
+                <div class="flex-between" style="cursor: pointer; border-bottom: 1px solid var(--card-border); padding-bottom: 12px;" onclick="showToast('Verification Required')">
                     <div>
-                        <div style="font-size: 13px; font-weight: 700;">Change 4-Digit MPIN</div>
-                        <div style="font-size: 11px; color: var(--text-muted);">Last changed 3 months ago</div>
+                        <div style="font-size: 13px; font-weight: 700;">Change Current PIN / Pattern</div>
+                        <div style="font-size: 11px; color: var(--text-muted);">Set a new lock code</div>
                     </div>
                     <span style="color: var(--text-muted);">›</span>
                 </div>
+
+                <div style="text-align: center; padding-top: 8px;">
+                    <button style="background: transparent; border: none; color: var(--accent-blue); font-size: 12px; font-weight: 700; cursor: pointer; text-decoration: underline;" onclick="showToast('OTP sent to your registered mobile number')">Forgot PIN / Password?</button>
+                </div>
             </div>
 
-            <!-- Manage & Delete Connected Devices (DEEP FEATURE) -->
+            <!-- Manage Devices -->
             <div class="cp-card flex-column gap-3" style="margin: 0;">
-                <div class="flex-between">
-                    <h3 style="margin: 0; font-size: 14px;">Trusted & Active Devices</h3>
-                    <button style="background: rgba(59,130,246,0.1); border: none; color: var(--accent-blue); font-size: 11px; font-weight: 700; padding: 4px 8px; border-radius: 6px; cursor: pointer;" onclick="showToast('Scanning for nearby devices...')">+ Add Device</button>
-                </div>
-                <p style="margin: 0; font-size: 11px; color: var(--text-muted); line-height: 1.4;">Manage devices that are currently authorized to access your CityPulse account.</p>
-                
-                <!-- Current Device -->
-                <div class="flex-between" style="padding: 12px; background: rgba(16,185,129,0.05); border: 1px solid var(--accent-green); border-radius: 10px;">
-                    <div class="d-flex gap-3 align-items-center">
-                        <span style="font-size: 20px;">📱</span>
-                        <div>
-                            <div style="font-size: 13px; font-weight: 700;">Google Pixel / Chrome</div>
-                            <div style="font-size: 10px; color: var(--accent-green);">Current Session • Bhatpara</div>
-                        </div>
-                    </div>
-                    <span style="font-size: 10px; font-weight: 700; color: var(--accent-green);">Active</span>
-                </div>
-
-                <!-- Another Device with Delete/Logout button -->
+                <h3 style="margin: 0; font-size: 14px;">Connected Devices</h3>
                 <div class="flex-between" style="padding: 12px; background: rgba(150,150,150,0.05); border: 1px solid var(--card-border); border-radius: 10px;">
                     <div class="d-flex gap-3 align-items-center">
                         <span style="font-size: 20px;">💻</span>
@@ -73,25 +65,12 @@
                             <div style="font-size: 10px; color: var(--text-muted);">Kolkata • Last active 3 days ago</div>
                         </div>
                     </div>
-                    <button style="background: rgba(239, 68, 68, 0.1); border: none; color: var(--accent-red); padding: 6px 10px; border-radius: 6px; font-size: 11px; font-weight: 700; cursor: pointer;" onclick="this.parentElement.remove(); showToast('Device session terminated successfully')">Remove</button>
+                    <button style="background: rgba(239, 68, 68, 0.1); border: none; color: var(--accent-red); padding: 6px 10px; border-radius: 6px; font-size: 11px; font-weight: 700; cursor: pointer;">Remove</button>
                 </div>
-            </div>
-
-            <!-- Two-Factor Authentication (2FA) -->
-            <div class="cp-card flex-between" style="padding: 14px; margin: 0;">
-                <div>
-                    <div style="font-size: 13px; font-weight: 700;">SMS Two-Factor Auth (2FA)</div>
-                    <div style="font-size: 10px; color: var(--text-muted);">Extra security layer for money transfers</div>
-                </div>
-                <label class="toggle-switch">
-                    <input type="checkbox" checked onchange="showToast('2FA settings updated')">
-                    <span class="slider"></span>
-                </label>
             </div>
 
         </main>
     </div>
-
     <script src="https://anupsharmasharma012-debug.github.io/citypulse-core/components.js"></script>
 </body>
 </html>
