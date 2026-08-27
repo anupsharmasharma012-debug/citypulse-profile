@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CityPulse - Notification Preferences</title>
+    <link rel="stylesheet" href="https://anupsharmasharma012-debug.github.io/citypulse-core/style.css">
+    <style>
+        .toggle-switch { position: relative; display: inline-block; width: 40px; height: 22px; }
+        .toggle-switch input { opacity: 0; width: 0; height: 0; }
+        .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: var(--card-border); transition: .4s; border-radius: 22px; }
+        .slider:before { position: absolute; content: ""; height: 16px; width: 16px; left: 3px; bottom: 3px; background-color: white; transition: .4s; border-radius: 50%; }
+        input:checked + .slider { background-color: var(--accent-blue); }
+        input:checked + .slider:before { transform: translateX(18px); }
+    </style>
+</head>
+<body>
+    <div class="max-width-container">
+        <city-topbar title="Notification Preferences"></city-topbar>
+        
+        <main style="padding: 10px 16px; margin-bottom: 80px;" class="flex-column gap-4">
+            
+            <!-- DND Scheduler Section (DEEP) -->
+            <div class="cp-card flex-column gap-3" style="margin: 0; background: linear-gradient(135deg, rgba(245, 158, 11, 0.05) 0%, rgba(13,17,23,0) 100%); border-left: 4px solid #f59e0b;">
+                <div class="flex-between">
+                    <div>
+                        <h3 style="margin: 0; font-size: 14px;">Do Not Disturb (DND)</h3>
+                        <p style="margin: 2px 0 0 0; font-size: 11px; color: var(--text-muted);">Mute all non-emergency alerts during night</p>
+                    </div>
+                    <label class="toggle-switch">
+                        <input type="checkbox" onchange="showToast('DND Mode Toggled')">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+                
+                <div style="display: flex; gap: 10px; margin-top: 5px;">
+                    <div style="flex: 1;">
+                        <label style="font-size: 10px; color: var(--text-muted); font-weight: 700;">FROM TIME</label>
+                        <input type="time" class="cp-input" value="22:00" style="padding: 8px; font-size: 12px;">
+                    </div>
+                    <div style="flex: 1;">
+                        <label style="font-size: 10px; color: var(--text-muted); font-weight: 700;">TO TIME</label>
+                        <input type="time" class="cp-input" value="07:00" style="padding: 8px; font-size: 12px;">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Category-wise Notification Toggles -->
+            <div class="cp-card flex-column gap-3" style="margin: 0;">
+                <h3 style="margin: 0; font-size: 14px;">Alert Channels & Categories</h3>
+                
+                <div class="flex-between" style="border-bottom: 1px solid var(--card-border); padding-bottom: 10px;">
+                    <div>
+                        <div style="font-size: 13px; font-weight: 700;">Civic Complaints & Updates</div>
+                        <div style="font-size: 10px; color: var(--text-muted);">Push & SMS alerts regarding your ward</div>
+                    </div>
+                    <label class="toggle-switch"><input type="checkbox" checked><span class="slider"></span></label>
+                </div>
+
+                <div class="flex-between" style="border-bottom: 1px solid var(--card-border); padding-bottom: 10px;">
+                    <div>
+                        <div style="font-size: 13px; font-weight: 700;">Wallet & Transactions</div>
+                        <div style="font-size: 10px; color: var(--text-muted);">Instant payment receipts & debits</div>
+                    </div>
+                    <label class="toggle-switch"><input type="checkbox" checked disabled><span class="slider"></span></label>
+                </div>
+
+                <div class="flex-between" style="border-bottom: 1px solid var(--card-border); padding-bottom: 10px;">
+                    <div>
+                        <div style="font-size: 13px; font-weight: 700;">Local News & Weather Alerts</div>
+                        <div style="font-size: 10px; color: var(--text-muted);">Morning weather brief & urgent news</div>
+                    </div>
+                    <label class="toggle-switch"><input type="checkbox" checked><span class="slider"></span></label>
+                </div>
+
+                <div class="flex-between">
+                    <div>
+                        <div style="font-size: 13px; font-weight: 700;">Promotions & Discount Offers</div>
+                        <div style="font-size: 10px; color: var(--text-muted);">Partner deals and marketplace discounts</div>
+                    </div>
+                    <label class="toggle-switch"><input type="checkbox"><span class="slider"></span></label>
+                </div>
+            </div>
+
+            <!-- Sound & Vibration -->
+            <div class="cp-card flex-column gap-3" style="margin: 0;">
+                <h3 style="margin: 0; font-size: 14px;">Sound & Vibration</h3>
+                <div class="flex-between">
+                    <div style="font-size: 13px; font-weight: 700;">Vibrate on Notification</div>
+                    <label class="toggle-switch"><input type="checkbox" checked><span class="slider"></span></label>
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+    <script src="https://anupsharmasharma012-debug.github.io/citypulse-core/components.js"></script>
+</body>
+</html>
