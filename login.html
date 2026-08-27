@@ -3,54 +3,103 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CityPulse - Login & Authentication</title>
+    <title>CityPulse - Secure Login</title>
     <link rel="stylesheet" href="https://anupsharmasharma012-debug.github.io/citypulse-core/style.css">
 </head>
 <body>
-    <div class="max-width-container">
-        <!-- Core Header Integration -->
-        <city-header></city-header>
+    <div class="max-width-container" style="display: flex; flex-direction: column; min-height: 100vh;">
+        
+        <!-- Minimal Header for Login -->
+        <header style="padding: 20px 16px; text-align: center; margin-top: 20px;">
+            <div style="font-size: 40px; margin-bottom: 10px;">🏙️</div>
+            <h2 style="margin: 0; font-size: 24px; font-weight: 800; color: var(--text-main);">Welcome Back</h2>
+            <p style="margin: 4px 0 0 0; font-size: 13px; color: var(--text-muted);">Enter your mobile number to access CityPulse.</p>
+        </header>
 
-        <main style="padding: 20px; display: flex; flex-direction: column; justify-content: center; flex: 1;">
-            <div style="background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 16px; padding: 24px; text-align: center;">
-                <div style="font-size: 36px; margin-bottom: 12px;">🔐</div>
-                <h2 style="font-size: 20px; font-weight: 700; margin-bottom: 8px;">Welcome to CityPulse</h2>
-                <p style="color: var(--text-muted); font-size: 13px; margin-bottom: 24px;">Login or create an account to access local services, civic updates, and utilities.</p>
-
-                <!-- Mobile OTP Input Section -->
-                <div style="display: flex; flex-direction: column; gap: 12px; text-align: left;">
-                    <label style="font-size: 12px; color: var(--text-muted); font-weight: 600;">Mobile Number</label>
-                    <div style="display: flex; align-items: center; background: rgba(255,255,255,0.03); border: 1px solid var(--card-border); border-radius: 10px; padding: 10px 14px;">
-                        <span style="color: var(--text-muted); margin-right: 8px; font-size: 14px;">+91</span>
-                        <input type="tel" placeholder="Enter 10-digit mobile number" maxlength="10" style="background: transparent; border: none; color: #fff; outline: none; width: 100%; font-size: 14px;">
+        <main style="padding: 20px 16px; flex: 1; display: flex; flex-direction: column; gap: 20px;">
+            
+            <!-- Mobile Login Form -->
+            <div class="cp-card flex-column gap-3">
+                
+                <div>
+                    <label style="font-size: 12px; color: var(--text-muted); font-weight: 700;">Mobile Number</label>
+                    <div style="display: flex; gap: 10px; margin-top: 6px;">
+                        <div style="background: rgba(150,150,150,0.1); border: 1px solid var(--card-border); padding: 12px; border-radius: 10px; color: var(--text-main); font-weight: 600; display: flex; align-items: center;">
+                            +91
+                        </div>
+                        <input type="tel" class="cp-input" placeholder="10-digit mobile number" style="margin-top: 0; flex: 1; font-weight: 600; letter-spacing: 1px;" maxlength="10">
                     </div>
-                    
-                    <button style="background: var(--accent); color: #fff; border: none; border-radius: 10px; padding: 12px; font-weight: 600; font-size: 14px; cursor: pointer; margin-top: 8px;">Get OTP</button>
                 </div>
 
-                <div style="display: flex; align-items: center; margin: 20px 0; color: var(--text-muted); font-size: 12px;">
-                    <div style="flex: 1; height: 1px; background: var(--card-border);"></div>
-                    <span style="padding: 0 10px;">OR</span>
-                    <div style="flex: 1; height: 1px; background: var(--card-border);"></div>
-                </div>
-
-                <!-- Social & Guest Login Options -->
-                <div style="display: flex; flex-direction: column; gap: 10px;">
-                    <button style="background: rgba(255,255,255,0.05); color: #fff; border: 1px solid var(--card-border); border-radius: 10px; padding: 10px; font-size: 13px; font-weight: 600; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px;">
-                        <span>🌐</span> Continue with Google
-                    </button>
-                    <button style="background: transparent; color: var(--text-muted); border: 1px solid var(--card-border); border-radius: 10px; padding: 10px; font-size: 13px; font-weight: 600; cursor: pointer;">
-                        Continue as Guest
-                    </button>
-                </div>
+                <button class="cp-btn-primary" onclick="simulateLogin()" style="font-size: 15px; padding: 14px;">Get Secure OTP</button>
             </div>
+
+            <!-- Divider -->
+            <div style="display: flex; align-items: center; gap: 10px; margin: 10px 0;">
+                <div style="height: 1px; background: var(--card-border); flex: 1;"></div>
+                <span style="font-size: 11px; color: var(--text-muted); font-weight: 600; text-transform: uppercase;">Or Login With</span>
+                <div style="height: 1px; background: var(--card-border); flex: 1;"></div>
+            </div>
+
+            <!-- Alternative Logins (Deep Features) -->
+            <div class="flex-column gap-3">
+                <button class="cp-btn-outline" style="display: flex; justify-content: center; align-items: center; gap: 10px; padding: 12px;" onclick="showToast('Fingerprint/FaceID required')">
+                    <span style="font-size: 20px;">🛡️</span> 
+                    <span>Use Biometric Lock</span>
+                </button>
+                
+                <button class="cp-btn-outline" style="display: flex; justify-content: center; align-items: center; gap: 10px; padding: 12px; border-color: #ea4335; color: #ea4335; background: rgba(234, 67, 53, 0.05);" onclick="showToast('Google Auth Loading...')">
+                    <span style="font-weight: 700;">G</span> 
+                    <span>Continue with Google</span>
+                </button>
+            </div>
+
+            <!-- Guest Mode -->
+            <div style="text-align: center; margin-top: 10px;">
+                <button style="background: transparent; border: none; color: var(--text-muted); font-size: 13px; font-weight: 600; text-decoration: underline; cursor: pointer;" onclick="showToast('Entering Guest Mode')">Explore as Guest</button>
+            </div>
+
         </main>
 
-        <!-- Core Bottom Navigation Integration -->
-        <bottom-nav></bottom-nav>
+        <!-- Footer / Legal -->
+        <footer style="padding: 20px; text-align: center;">
+            <p style="margin: 0; font-size: 10px; color: var(--text-muted); line-height: 1.5;">
+                By logging in, you agree to our <br>
+                <a href="#" style="color: var(--accent-blue); text-decoration: none;">Terms & Conditions</a> and <a href="#" style="color: var(--accent-blue); text-decoration: none;">Privacy Policy</a>.
+            </p>
+        </footer>
+
     </div>
 
+    <!-- Master Scripts -->
+    <script src="https://anupsharmasharma012-debug.github.io/citypulse-core/config.js"></script>
+    <script src="https://anupsharmasharma012-debug.github.io/citypulse-core/store.js"></script>
     <script src="https://anupsharmasharma012-debug.github.io/citypulse-core/components.js"></script>
+
+    <script>
+        // Mock Login Function for UI testing
+        function simulateLogin() {
+            showLoader();
+            
+            setTimeout(() => {
+                hideLoader();
+                // 1. Save mock user data to store.js
+                CityStore.setUser({
+                    loggedIn: true,
+                    name: "Anup Sharma",
+                    role: "customer",
+                    status: "active"
+                });
+                
+                showToast("Login Successful!");
+                
+                // 2. Redirect to Home Page after 1 second
+                setTimeout(() => {
+                    window.location.href = CITYPULSE_CONFIG.urls.core + "index.html";
+                }, 1000);
+                
+            }, 1500);
+        }
+    </script>
 </body>
 </html>
-
