@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CityPulse - Edit Profile & KYC</title>
+    <link rel="stylesheet" href="https://anupsharmasharma012-debug.github.io/citypulse-core/style.css">
+</head>
+<body>
+    <div class="max-width-container">
+        <city-topbar title="Edit Profile & KYC"></city-topbar>
+        
+        <main style="padding: 10px 16px; margin-bottom: 80px;" class="flex-column gap-4">
+            
+            <!-- Profile Photo Upload -->
+            <div style="display: flex; justify-content: center; margin-top: 10px;">
+                <div style="position: relative; cursor: pointer;" onclick="showToast('Opening Camera...')">
+                    <div style="width: 80px; height: 80px; background: rgba(59,130,246,0.1); border: 2px dashed var(--accent-blue); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 32px;">👤</div>
+                    <div style="position: absolute; bottom: 0; right: 0; background: var(--accent-blue); color: #fff; width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; border: 2px solid var(--bg-color);">📷</div>
+                </div>
+            </div>
+
+            <!-- Basic Info Form -->
+            <div class="cp-card flex-column gap-3">
+                <h3 style="margin: 0; font-size: 14px;">Basic Details</h3>
+                <div>
+                    <label style="font-size: 12px; color: var(--text-muted); font-weight: 600;">Full Name</label>
+                    <input type="text" class="cp-input" value="Anup Sharma">
+                </div>
+                <div>
+                    <label style="font-size: 12px; color: var(--text-muted); font-weight: 600;">Mobile Number</label>
+                    <input type="text" class="cp-input" value="+91 98765 43210" disabled style="opacity: 0.7;">
+                    <span style="font-size: 10px; color: var(--accent-green);">Verified ✔</span>
+                </div>
+                <div>
+                    <label style="font-size: 12px; color: var(--text-muted); font-weight: 600;">Email Address</label>
+                    <input type="email" class="cp-input" placeholder="Enter email (optional)">
+                </div>
+            </div>
+
+            <!-- KYC Section -->
+            <div class="cp-card flex-column gap-3" style="border-left: 3px solid var(--accent-blue);">
+                <div class="flex-between">
+                    <h3 style="margin: 0; font-size: 14px;">Government KYC</h3>
+                    <span class="cp-badge-success" style="background: rgba(16,185,129,0.1); color: var(--accent-green);">Verified</span>
+                </div>
+                <p style="font-size: 11px; color: var(--text-muted); margin: 0;">Required for opening a shop or booking rides.</p>
+                <div>
+                    <label style="font-size: 12px; color: var(--text-muted); font-weight: 600;">Document Type</label>
+                    <select class="cp-input">
+                        <option selected>Aadhar Card</option>
+                        <option>Voter ID</option>
+                        <option>Driving License</option>
+                    </select>
+                </div>
+                <div>
+                    <label style="font-size: 12px; color: var(--text-muted); font-weight: 600;">Document Number</label>
+                    <input type="text" class="cp-input" value="XXXX-XXXX-1234" disabled>
+                </div>
+            </div>
+
+            <button class="cp-btn-primary" onclick="showLoader(); setTimeout(() => { hideLoader(); showToast('Profile Updated!'); }, 1000)">Save Changes</button>
+        </main>
+    </div>
+
+    <script src="https://anupsharmasharma012-debug.github.io/citypulse-core/config.js"></script>
+    <script src="https://anupsharmasharma012-debug.github.io/citypulse-core/store.js"></script>
+    <script src="https://anupsharmasharma012-debug.github.io/citypulse-core/components.js"></script>
+</body>
+</html>
+
