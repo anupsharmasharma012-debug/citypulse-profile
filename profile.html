@@ -42,7 +42,7 @@
 
             <city-ad-space></city-ad-space>
 
-            <!-- NAYA: Recent Activity & Bookmarks Preview (LINKS TO ACTIVITY PAGE) -->
+            <!-- Recent Activity & Bookmarks Preview (LINKS TO ACTIVITY PAGE) -->
             <div class="cp-card" style="margin: 0; padding: 0; overflow: hidden; cursor: pointer;" onclick="window.location.href='activity.html'">
                 <div class="flex-between" style="padding: 12px 16px; background: rgba(150,150,150,0.05); font-size: 12px; font-weight: 700; color: var(--text-muted); text-transform: uppercase;">
                     <span>My Activity & Bookmarks</span>
@@ -59,40 +59,52 @@
                 </div>
             </div>
 
-            <!-- Deep Content Options Navigation Menu -->
+            <!-- ALL DEEP CONTENT OPTIONS (NAVIGATION MENU) -->
             <div class="cp-card" style="padding: 0; overflow: hidden; margin: 0;">
                 
-                <!-- Emergency SOS (Linked) -->
+                <!-- 1. Emergency SOS -->
                 <a href="emergency-sos.html" style="display: flex; justify-content: space-between; padding: 16px; text-decoration: none; border-bottom: 1px solid var(--card-border); color: var(--text-main); font-size: 14px; background: rgba(239, 68, 68, 0.05);">
                     <div class="d-flex gap-3 align-items-center"><span style="font-size: 18px;">🚨</span> <span style="color: var(--accent-red); font-weight: 600;">Emergency SOS Contacts</span></div>
                     <span style="color: var(--text-muted);">›</span>
                 </a>
 
-                <!-- Location & Saved Addresses (Linked) -->
+                <!-- 2. Wishlist (NAYA ADD KIYA HAI) -->
+                <a href="wishlist.html" style="display: flex; justify-content: space-between; padding: 16px; text-decoration: none; border-bottom: 1px solid var(--card-border); color: var(--text-main); font-size: 14px;">
+                    <div class="d-flex gap-3 align-items-center"><span style="font-size: 18px;">🛍️</span> My Wishlist</div>
+                    <span style="color: var(--text-muted);">›</span>
+                </a>
+
+                <!-- 3. Location & Saved Addresses -->
                 <a href="location.html" style="display: flex; justify-content: space-between; padding: 16px; text-decoration: none; border-bottom: 1px solid var(--card-border); color: var(--text-main); font-size: 14px;">
                     <div class="d-flex gap-3 align-items-center"><span style="font-size: 18px;">📍</span> Manage Saved Addresses</div>
                     <span style="color: var(--text-muted);">›</span>
                 </a>
+
+                <!-- 4. Security & Devices (NAYA ADD KIYA HAI) -->
+                <a href="security.html" style="display: flex; justify-content: space-between; padding: 16px; text-decoration: none; border-bottom: 1px solid var(--card-border); color: var(--text-main); font-size: 14px;">
+                    <div class="d-flex gap-3 align-items-center"><span style="font-size: 18px;">🔒</span> Security & App Lock</div>
+                    <span style="color: var(--text-muted);">›</span>
+                </a>
                 
-                <!-- Notifications (Linked) -->
-                <a href="notification.html" style="display: flex; justify-content: space-between; padding: 16px; text-decoration: none; border-bottom: 1px solid var(--card-border); color: var(--text-main); font-size: 14px;">
+                <!-- 5. Notifications -->
+                <a href="notifications-setup.html" style="display: flex; justify-content: space-between; padding: 16px; text-decoration: none; border-bottom: 1px solid var(--card-border); color: var(--text-main); font-size: 14px;">
                     <div class="d-flex gap-3 align-items-center"><span style="font-size: 18px;">🔔</span> Notifications & Alerts</div>
                     <span style="color: var(--text-muted);">›</span>
                 </a>
 
-                <!-- App Settings (Linked) -->
+                <!-- 6. App Settings -->
                 <a href="settings.html" style="display: flex; justify-content: space-between; padding: 16px; text-decoration: none; border-bottom: 1px solid var(--card-border); color: var(--text-main); font-size: 14px;">
                     <div class="d-flex gap-3 align-items-center"><span style="font-size: 18px;">⚙️</span> App Settings & Privacy</div>
                     <span style="color: var(--text-muted);">›</span>
                 </a>
 
-                <!-- NAYA: Help, Support & Legal (Linked) -->
+                <!-- 7. Help, Support & Legal -->
                 <a href="support.html" style="display: flex; justify-content: space-between; padding: 16px; text-decoration: none; border-bottom: 1px solid var(--card-border); color: var(--text-main); font-size: 14px;">
                     <div class="d-flex gap-3 align-items-center"><span style="font-size: 18px;">💬</span> Help, Support & Legal</div>
                     <span style="color: var(--text-muted);">›</span>
                 </a>
                 
-                <!-- Logout Action -->
+                <!-- 8. Logout Action -->
                 <div onclick="showToast('Securely Logging Out...')" style="display: flex; justify-content: space-between; padding: 16px; color: var(--accent-red); font-size: 14px; cursor: pointer; background: rgba(239, 68, 68, 0.05);">
                     <div class="d-flex gap-3 align-items-center"><span style="font-size: 18px;">🚪</span> Logout of CityPulse</div>
                     <span>›</span>
