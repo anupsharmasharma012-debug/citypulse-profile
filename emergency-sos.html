@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CityPulse - Emergency SOS</title>
+    <link rel="stylesheet" href="https://anupsharmasharma012-debug.github.io/citypulse-core/style.css">
+    <style>
+        .sos-button {
+            width: 150px; height: 150px; border-radius: 50%;
+            background: var(--accent-red); color: white;
+            font-size: 32px; font-weight: 900; border: 8px solid rgba(239, 68, 68, 0.3);
+            display: flex; align-items: center; justify-content: center; margin: 20px auto;
+            box-shadow: 0 0 30px rgba(239, 68, 68, 0.5); cursor: pointer; animation: pulseRed 2s infinite;
+        }
+        @keyframes pulseRed { 0% { transform: scale(1); box-shadow: 0 0 30px rgba(239, 68, 68, 0.5); } 50% { transform: scale(1.05); box-shadow: 0 0 50px rgba(239, 68, 68, 0.8); } 100% { transform: scale(1); box-shadow: 0 0 30px rgba(239, 68, 68, 0.5); } }
+    </style>
+</head>
+<body>
+    <div class="max-width-container">
+        <city-topbar title="Emergency SOS"></city-topbar>
+        
+        <main style="padding: 10px 16px; margin-bottom: 80px;" class="flex-column gap-4">
+            
+            <!-- Big SOS Button -->
+            <div style="text-align: center; margin-top: 10px;">
+                <div class="sos-button" onclick="showToast('SOS ALERTS SENT TO CONTACTS!')">SOS</div>
+                <p style="font-size: 11px; color: var(--text-muted);">Tap once to instantly share your live GPS location with your trusted contacts & local police.</p>
+            </div>
+
+            <!-- Trusted Contacts List -->
+            <div class="cp-card flex-column gap-2">
+                <div class="flex-between" style="margin-bottom: 10px;">
+                    <h3 style="margin: 0; font-size: 14px;">Trusted Contacts</h3>
+                    <span style="font-size: 11px; color: var(--accent-blue); font-weight: 700; cursor: pointer;">+ Add New</span>
+                </div>
+                
+                <div class="flex-between" style="padding: 12px; background: rgba(150,150,150,0.05); border: 1px solid var(--card-border); border-radius: 10px;">
+                    <div>
+                        <div style="font-size: 13px; font-weight: 700;">Wife</div>
+                        <div style="font-size: 11px; color: var(--text-muted);">+91 98765 11111</div>
+                    </div>
+                    <button style="background: rgba(239, 68, 68, 0.1); border: none; color: var(--accent-red); padding: 6px 12px; border-radius: 8px; font-size: 11px; font-weight: 600;">Remove</button>
+                </div>
+
+                <div class="flex-between" style="padding: 12px; background: rgba(150,150,150,0.05); border: 1px solid var(--card-border); border-radius: 10px;">
+                    <div>
+                        <div style="font-size: 13px; font-weight: 700;">Brother</div>
+                        <div style="font-size: 11px; color: var(--text-muted);">+91 98765 22222</div>
+                    </div>
+                    <button style="background: rgba(239, 68, 68, 0.1); border: none; color: var(--accent-red); padding: 6px 12px; border-radius: 8px; font-size: 11px; font-weight: 600;">Remove</button>
+                </div>
+            </div>
+
+            <!-- Auto-Settings -->
+            <div class="cp-card flex-between" style="padding: 14px;">
+                <div style="flex: 1;">
+                    <div style="font-size: 13px; font-weight: 700;">Auto-Record Audio</div>
+                    <div style="font-size: 10px; color: var(--text-muted);">Record 30 sec audio when SOS is triggered</div>
+                </div>
+                <input type="checkbox" checked style="accent-color: var(--accent-blue); width: 18px; height: 18px;">
+            </div>
+
+        </main>
+    </div>
+
+    <script src="https://anupsharmasharma012-debug.github.io/citypulse-core/config.js"></script>
+    <script src="https://anupsharmasharma012-debug.github.io/citypulse-core/store.js"></script>
+    <script src="https://anupsharmasharma012-debug.github.io/citypulse-core/components.js"></script>
+</body>
+</html>
+
