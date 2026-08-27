@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CityPulse - Activity & Bookmarks</title>
+    <link rel="stylesheet" href="https://anupsharmasharma012-debug.github.io/citypulse-core/style.css">
+    <style>
+        .act-tabs { display: flex; background: rgba(150,150,150,0.1); border-radius: 12px; margin-bottom: 16px; padding: 4px; }
+        .act-tab { flex: 1; text-align: center; padding: 10px; font-size: 13px; font-weight: 700; border-radius: 8px; cursor: pointer; color: var(--text-muted); }
+        .act-tab.active { background: var(--card-bg); color: var(--text-main); box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
+    </style>
+</head>
+<body>
+    <div class="max-width-container">
+        <city-topbar title="Activity & Bookmarks"></city-topbar>
+        
+        <main style="padding: 10px 16px; margin-bottom: 80px;" class="flex-column gap-3">
+            
+            <div class="act-tabs">
+                <div class="act-tab active" id="btn-activity" onclick="switchActTab('activity')">📂 Activity Log</div>
+                <div class="act-tab" id="btn-bookmark" onclick="switchActTab('bookmark')">🔖 Bookmarks</div>
+            </div>
+
+            <!-- TAB 1: ACTIVITY LOG -->
+            <div id="tab-activity" class="flex-column gap-3">
+                <div class="flex-between">
+                    <h4 style="margin: 0; font-size: 12px; color: var(--text-muted);">Today</h4>
+                    <span style="font-size: 11px; color: var(--accent-red); cursor: pointer;">Clear History</span>
+                </div>
+                
+                <div class="cp-card flex-between" style="padding: 12px; margin: 0;">
+                    <div class="d-flex gap-3 align-items-center">
+                        <span style="font-size: 20px;">📰</span>
+                        <div>
+                            <div style="font-size: 13px; font-weight: 600;">Read Local News</div>
+                            <div style="font-size: 11px; color: var(--text-muted);">Highway construction update</div>
+                        </div>
+                    </div>
+                    <span style="font-size: 10px; color: var(--text-muted);">10:30 AM</span>
+                </div>
+
+                <div class="cp-card flex-between" style="padding: 12px; margin: 0;">
+                    <div class="d-flex gap-3 align-items-center">
+                        <span style="font-size: 20px;">📢</span>
+                        <div>
+                            <div style="font-size: 13px; font-weight: 600;">Tracked Civic Complaint</div>
+                            <div style="font-size: 11px; color: var(--text-muted);">#CP-8492 (Water Supply)</div>
+                        </div>
+                    </div>
+                    <span style="font-size: 10px; color: var(--text-muted);">09:15 AM</span>
+                </div>
+
+                <h4 style="margin: 10px 0 0 0; font-size: 12px; color: var(--text-muted);">Yesterday</h4>
+                <div class="cp-card flex-between" style="padding: 12px; margin: 0; opacity: 0.8;">
+                    <div class="d-flex gap-3 align-items-center">
+                        <span style="font-size: 20px;">🚕</span>
+                        <div>
+                            <div style="font-size: 13px; font-weight: 600;">Searched for Ride</div>
+                            <div style="font-size: 11px; color: var(--text-muted);">Bhatpara to Shyamnagar</div>
+                        </div>
+                    </div>
+                    <span style="font-size: 10px; color: var(--text-muted);">6:00 PM</span>
+                </div>
+            </div>
+
+            <!-- TAB 2: BOOKMARKS / SAVED -->
+            <div id="tab-bookmark" class="flex-column gap-3" style="display: none;">
+                <div class="cp-card flex-column gap-2" style="margin: 0;">
+                    <h3 style="margin: 0; font-size: 14px;">Saved Services & Shops</h3>
+                    
+                    <div class="flex-between" style="padding: 10px 0; border-bottom: 1px solid var(--card-border);">
+                        <div class="d-flex gap-3 align-items-center">
+                            <span style="font-size: 20px;">🛠️</span>
+                            <div>
+                                <div style="font-size: 13px; font-weight: 700;">Ramesh Plumber Services</div>
+                                <div style="font-size: 11px; color: var(--accent-green);">Open Now</div>
+                            </div>
+                        </div>
+                        <span style="font-size: 18px; color: var(--accent-blue); cursor: pointer;" onclick="showToast('Removed from Bookmarks')">🔖</span>
+                    </div>
+
+                    <div class="flex-between" style="padding: 10px 0;">
+                        <div class="d-flex gap-3 align-items-center">
+                            <span style="font-size: 20px;">🛒</span>
+                            <div>
+                                <div style="font-size: 13px; font-weight: 700;">Gupta Wholesale Mart</div>
+                                <div style="font-size: 11px; color: var(--text-muted);">Closes at 9 PM</div>
+                            </div>
+                        </div>
+                        <span style="font-size: 18px; color: var(--accent-blue); cursor: pointer;">🔖</span>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+    </div>
+    
+    <script src="https://anupsharmasharma012-debug.github.io/citypulse-core/components.js"></script>
+    <script>
+        function switchActTab(tab) {
+            document.getElementById('tab-activity').style.display = tab === 'activity' ? 'flex' : 'none';
+            document.getElementById('tab-bookmark').style.display = tab === 'bookmark' ? 'flex' : 'none';
+            document.getElementById('btn-activity').className = tab === 'activity' ? 'act-tab active' : 'act-tab';
+            document.getElementById('btn-bookmark').className = tab === 'bookmark' ? 'act-tab active' : 'act-tab';
+        }
+    </script>
+</body>
+</html>
