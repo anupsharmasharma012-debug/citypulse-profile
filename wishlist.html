@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CityPulse - My Wishlist</title>
+    <link rel="stylesheet" href="https://anupsharmasharma012-debug.github.io/citypulse-core/style.css">
+    <style>
+        .wl-tabs { display: flex; background: rgba(150,150,150,0.1); border-radius: 12px; margin-bottom: 16px; padding: 4px; }
+        .wl-tab { flex: 1; text-align: center; padding: 10px; font-size: 13px; font-weight: 700; border-radius: 8px; cursor: pointer; color: var(--text-muted); }
+        .wl-tab.active { background: var(--card-bg); color: var(--text-main); box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
+    </style>
+</head>
+<body>
+    <div class="max-width-container">
+        <city-topbar title="My Wishlist"></city-topbar>
+        
+        <main style="padding: 10px 16px; margin-bottom: 80px;" class="flex-column gap-3">
+            
+            <div class="wl-tabs">
+                <div class="wl-tab active">🛍️ Products</div>
+                <div class="wl-tab" onclick="window.location.href='activity.html'">🏬 Saved Shops</div>
+            </div>
+
+            <!-- Wishlist Items -->
+            <div class="cp-card flex-between" style="padding: 12px; margin: 0;">
+                <div class="d-flex gap-3 align-items-center">
+                    <div style="width: 60px; height: 60px; background: rgba(59,130,246,0.1); border-radius: 8px; display: flex; justify-content: center; align-items: center; font-size: 24px;">👟</div>
+                    <div>
+                        <div style="font-size: 13px; font-weight: 700;">Mens Running Shoes (Black)</div>
+                        <div style="font-size: 11px; color: var(--text-muted);">Bhatpara Sports Mart</div>
+                        <div style="font-size: 14px; font-weight: 800; color: var(--accent-blue); margin-top: 4px;">₹ 899 <span style="font-size: 10px; text-decoration: line-through; color: var(--text-muted);">₹ 1,299</span></div>
+                    </div>
+                </div>
+                <div class="flex-column gap-2">
+                    <button class="cp-btn-primary" style="padding: 6px 12px; font-size: 11px;">Add to Cart</button>
+                    <button style="background: transparent; border: none; color: var(--accent-red); font-size: 18px; cursor: pointer;" onclick="showToast('Removed from wishlist')">🗑️</button>
+                </div>
+            </div>
+
+            <div class="cp-card flex-between" style="padding: 12px; margin: 0;">
+                <div class="d-flex gap-3 align-items-center">
+                    <div style="width: 60px; height: 60px; background: rgba(59,130,246,0.1); border-radius: 8px; display: flex; justify-content: center; align-items: center; font-size: 24px;">👕</div>
+                    <div>
+                        <div style="font-size: 13px; font-weight: 700;">Oversized Parachute T-Shirt</div>
+                        <div style="font-size: 11px; color: var(--text-muted);">Gupta Garments</div>
+                        <div style="font-size: 14px; font-weight: 800; color: var(--accent-blue); margin-top: 4px;">₹ 450</div>
+                    </div>
+                </div>
+                <div class="flex-column gap-2">
+                    <button class="cp-btn-primary" style="padding: 6px 12px; font-size: 11px;">Add to Cart</button>
+                    <button style="background: transparent; border: none; color: var(--accent-red); font-size: 18px; cursor: pointer;">🗑️</button>
+                </div>
+            </div>
+
+        </main>
+    </div>
+    <script src="https://anupsharmasharma012-debug.github.io/citypulse-core/components.js"></script>
+</body>
+</html>
+
