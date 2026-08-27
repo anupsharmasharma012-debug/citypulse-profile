@@ -3,52 +3,81 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CityPulse - Location</title>
+    <title>CityPulse - Location & Map</title>
     <link rel="stylesheet" href="https://anupsharmasharma012-debug.github.io/citypulse-core/style.css">
+    <style>
+        .map-container { height: 180px; background: url('https://upload.wikimedia.org/wikipedia/commons/thumb/a/a9/Google_Maps_icon.svg/1024px-Google_Maps_icon.svg.png') center/cover; border-radius: 12px; position: relative; overflow: hidden; border: 1px solid var(--card-border); display: flex; align-items: center; justify-content: center; }
+        .map-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.4); z-index: 1; }
+        .map-pin { z-index: 2; font-size: 36px; animation: bounce 1s infinite alternate; text-shadow: 0 4px 10px rgba(0,0,0,0.5); }
+        @keyframes bounce { from { transform: translateY(0); } to { transform: translateY(-10px); } }
+    </style>
 </head>
 <body>
     <div class="max-width-container">
-        <city-header></city-header>
-        <main style="padding: 10px 16px; margin-bottom: 80px;" class="flex-column gap-3">
+        <city-topbar title="Manage Addresses"></city-topbar>
+        
+        <main style="padding: 10px 16px; margin-bottom: 80px;" class="flex-column gap-4">
             
-            <div class="cp-card flex-column gap-3">
-                <div class="flex-between">
-                    <span style="font-size: 12px; color: var(--text-muted); font-weight: 600;">ACTIVE LOCATION</span>
-                    <span style="font-size: 10px; background: rgba(59,130,246,0.1); color: var(--accent-blue); padding: 3px 8px; border-radius: 6px; font-weight: 600;">GPS Active</span>
+            <!-- Live Map Deep UI -->
+            <div class="cp-card flex-column gap-2" style="padding: 10px; margin: 0;">
+                <h4 style="margin: 0; font-size: 13px;">Current GPS Location</h4>
+                
+                <div class="map-container">
+                    <div class="map-overlay"></div>
+                    <div class="map-pin">📍</div>
+                    <button style="position: absolute; bottom: 10px; right: 10px; z-index: 3; background: var(--bg-color); color: var(--text-main); border: 1px solid var(--card-border); padding: 6px 12px; border-radius: 20px; font-size: 11px; font-weight: 700; cursor: pointer; box-shadow: 0 2px 5px rgba(0,0,0,0.3);" onclick="showToast('Fetching exact coordinates...')">
+                        🎯 Locate Me
+                    </button>
                 </div>
-                <div class="d-flex gap-3 align-items-center">
-                    <span style="font-size: 24px;">📍</span>
-                    <div>
-                        <h3 style="margin: 0 0 2px 0; font-size: 16px;">Bhatpara, West Bengal</h3>
-                        <p style="margin: 0; font-size: 12px; color: var(--text-muted);">Pincode: 743123</p>
-                    </div>
-                </div>
-                <button class="cp-btn-outline" style="font-size: 13px;" onclick="showLoader(); setTimeout(() => { hideLoader(); showToast('Location Updated!'); }, 1500)">
-                    🛰️ Auto-Detect Location
-                </button>
+                
+                <p style="margin: 0; font-size: 12px; color: var(--text-muted); line-height: 1.4;">Bhatpara, Pincode 743123, West Bengal.</p>
             </div>
 
-            <div class="cp-card">
-                <h3 style="margin: 0 0 12px 0; font-size: 14px;">Saved Presets</h3>
-                <div class="flex-column gap-2">
-                    <div class="flex-between" style="padding: 12px; background: rgba(150,150,150,0.05); border: 1px solid var(--card-border); border-radius: 10px;">
-                        <div class="d-flex gap-2 align-items-center">
-                            <span>🏠</span>
-                            <div>
-                                <div style="font-size: 13px; font-weight: 600;">Home</div>
-                                <div style="font-size: 11px; color: var(--text-muted);">Bhatpara Main Road</div>
-                            </div>
+            <!-- Add New Address Form (DEEP) -->
+            <div class="cp-card flex-column gap-3" style="margin: 0; border-left: 3px solid var(--accent-blue);">
+                <h3 style="margin: 0; font-size: 14px;">Add New Address</h3>
+                
+                <div class="d-flex gap-2">
+                    <button class="cp-btn-outline" style="border-color: var(--accent-blue); color: var(--accent-blue); padding: 8px; font-size: 11px;">🏠 Home</button>
+                    <button class="cp-btn-outline" style="padding: 8px; font-size: 11px;">🏢 Work</button>
+                    <button class="cp-btn-outline" style="padding: 8px; font-size: 11px;">📍 Other</button>
+                </div>
+                
+                <div>
+                    <label style="font-size: 11px; color: var(--text-muted); font-weight: 600;">Flat, House No., Building <span style="color:red">*</span></label>
+                    <input type="text" class="cp-input" placeholder="e.g. 12/A, Ground Floor">
+                </div>
+                <div>
+                    <label style="font-size: 11px; color: var(--text-muted); font-weight: 600;">Area, Street, Sector</label>
+                    <input type="text" class="cp-input" placeholder="e.g. Main Market Road">
+                </div>
+                
+                <button class="cp-btn-primary" onclick="showLoader(); setTimeout(() => { hideLoader(); showToast('Address Saved!'); }, 1000)">Save Address</button>
+            </div>
+
+            <!-- Saved Addresses List (Manage) -->
+            <div>
+                <h4 style="font-size: 12px; color: var(--text-muted); margin: 0 0 10px 0;">Your Saved Addresses</h4>
+                
+                <div class="cp-card flex-between" style="padding: 12px; margin-bottom: 10px; background: rgba(59,130,246,0.05); border-color: var(--accent-blue);">
+                    <div class="d-flex gap-3 align-items-center">
+                        <span style="font-size: 20px;">🏠</span>
+                        <div>
+                            <div style="font-size: 13px; font-weight: 700;">Home <span class="cp-badge-success" style="font-size: 9px; padding: 2px 4px; background: var(--accent-blue); color: white;">Default</span></div>
+                            <div style="font-size: 11px; color: var(--text-muted);">Ward 12, Bhatpara Main Road, 743123</div>
                         </div>
-                        <span style="font-size: 11px; color: var(--accent-blue); font-weight: 600;">Selected</span>
+                    </div>
+                    <div class="flex-column gap-2">
+                        <span style="font-size: 14px; cursor: pointer;">✏️</span>
+                        <span style="font-size: 14px; cursor: pointer; color: var(--accent-red);">🗑️</span>
                     </div>
                 </div>
+
             </div>
+
         </main>
-        <bottom-nav></bottom-nav>
     </div>
-    <!-- Master Scripts -->
-    <script src="https://anupsharmasharma012-debug.github.io/citypulse-core/config.js"></script>
-    <script src="https://anupsharmasharma012-debug.github.io/citypulse-core/store.js"></script>
+    
     <script src="https://anupsharmasharma012-debug.github.io/citypulse-core/components.js"></script>
 </body>
 </html>
