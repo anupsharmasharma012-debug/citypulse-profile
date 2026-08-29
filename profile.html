@@ -5,113 +5,157 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CityPulse - My Profile</title>
     <link rel="stylesheet" href="https://anupsharmasharma012-debug.github.io/citypulse-core/style.css">
+    <style>
+        /* Gojek Style Group Headings */
+        .group-title { font-size: 11px; color: var(--text-muted); font-weight: 800; text-transform: uppercase; margin: 16px 0 8px 4px; letter-spacing: 0.5px; }
+        
+        /* Smooth Icon & Row Styling */
+        .profile-row { display: flex; justify-content: space-between; align-items: center; padding: 14px 16px; text-decoration: none; color: var(--text-main); font-size: 14px; border-bottom: 1px solid var(--card-border); background: var(--card-bg); cursor: pointer; transition: background 0.2s; }
+        .profile-row:last-child { border-bottom: none; }
+        .profile-row:active { background: rgba(150,150,150,0.1); }
+        
+        /* Floating Header Gradient Banner */
+        .profile-banner { background: linear-gradient(135deg, #10b981 0%, #059669 100%); padding: 20px 16px 40px 16px; color: white; position: relative; }
+    </style>
 </head>
-<body>
+<body style="background: var(--bg-color);">
     <div class="max-width-container">
-        <!-- TOPBAR WITH BACK BUTTON -->
-        <city-topbar title="My Account"></city-topbar>
+        
+        <!-- TOP BANNER WITH BACK BUTTON -->
+        <div class="profile-banner">
+            <div class="flex-between" style="align-items: center; margin-bottom: 16px;">
+                <button onclick="window.history.back()" style="background: transparent; border: none; color: white; font-size: 22px; cursor: pointer;">←</button>
+                <span style="font-size: 16px; font-weight: 700;">My Profile</span>
+                <span style="width: 22px;"></span> <!-- Spacer -->
+            </div>
+        </div>
 
-        <main style="padding: 10px 16px; display: flex; flex-direction: column; gap: 14px; margin-bottom: 80px;">
+        <main style="padding: 0 16px; margin-top: -30px; margin-bottom: 90px; display: flex; flex-direction: column; gap: 4px;">
             
-            <!-- Header Identity Card (LINKS TO EDIT PROFILE) -->
-            <div class="cp-card flex-between" onclick="window.location.href='edit-profile.html'" style="margin: 0; background: linear-gradient(135deg, rgba(59,130,246,0.1) 0%, rgba(13,17,23,0) 100%); border-left: 4px solid var(--accent-blue); cursor: pointer;">
+            <!-- FLOATING IDENTITY CARD (Linked to Edit Profile) -->
+            <div class="cp-card flex-between" onclick="window.location.href='edit-profile.html'" style="margin: 0; background: var(--card-bg); border-radius: 16px; box-shadow: 0 8px 20px rgba(0,0,0,0.08); padding: 16px; cursor: pointer; border-left: 4px solid #10b981;">
                 <div class="d-flex align-items-center gap-3">
-                    <div style="width: 50px; height: 50px; background: var(--bg-color); border: 2px solid var(--accent-blue); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 20px;">👤</div>
+                    <div style="width: 55px; height: 55px; background: rgba(16,185,129,0.1); border: 2px solid #10b981; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 22px; font-weight: bold; color: #10b981;">AS</div>
                     <div>
-                        <h3 style="margin: 0 0 4px 0; font-size: 16px;">Anup Sharma</h3>
-                        <p style="margin: 0 0 4px 0; font-size: 12px; color: var(--text-muted);">+91 98765 43210</p>
-                        <span class="cp-badge-success">Verified Resident</span>
+                        <h3 style="margin: 0 0 2px 0; font-size: 16px; font-weight: 700;">Anup Sharma</h3>
+                        <p style="margin: 0 0 4px 0; font-size: 12px; color: var(--text-muted);">+91 98837 64231</p>
+                        <span class="cp-badge-success" style="font-size: 9px; padding: 2px 6px;">Verified Resident</span>
                     </div>
                 </div>
-                <span style="color: var(--text-muted); font-size: 20px;">›</span>
+                <span style="color: var(--text-muted); font-size: 22px;">›</span>
             </div>
 
-            <!-- Wallet & Rewards (LINKS TO WALLET) -->
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
-                <div class="cp-card flex-column" onclick="window.location.href='wallet.html'" style="margin: 0; padding: 12px; gap: 6px; cursor: pointer;">
-                    <span style="font-size: 11px; color: var(--text-muted); font-weight: 600;">CP Wallet Balance</span>
-                    <div style="font-size: 18px; font-weight: 800; color: var(--text-main);">₹ 1,250.00</div>
-                    <span style="font-size: 10px; color: var(--accent-blue);">View History ›</span>
-                </div>
-                <div class="cp-card flex-column" style="margin: 0; padding: 12px; gap: 6px; cursor: pointer;" onclick="showToast('Reward Store Coming Soon')">
-                    <span style="font-size: 11px; color: var(--text-muted); font-weight: 600;">Reward Coins</span>
-                    <div style="font-size: 18px; font-weight: 800; color: #f59e0b;">🪙 150</div>
-                    <span style="font-size: 10px; color: #f59e0b;">Redeem Now ›</span>
-                </div>
-            </div>
-
-            <city-ad-space></city-ad-space>
-
-            <!-- Recent Activity & Bookmarks Preview (LINKS TO ACTIVITY PAGE) -->
-            <div class="cp-card" style="margin: 0; padding: 0; overflow: hidden; cursor: pointer;" onclick="window.location.href='activity.html'">
-                <div class="flex-between" style="padding: 12px 16px; background: rgba(150,150,150,0.05); font-size: 12px; font-weight: 700; color: var(--text-muted); text-transform: uppercase;">
-                    <span>My Activity & Bookmarks</span>
-                    <span style="color: var(--accent-blue);">View All ›</span>
-                </div>
-                <div class="flex-between" style="padding: 14px 16px;">
-                    <div class="d-flex gap-3 align-items-center">
-                        <span style="font-size: 20px;">📢</span>
-                        <div>
-                            <div style="font-size: 13px; font-weight: 600;">Civic Complaint #CP-8492</div>
-                            <div style="font-size: 11px; color: var(--accent-green);">Resolved successfully</div>
-                        </div>
+            <!-- PROMO BANNER (Gojek Star / Rewards) -->
+            <div style="margin-top: 12px; background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%); border-radius: 12px; padding: 12px 16px; display: flex; justify-content: space-between; align-items: center; color: white; cursor: pointer;" onclick="showToast('Exclusive rewards await you!')">
+                <div class="d-flex align-items-center gap-2">
+                    <span style="font-size: 20px;">⭐</span>
+                    <div>
+                        <div style="font-size: 13px; font-weight: 700;">Join CityPulse Star</div>
+                        <div style="font-size: 10px; opacity: 0.9;">Exclusive cashbacks & rewards await</div>
                     </div>
                 </div>
+                <span style="font-size: 18px;">›</span>
             </div>
 
-            <!-- ALL DEEP CONTENT OPTIONS (NAVIGATION MENU) -->
-            <div class="cp-card" style="padding: 0; overflow: hidden; margin: 0;">
-                
-                <!-- 1. Emergency SOS -->
-                <a href="emergency-sos.html" style="display: flex; justify-content: space-between; padding: 16px; text-decoration: none; border-bottom: 1px solid var(--card-border); color: var(--text-main); font-size: 14px; background: rgba(239, 68, 68, 0.05);">
-                    <div class="d-flex gap-3 align-items-center"><span style="font-size: 18px;">🚨</span> <span style="color: var(--accent-red); font-weight: 600;">Emergency SOS Contacts</span></div>
+            <!-- GROUP 1: PREFERENCES -->
+            <div class="group-title">Preferences</div>
+            <div class="cp-card" style="padding: 0; overflow: hidden; margin: 0; border-radius: 14px;">
+                <a href="security.html" class="profile-row">
+                    <div class="d-flex gap-3 align-items-center"><span style="font-size: 18px;">🛡️</span> Account Safety & Lock</div>
                     <span style="color: var(--text-muted);">›</span>
                 </a>
+                <div class="profile-row" onclick="showToast('CityPulse Plus subscription active')">
+                    <div class="d-flex gap-3 align-items-center"><span style="font-size: 18px;">👑</span> CityPulse Plus <span style="background: rgba(16,185,129,0.15); color: #10b981; font-size: 9px; padding: 2px 6px; border-radius: 6px; font-weight: 700; margin-left: 6px;">Active</span></div>
+                    <span style="color: var(--text-muted);">›</span>
+                </div>
+                <a href="location.html" class="profile-row">
+                    <div class="d-flex gap-3 align-items-center"><span style="font-size: 18px;">📍</span> Saved Addresses</div>
+                    <span style="color: var(--text-muted);">›</span>
+                </a>
+                <a href="wallet.html" class="profile-row">
+                    <div class="d-flex gap-3 align-items-center"><span style="font-size: 18px;">💰</span> Payment Methods & Wallet</div>
+                    <span style="color: var(--text-muted);">›</span>
+                </a>
+            </div>
 
-                <!-- 2. Wishlist (NAYA ADD KIYA HAI) -->
-                <a href="wishlist.html" style="display: flex; justify-content: space-between; padding: 16px; text-decoration: none; border-bottom: 1px solid var(--card-border); color: var(--text-main); font-size: 14px;">
-                    <div class="d-flex gap-3 align-items-center"><span style="font-size: 18px;">🛍️</span> My Wishlist</div>
+            <!-- GROUP 2: YOUR ACTIVITIES -->
+            <div class="group-title">Your Activities</div>
+            <div class="cp-card" style="padding: 0; overflow: hidden; margin: 0; border-radius: 14px;">
+                <a href="activity.html" class="profile-row">
+                    <div class="d-flex gap-3 align-items-center"><span style="font-size: 18px;">📂</span> Activities & History</div>
                     <span style="color: var(--text-muted);">›</span>
                 </a>
+                <a href="wishlist.html" class="profile-row">
+                    <div class="d-flex gap-3 align-items-center"><span style="font-size: 18px;">🔖</span> Wishlist & Saved Items</div>
+                    <span style="color: var(--text-muted);">›</span>
+                </a>
+                <div class="profile-row" onclick="showToast('No active vouchers right now')">
+                    <div class="d-flex gap-3 align-items-center"><span style="font-size: 18px;">🎁</span> Promos & Vouchers</div>
+                    <span style="color: var(--text-muted);">›</span>
+                </div>
+                <div class="profile-row" onclick="showToast('Complaints module linked')">
+                    <div class="d-flex gap-3 align-items-center"><span style="font-size: 18px;">📢</span> My Complaints & Tracking</div>
+                    <span style="color: var(--text-muted);">›</span>
+                </div>
+            </div>
 
-                <!-- 3. Location & Saved Addresses -->
-                <a href="location.html" style="display: flex; justify-content: space-between; padding: 16px; text-decoration: none; border-bottom: 1px solid var(--card-border); color: var(--text-main); font-size: 14px;">
-                    <div class="d-flex gap-3 align-items-center"><span style="font-size: 18px;">📍</span> Manage Saved Addresses</div>
+            <!-- GROUP 3: APP PREFERENCES -->
+            <div class="group-title">App Preferences</div>
+            <div class="cp-card" style="padding: 0; overflow: hidden; margin: 0; border-radius: 14px;">
+                <a href="settings.html" class="profile-row">
+                    <div class="d-flex gap-3 align-items-center"><span style="font-size: 18px;">🗣️</span> Languages</div>
+                    <span style="color: var(--text-muted);">English ›</span>
+                </a>
+                <a href="notifications-setup.html" class="profile-row">
+                    <div class="d-flex gap-3 align-items-center"><span style="font-size: 18px;">🔔</span> Notifications & DND</div>
                     <span style="color: var(--text-muted);">›</span>
                 </a>
+                <a href="emergency-sos.html" class="profile-row" style="background: rgba(239, 68, 68, 0.03);">
+                    <div class="d-flex gap-3 align-items-center"><span style="font-size: 18px;">🚨</span> Emergency SOS Contacts</div>
+                    <span style="color: var(--text-muted);">›</span>
+                </a>
+            </div>
 
-                <!-- 4. Security & Devices (NAYA ADD KIYA HAI) -->
-                <a href="security.html" style="display: flex; justify-content: space-between; padding: 16px; text-decoration: none; border-bottom: 1px solid var(--card-border); color: var(--text-main); font-size: 14px;">
-                    <div class="d-flex gap-3 align-items-center"><span style="font-size: 18px;">🔒</span> Security & App Lock</div>
+            <!-- GROUP 4: MORE FROM CITYPULSE -->
+            <div class="group-title">More from CityPulse</div>
+            <div class="cp-card" style="padding: 0; overflow: hidden; margin: 0; border-radius: 14px;">
+                <div class="profile-row" onclick="showToast('Business profile feature coming soon')">
+                    <div class="d-flex gap-3 align-items-center"><span style="font-size: 18px;">🏢</span> Business Profile</div>
                     <span style="color: var(--text-muted);">›</span>
-                </a>
-                
-                <!-- 5. Notifications -->
-                <a href="notifications-setup.html" style="display: flex; justify-content: space-between; padding: 16px; text-decoration: none; border-bottom: 1px solid var(--card-border); color: var(--text-main); font-size: 14px;">
-                    <div class="d-flex gap-3 align-items-center"><span style="font-size: 18px;">🔔</span> Notifications & Alerts</div>
+                </div>
+                <div class="profile-row" onclick="showToast('Partner registration portal')">
+                    <div class="d-flex gap-3 align-items-center"><span style="font-size: 18px;">🤝</span> Join as Partner / Merchant</div>
                     <span style="color: var(--text-muted);">›</span>
-                </a>
+                </div>
+                <div class="profile-row" onclick="showToast('Referral link copied!')">
+                    <div class="d-flex gap-3 align-items-center"><span style="font-size: 18px;">💸</span> Refer & Earn</div>
+                    <span style="color: var(--text-muted);">›</span>
+                </div>
+            </div>
 
-                <!-- 6. App Settings -->
-                <a href="settings.html" style="display: flex; justify-content: space-between; padding: 16px; text-decoration: none; border-bottom: 1px solid var(--card-border); color: var(--text-main); font-size: 14px;">
-                    <div class="d-flex gap-3 align-items-center"><span style="font-size: 18px;">⚙️</span> App Settings & Privacy</div>
+            <!-- GROUP 5: OTHERS -->
+            <div class="group-title">Others</div>
+            <div class="cp-card" style="padding: 0; overflow: hidden; margin: 0; border-radius: 14px;">
+                <a href="support.html" class="profile-row">
+                    <div class="d-flex gap-3 align-items-center"><span style="font-size: 18px;">💬</span> Help & Reports</div>
                     <span style="color: var(--text-muted);">›</span>
                 </a>
-
-                <!-- 7. Help, Support & Legal -->
-                <a href="support.html" style="display: flex; justify-content: space-between; padding: 16px; text-decoration: none; border-bottom: 1px solid var(--card-border); color: var(--text-main); font-size: 14px;">
-                    <div class="d-flex gap-3 align-items-center"><span style="font-size: 18px;">💬</span> Help, Support & Legal</div>
+                <a href="support.html" class="profile-row">
+                    <div class="d-flex gap-3 align-items-center"><span style="font-size: 18px;">⚖️</span> Terms & Privacy Policy</div>
                     <span style="color: var(--text-muted);">›</span>
                 </a>
-                
-                <!-- 8. Logout Action -->
-                <div onclick="showToast('Securely Logging Out...')" style="display: flex; justify-content: space-between; padding: 16px; color: var(--accent-red); font-size: 14px; cursor: pointer; background: rgba(239, 68, 68, 0.05);">
-                    <div class="d-flex gap-3 align-items-center"><span style="font-size: 18px;">🚪</span> Logout of CityPulse</div>
+                <div class="profile-row" onclick="showToast('Thank you for rating CityPulse 5 Stars!')">
+                    <div class="d-flex gap-3 align-items-center"><span style="font-size: 18px;">⭐</span> Rate CityPulse App</div>
+                    <span style="color: var(--text-muted);">›</span>
+                </div>
+                <div onclick="showToast('Securely Logging Out...')" class="profile-row" style="color: var(--accent-red); background: rgba(239, 68, 68, 0.03);">
+                    <div class="d-flex gap-3 align-items-center"><span style="font-size: 18px;">🚪</span> Logout of Account</div>
                     <span>›</span>
                 </div>
             </div>
-        </main>
 
+        </main>
+        
         <bottom-nav></bottom-nav>
     </div>
 
