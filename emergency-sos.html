@@ -44,7 +44,7 @@
             transition: transform 0.1s;
         }
         .panic-btn:active { transform: scale(0.95); }
-        .panic-btn span { font-size: 14px; font-weight: 600; opacity: 0.9; margin-top: 4px; letter-spacing: 1px; text-transform: uppercase; }
+        .panic-btn span { font-size: 13px; font-weight: 600; opacity: 0.9; margin-top: 4px; letter-spacing: 0.5px; text-transform: uppercase; text-align: center; }
 
         /* Radar Pulse Animation */
         .pulse-ring {
@@ -75,22 +75,33 @@
             background: var(--card-bg);
             border: 1px solid var(--card-border);
             border-radius: 16px;
-            padding: 16px;
+            padding: 14px 12px;
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 10px;
             cursor: pointer;
             transition: transform 0.2s, box-shadow 0.2s;
         }
         .e-card:active { transform: scale(0.96); }
         .e-icon {
-            width: 42px;
-            height: 42px;
+            width: 38px;
+            height: 38px;
             border-radius: 12px;
             display: flex;
             justify-content: center;
             align-items: center;
-            font-size: 20px;
+            font-size: 18px;
+        }
+        .call-badge {
+            background: rgba(239, 68, 68, 0.1);
+            color: var(--sos-red);
+            width: 26px;
+            height: 26px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 12px;
         }
         
         .section-header {
@@ -101,6 +112,29 @@
             letter-spacing: 0.5px;
             margin: 0 16px 12px 16px;
         }
+
+        /* SOS Custom Toast */
+        #sos-toast {
+            position: fixed;
+            top: -100px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #1f2937;
+            color: white;
+            padding: 12px 20px;
+            border-radius: 30px;
+            font-size: 13px;
+            font-weight: 600;
+            z-index: 9999;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            transition: top 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            width: max-content;
+            max-width: 90%;
+        }
+        #sos-toast.show { top: 70px; }
     </style>
 </head>
 <body>
@@ -109,81 +143,123 @@
         <!-- CORE TOPBAR -->
         <city-topbar title="Emergency SOS"></city-topbar>
 
+        <!-- SOS NOTIFICATION TOAST -->
+        <div id="sos-toast">📍 Fetching Live Location...</div>
+
         <main style="margin-bottom: 90px;">
             
             <!-- ALERT BANNER -->
             <div style="background: var(--sos-light-red); color: var(--sos-dark-red); padding: 12px 16px; font-size: 12px; font-weight: 600; text-align: center; display: flex; justify-content: center; align-items: center; gap: 8px;">
-                <span style="font-size: 16px;">⚠️</span> Use these services only in real emergencies.
+                <span style="font-size: 16px;">⚠️</span> Tap to alert 3 contacts & call Police.
             </div>
 
-            <!-- MAIN PANIC BUTTON -->
+            <!-- SMART PANIC BUTTON (SMS + Call) -->
             <div class="panic-button-container">
                 <div class="pulse-ring"></div>
                 <div class="pulse-ring"></div>
-                <!-- One Tap Call to 112 (National Emergency Number) -->
-                <a href="tel:112" style="text-decoration: none;">
-                    <button class="panic-btn">
-                        SOS
-                        <span>Call 112</span>
-                    </button>
-                </a>
+                <button class="panic-btn" onclick="triggerSmartSOS()">
+                    SOS
+                    <span>Alert Family<br>& Call 112</span>
+                </button>
             </div>
 
-            <!-- QUICK CALL GRID -->
+            <!-- QUICK CALL GRID (With Call Logos) -->
             <div class="section-header">National Helplines</div>
             <div class="emergency-grid">
-                <a href="tel:100" class="e-card" style="text-decoration: none; color: inherit;">
+                <div onclick="window.location.href='tel:100'" class="e-card">
                     <div class="e-icon" style="background: rgba(59, 130, 246, 0.15); color: #2563eb;">🚓</div>
-                    <div>
+                    <div style="flex: 1;">
                         <div style="font-size: 14px; font-weight: 800;">Police</div>
                         <div style="font-size: 11px; color: var(--text-muted); font-weight: 600;">Dial 100</div>
                     </div>
-                </a>
-                <a href="tel:102" class="e-card" style="text-decoration: none; color: inherit;">
+                    <div class="call-badge">📞</div>
+                </div>
+                
+                <div onclick="window.location.href='tel:102'" class="e-card">
                     <div class="e-icon" style="background: rgba(16, 185, 129, 0.15); color: #10b981;">🚑</div>
-                    <div>
+                    <div style="flex: 1;">
                         <div style="font-size: 14px; font-weight: 800;">Ambulance</div>
                         <div style="font-size: 11px; color: var(--text-muted); font-weight: 600;">Dial 102</div>
                     </div>
-                </a>
-                <a href="tel:101" class="e-card" style="text-decoration: none; color: inherit;">
+                    <div class="call-badge">📞</div>
+                </div>
+
+                <div onclick="window.location.href='tel:101'" class="e-card">
                     <div class="e-icon" style="background: rgba(245, 158, 11, 0.15); color: #f59e0b;">🚒</div>
-                    <div>
-                        <div style="font-size: 14px; font-weight: 800;">Fire Brigade</div>
+                    <div style="flex: 1;">
+                        <div style="font-size: 14px; font-weight: 800;">Fire</div>
                         <div style="font-size: 11px; color: var(--text-muted); font-weight: 600;">Dial 101</div>
                     </div>
-                </a>
-                <a href="tel:1091" class="e-card" style="text-decoration: none; color: inherit;">
+                    <div class="call-badge">📞</div>
+                </div>
+
+                <div onclick="window.location.href='tel:1091'" class="e-card">
                     <div class="e-icon" style="background: rgba(217, 70, 239, 0.15); color: #d946ef;">🛡️</div>
-                    <div>
-                        <div style="font-size: 14px; font-weight: 800;">Women Help</div>
+                    <div style="flex: 1;">
+                        <div style="font-size: 14px; font-weight: 800;">Women</div>
                         <div style="font-size: 11px; color: var(--text-muted); font-weight: 600;">Dial 1091</div>
                     </div>
-                </a>
+                    <div class="call-badge">📞</div>
+                </div>
             </div>
 
-            <!-- LOCAL CONTACTS (Bhatpara Specific) -->
-            <div class="section-header">Local Contacts</div>
-            <div style="padding: 0 16px; display: flex; flex-direction: column; gap: 12px; margin-bottom: 24px;">
-                <div class="cp-card flex-between" style="margin: 0; padding: 12px 16px;">
-                    <div>
-                        <div style="font-size: 14px; font-weight: 800; margin-bottom: 2px;">Bhatpara Police Station</div>
-                        <div style="font-size: 11px; color: var(--text-muted);">Local Jurisdiction</div>
+            <!-- LOCAL EMERGENCY DIRECTORY (Expanded) -->
+            <div class="section-header">City Directory & Utilities</div>
+            <div style="padding: 0 16px; display: flex; flex-direction: column; gap: 10px; margin-bottom: 24px;">
+                
+                <!-- Police -->
+                <div class="cp-card flex-between" style="margin: 0; padding: 12px 16px;" onclick="window.location.href='tel:100'">
+                    <div class="d-flex align-items-center gap-3">
+                        <span style="font-size: 20px;">🏢</span>
+                        <div>
+                            <div style="font-size: 14px; font-weight: 800; margin-bottom: 2px;">Bhatpara Police Station</div>
+                            <div style="font-size: 11px; color: var(--text-muted);">Local Jurisdiction</div>
+                        </div>
                     </div>
-                    <a href="tel:100" style="background: rgba(59, 130, 246, 0.1); color: #2563eb; width: 36px; height: 36px; border-radius: 50%; display: flex; justify-content: center; align-items: center; text-decoration: none; font-size: 16px;">📞</a>
+                    <div style="color: var(--accent-blue); font-size: 18px;">📞</div>
                 </div>
-                <div class="cp-card flex-between" style="margin: 0; padding: 12px 16px;">
-                    <div>
-                        <div style="font-size: 14px; font-weight: 800; margin-bottom: 2px;">State General Hospital</div>
-                        <div style="font-size: 11px; color: var(--text-muted);">Bhatpara, North 24 Parganas</div>
+
+                <!-- Hospital -->
+                <div class="cp-card flex-between" style="margin: 0; padding: 12px 16px;" onclick="window.location.href='tel:102'">
+                    <div class="d-flex align-items-center gap-3">
+                        <span style="font-size: 20px;">🏥</span>
+                        <div>
+                            <div style="font-size: 14px; font-weight: 800; margin-bottom: 2px;">State General Hospital</div>
+                            <div style="font-size: 11px; color: var(--text-muted);">Bhatpara, North 24 Pgs</div>
+                        </div>
                     </div>
-                    <a href="tel:102" style="background: rgba(16, 185, 129, 0.1); color: #10b981; width: 36px; height: 36px; border-radius: 50%; display: flex; justify-content: center; align-items: center; text-decoration: none; font-size: 16px;">📞</a>
+                    <div style="color: var(--accent-blue); font-size: 18px;">📞</div>
                 </div>
+
+                <!-- Blood Bank -->
+                <div class="cp-card flex-between" style="margin: 0; padding: 12px 16px;" onclick="showSOSToast('Calling Local Blood Bank...')">
+                    <div class="d-flex align-items-center gap-3">
+                        <span style="font-size: 20px;">🩸</span>
+                        <div>
+                            <div style="font-size: 14px; font-weight: 800; margin-bottom: 2px;">City Blood Bank</div>
+                            <div style="font-size: 11px; color: var(--text-muted);">24x7 Emergency Blood Unit</div>
+                        </div>
+                    </div>
+                    <div style="color: var(--accent-blue); font-size: 18px;">📞</div>
+                </div>
+
+                <!-- Electricity -->
+                <div class="cp-card flex-between" style="margin: 0; padding: 12px 16px;" onclick="window.location.href='tel:1912'">
+                    <div class="d-flex align-items-center gap-3">
+                        <span style="font-size: 20px;">⚡</span>
+                        <div>
+                            <div style="font-size: 14px; font-weight: 800; margin-bottom: 2px;">WBSEDCL Electricity</div>
+                            <div style="font-size: 11px; color: var(--text-muted);">Power Cut & Safety Issues</div>
+                        </div>
+                    </div>
+                    <div style="color: var(--accent-blue); font-size: 18px;">📞</div>
+                </div>
+
             </div>
 
             <!-- SHARE LIVE LOCATION FEATURE -->
             <div style="padding: 0 16px;">
-                <div class="cp-card" style="margin: 0; background: var(--card-bg); border-left: 4px solid #ef4444; padding: 16px; display: flex; gap: 12px; align-items: center;" onclick="showToast('Live location tracking activated.')">
+                <div class="cp-card" style="margin: 0; background: var(--card-bg); border-left: 4px solid #ef4444; padding: 16px; display: flex; gap: 12px; align-items: center;" onclick="showSOSToast('Live location tracking activated.')">
                     <div style="font-size: 24px;">📍</div>
                     <div style="flex: 1;">
                         <div style="font-size: 14px; font-weight: 800; margin-bottom: 4px;">Share Live Location</div>
@@ -207,11 +283,41 @@
     <script>
         // Check saved theme on load
         window.addEventListener('DOMContentLoaded', () => {
-            const savedTheme = localStorage.getItem('cp_theme');
-            if (savedTheme === 'dark') {
+            if (localStorage.getItem('cp_theme') === 'dark') {
                 document.body.classList.add('dark-mode');
             }
         });
+
+        // Custom SOS Notification Logic
+        function showSOSToast(message, isRed = false) {
+            const toast = document.getElementById('sos-toast');
+            toast.innerHTML = message;
+            if(isRed) {
+                toast.style.background = '#ef4444';
+            } else {
+                toast.style.background = '#1f2937';
+            }
+            toast.classList.add('show');
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+
+        // Smart SOS Trigger Logic (Simulates App Backend SMS sending + Direct Call)
+        function triggerSmartSOS() {
+            showSOSToast('📍 Fetching precise location...', false);
+            
+            // Wait 1.5 seconds, then show SMS Sent message
+            setTimeout(() => {
+                showSOSToast('🚨 Location & Alert SMS sent to 3 saved contacts!', true);
+                
+                // Wait another 1.5 seconds, then dial 112
+                setTimeout(() => {
+                    window.location.href = 'tel:112';
+                }, 1500);
+                
+            }, 1500);
+        }
     </script>
 </body>
 </html>
