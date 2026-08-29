@@ -76,13 +76,17 @@
                 <span style="font-size: 18px;">›</span>
             </div>
 
-            <!-- GROUP 1: PREFERENCES -->
+            <!-- GROUP 1: PREFERENCES & SAFETY -->
             <div class="group-title">Preferences & Safety</div>
             <div class="cp-card" style="padding: 0; overflow: hidden; margin: 0; border-radius: 14px; background: var(--card-bg);">
                 <a href="security.html" class="profile-row">
                     <div class="d-flex gap-3 align-items-center"><span style="font-size: 18px;">🛡️</span> Account Safety & Security</div>
                     <span style="color: var(--text-muted);">›</span>
                 </a>
+                <div class="profile-row" onclick="showToast('CityPulse Plus subscription active')">
+                    <div class="d-flex gap-3 align-items-center"><span style="font-size: 18px;">👑</span> CityPulse Plus <span style="background: rgba(37,99,235,0.1); color: var(--accent-blue); font-size: 9px; padding: 2px 6px; border-radius: 6px; font-weight: 700; margin-left: 6px;">Active</span></div>
+                    <span style="color: var(--text-muted);">›</span>
+                </div>
                 <a href="location.html" class="profile-row">
                     <div class="d-flex gap-3 align-items-center"><span style="font-size: 18px;">📍</span> Saved Addresses</div>
                     <span style="color: var(--text-muted);">›</span>
@@ -113,7 +117,6 @@
             <!-- GROUP 3: APP PREFERENCES -->
             <div class="group-title">App Preferences</div>
             <div class="cp-card" style="padding: 0; overflow: hidden; margin: 0; border-radius: 14px; background: var(--card-bg);">
-                <!-- Language selection triggers Bottom Sheet Modal directly -->
                 <div class="profile-row" onclick="openLangModal()">
                     <div class="d-flex gap-3 align-items-center"><span style="font-size: 18px;">🗣️</span> Language Selection</div>
                     <span style="color: var(--text-muted);" id="currentLangText">English ›</span>
@@ -128,7 +131,24 @@
                 </a>
             </div>
 
-            <!-- GROUP 4: OTHERS -->
+            <!-- GROUP 4: MORE FROM CITYPULSE (Naya Group Added) -->
+            <div class="group-title">More from CityPulse</div>
+            <div class="cp-card" style="padding: 0; overflow: hidden; margin: 0; border-radius: 14px; background: var(--card-bg);">
+                <div class="profile-row" onclick="showToast('Business Profile management portal')">
+                    <div class="d-flex gap-3 align-items-center"><span style="font-size: 18px;">🏢</span> Business Profile</div>
+                    <span style="color: var(--text-muted);">›</span>
+                </div>
+                <div class="profile-row" onclick="showToast('Partner registration & merchant dashboard')">
+                    <div class="d-flex gap-3 align-items-center"><span style="font-size: 18px;">🤝</span> Join as Partner / Merchant</div>
+                    <span style="color: var(--text-muted);">›</span>
+                </div>
+                <div class="profile-row" onclick="showToast('Referral link copied to clipboard!')">
+                    <div class="d-flex gap-3 align-items-center"><span style="font-size: 18px;">💸</span> Refer & Earn</div>
+                    <span style="color: var(--text-muted);">›</span>
+                </div>
+            </div>
+
+            <!-- GROUP 5: OTHERS -->
             <div class="group-title">Others & Support</div>
             <div class="cp-card" style="padding: 0; overflow: hidden; margin: 0; border-radius: 14px; background: var(--card-bg);">
                 <a href="support.html" class="profile-row">
@@ -167,14 +187,12 @@
     <script src="https://anupsharmasharma012-debug.github.io/citypulse-core/store.js"></script>
     <script src="https://anupsharmasharma012-debug.github.io/citypulse-core/components.js"></script>
     <script>
-        // Theme check on load
         window.addEventListener('DOMContentLoaded', () => {
             if (localStorage.getItem('cp_theme') === 'dark') {
                 document.body.classList.add('dark-mode');
             }
         });
 
-        // Language Modal Logic
         function openLangModal() {
             document.getElementById('langModal').style.display = 'flex';
         }
