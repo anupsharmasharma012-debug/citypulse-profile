@@ -131,7 +131,7 @@
                 </a>
             </div>
 
-            <!-- GROUP 4: MORE FROM CITYPULSE (Naya Group Added) -->
+            <!-- GROUP 4: MORE FROM CITYPULSE -->
             <div class="group-title">More from CityPulse</div>
             <div class="cp-card" style="padding: 0; overflow: hidden; margin: 0; border-radius: 14px; background: var(--card-bg);">
                 <div class="profile-row" onclick="showToast('Business Profile management portal')">
@@ -187,9 +187,19 @@
     <script src="https://anupsharmasharma012-debug.github.io/citypulse-core/store.js"></script>
     <script src="https://anupsharmasharma012-debug.github.io/citypulse-core/components.js"></script>
     <script>
+        // Global Theme Sync across all pages and bottom nav components
         window.addEventListener('DOMContentLoaded', () => {
-            if (localStorage.getItem('cp_theme') === 'dark') {
+            const savedTheme = localStorage.getItem('cp_theme') || 'light';
+            if (savedTheme === 'dark') {
                 document.body.classList.add('dark-mode');
+                // Target bottom nav or global containers if loaded dynamically
+                setTimeout(() => {
+                    document.querySelectorAll('bottom-nav, city-topbar').forEach(el => {
+                        if(el.shadowRoot) {
+                            el.shadowRoot.host.classList.add('dark-mode');
+                        }
+                    });
+                }, 200);
             }
         });
 
