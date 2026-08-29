@@ -3,223 +3,215 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CityPulse - Advanced SOS</title>
+    <title>CityPulse - Emergency SOS</title>
+    <!-- Core Global Design System -->
     <link rel="stylesheet" href="https://anupsharmasharma012-debug.github.io/citypulse-core/style.css">
     <style>
-        /* SOS Specific UI */
-        .sos-tabs { display: flex; background: rgba(150,150,150,0.1); border-radius: 12px; margin: 10px 0; padding: 4px; }
-        .sos-tab { flex: 1; text-align: center; padding: 10px; font-size: 13px; font-weight: 700; border-radius: 8px; cursor: pointer; color: var(--text-muted); }
-        .sos-tab.active { background: var(--card-bg); color: var(--text-main); box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
-        
-        /* Hold-to-Trigger Button Animation */
-        .hold-btn-wrapper { position: relative; width: 200px; height: 200px; margin: 30px auto; display: flex; justify-content: center; align-items: center; }
-        .hold-btn { 
-            width: 160px; height: 160px; border-radius: 50%; background: var(--accent-red); color: white;
-            font-size: 32px; font-weight: 900; border: none; z-index: 2; display: flex; flex-direction: column; 
-            align-items: center; justify-content: center; cursor: pointer; transition: transform 0.1s;
-            box-shadow: 0 0 20px rgba(239, 68, 68, 0.4);
+        /* SOS Specific Colors & Animations */
+        :root {
+            --sos-red: #ef4444;
+            --sos-dark-red: #dc2626;
+            --sos-light-red: #fee2e2;
         }
-        .hold-btn:active { transform: scale(0.95); }
+        body.dark-mode {
+            --sos-light-red: rgba(239, 68, 68, 0.15);
+        }
+
+        /* The Big Panic Button */
+        .panic-button-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 40px 0;
+            position: relative;
+        }
+        .panic-btn {
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--sos-red) 0%, #991b1b 100%);
+            color: white;
+            font-size: 32px;
+            font-weight: 900;
+            border: none;
+            box-shadow: 0 15px 35px rgba(239, 68, 68, 0.4);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            z-index: 2;
+            transition: transform 0.1s;
+        }
+        .panic-btn:active { transform: scale(0.95); }
+        .panic-btn span { font-size: 14px; font-weight: 600; opacity: 0.9; margin-top: 4px; letter-spacing: 1px; text-transform: uppercase; }
+
+        /* Radar Pulse Animation */
+        .pulse-ring {
+            position: absolute;
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            background: rgba(239, 68, 68, 0.4);
+            z-index: 1;
+            animation: pulse 2s infinite ease-out;
+        }
+        .pulse-ring:nth-child(2) { animation-delay: 0.6s; }
         
-        /* The Progress Ring */
-        .progress-ring { position: absolute; width: 100%; height: 100%; border-radius: 50%; border: 10px solid transparent; border-top-color: var(--accent-red); opacity: 0; transform: rotate(0deg); transition: opacity 0.2s; z-index: 1; }
-        .holding .progress-ring { opacity: 1; animation: spin-fill 3s linear forwards; }
-        @keyframes spin-fill { 0% { transform: rotate(0deg); border-right-color: transparent; border-bottom-color: transparent; border-left-color: transparent; } 
-                               25% { border-right-color: var(--accent-red); } 
-                               50% { border-bottom-color: var(--accent-red); } 
-                               75% { border-left-color: var(--accent-red); } 
-                               100% { transform: rotate(360deg); border-color: var(--accent-red); } }
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 1; }
+            100% { transform: scale(1.8); opacity: 0; }
+        }
+
+        /* Emergency Grid */
+        .emergency-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            padding: 0 16px;
+            margin-bottom: 24px;
+        }
+        .e-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 16px;
+            padding: 16px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .e-card:active { transform: scale(0.96); }
+        .e-icon {
+            width: 42px;
+            height: 42px;
+            border-radius: 12px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 20px;
+        }
         
-        /* Silent Mode Overlay */
-        #silent-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; z-index: 9999; opacity: 0.95; flex-direction: column; justify-content: center; align-items: center; color: #444; }
+        .section-header {
+            font-size: 12px;
+            font-weight: 800;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin: 0 16px 12px 16px;
+        }
     </style>
 </head>
 <body>
-    <div class="max-width-container" id="main-ui">
-        <city-topbar title="Emergency Shield"></city-topbar>
+    <div class="max-width-container">
         
-        <main style="padding: 10px 16px; margin-bottom: 80px;" class="flex-column gap-3">
+        <!-- CORE TOPBAR -->
+        <city-topbar title="Emergency SOS"></city-topbar>
+
+        <main style="margin-bottom: 90px;">
             
-            <!-- Tabs -->
-            <div class="sos-tabs">
-                <div class="sos-tab active" id="tab-btn-action" onclick="switchSosTab('action')">🚨 Action Mode</div>
-                <div class="sos-tab" id="tab-btn-info" onclick="switchSosTab('info')">📖 Directory & Rights</div>
+            <!-- ALERT BANNER -->
+            <div style="background: var(--sos-light-red); color: var(--sos-dark-red); padding: 12px 16px; font-size: 12px; font-weight: 600; text-align: center; display: flex; justify-content: center; align-items: center; gap: 8px;">
+                <span style="font-size: 16px;">⚠️</span> Use these services only in real emergencies.
             </div>
 
-            <!-- TAB 1: ACTION MODE -->
-            <div id="tab-action" class="flex-column gap-4">
-                
-                <div class="hold-btn-wrapper" id="hold-wrapper">
-                    <div class="progress-ring"></div>
-                    <button class="hold-btn" id="sos-btn" onmousedown="startHold()" onmouseup="cancelHold()" onmouseleave="cancelHold()" ontouchstart="startHold()" ontouchend="cancelHold()">
-                        <span>SOS</span>
-                        <span style="font-size: 11px; font-weight: 600; opacity: 0.8; margin-top: 5px;">Hold 3 Sec</span>
+            <!-- MAIN PANIC BUTTON -->
+            <div class="panic-button-container">
+                <div class="pulse-ring"></div>
+                <div class="pulse-ring"></div>
+                <!-- One Tap Call to 112 (National Emergency Number) -->
+                <a href="tel:112" style="text-decoration: none;">
+                    <button class="panic-btn">
+                        SOS
+                        <span>Call 112</span>
                     </button>
-                </div>
-                <p style="text-align: center; font-size: 11px; color: var(--text-muted); margin-top: -10px;">Sends GPS, SMS Alerts & Auto-Calls trusted contacts.</p>
+                </a>
+            </div>
 
-                <!-- Advanced Action Controls -->
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
-                    <div class="cp-card" style="padding: 16px; text-align: center; margin: 0; cursor: pointer; border: 1px solid #000;" onclick="activateSilentMode()">
-                        <div style="font-size: 24px; margin-bottom: 8px;">📴</div>
-                        <div style="font-size: 12px; font-weight: 700; color: var(--text-main);">Silent Panic</div>
-                        <div style="font-size: 10px; color: var(--text-muted);">Dark screen, no sound</div>
+            <!-- QUICK CALL GRID -->
+            <div class="section-header">National Helplines</div>
+            <div class="emergency-grid">
+                <a href="tel:100" class="e-card" style="text-decoration: none; color: inherit;">
+                    <div class="e-icon" style="background: rgba(59, 130, 246, 0.15); color: #2563eb;">🚓</div>
+                    <div>
+                        <div style="font-size: 14px; font-weight: 800;">Police</div>
+                        <div style="font-size: 11px; color: var(--text-muted); font-weight: 600;">Dial 100</div>
                     </div>
-                    <div class="cp-card" style="padding: 16px; text-align: center; margin: 0; cursor: pointer; border: 1px solid var(--accent-red); background: rgba(239, 68, 68, 0.05);" onclick="playLoudAlarm()">
-                        <div style="font-size: 24px; margin-bottom: 8px;">🔊</div>
-                        <div style="font-size: 12px; font-weight: 700; color: var(--accent-red);">Loud Alarm</div>
-                        <div style="font-size: 10px; color: var(--accent-red); opacity: 0.8;">Plays loud siren</div>
+                </a>
+                <a href="tel:102" class="e-card" style="text-decoration: none; color: inherit;">
+                    <div class="e-icon" style="background: rgba(16, 185, 129, 0.15); color: #10b981;">🚑</div>
+                    <div>
+                        <div style="font-size: 14px; font-weight: 800;">Ambulance</div>
+                        <div style="font-size: 11px; color: var(--text-muted); font-weight: 600;">Dial 102</div>
                     </div>
-                </div>
+                </a>
+                <a href="tel:101" class="e-card" style="text-decoration: none; color: inherit;">
+                    <div class="e-icon" style="background: rgba(245, 158, 11, 0.15); color: #f59e0b;">🚒</div>
+                    <div>
+                        <div style="font-size: 14px; font-weight: 800;">Fire Brigade</div>
+                        <div style="font-size: 11px; color: var(--text-muted); font-weight: 600;">Dial 101</div>
+                    </div>
+                </a>
+                <a href="tel:1091" class="e-card" style="text-decoration: none; color: inherit;">
+                    <div class="e-icon" style="background: rgba(217, 70, 239, 0.15); color: #d946ef;">🛡️</div>
+                    <div>
+                        <div style="font-size: 14px; font-weight: 800;">Women Help</div>
+                        <div style="font-size: 11px; color: var(--text-muted); font-weight: 600;">Dial 1091</div>
+                    </div>
+                </a>
+            </div>
 
-                <div class="cp-card flex-between" style="padding: 14px;">
-                    <div style="flex: 1;">
-                        <div style="font-size: 13px; font-weight: 700;">Live GPS Tracking (Active)</div>
-                        <div style="font-size: 10px; color: var(--text-muted);">Broadcasting to 2 trusted contacts</div>
+            <!-- LOCAL CONTACTS (Bhatpara Specific) -->
+            <div class="section-header">Local Contacts</div>
+            <div style="padding: 0 16px; display: flex; flex-direction: column; gap: 12px; margin-bottom: 24px;">
+                <div class="cp-card flex-between" style="margin: 0; padding: 12px 16px;">
+                    <div>
+                        <div style="font-size: 14px; font-weight: 800; margin-bottom: 2px;">Bhatpara Police Station</div>
+                        <div style="font-size: 11px; color: var(--text-muted);">Local Jurisdiction</div>
                     </div>
-                    <div style="width: 12px; height: 12px; background: var(--accent-green); border-radius: 50%; box-shadow: 0 0 10px var(--accent-green); animation: pulseRed 2s infinite;"></div>
+                    <a href="tel:100" style="background: rgba(59, 130, 246, 0.1); color: #2563eb; width: 36px; height: 36px; border-radius: 50%; display: flex; justify-content: center; align-items: center; text-decoration: none; font-size: 16px;">📞</a>
+                </div>
+                <div class="cp-card flex-between" style="margin: 0; padding: 12px 16px;">
+                    <div>
+                        <div style="font-size: 14px; font-weight: 800; margin-bottom: 2px;">State General Hospital</div>
+                        <div style="font-size: 11px; color: var(--text-muted);">Bhatpara, North 24 Parganas</div>
+                    </div>
+                    <a href="tel:102" style="background: rgba(16, 185, 129, 0.1); color: #10b981; width: 36px; height: 36px; border-radius: 50%; display: flex; justify-content: center; align-items: center; text-decoration: none; font-size: 16px;">📞</a>
                 </div>
             </div>
 
-            <!-- TAB 2: DIRECTORY & RIGHTS -->
-            <div id="tab-info" class="flex-column gap-4" style="display: none;">
-                
-                <!-- Local Police Connector -->
-                <div class="cp-card" style="margin: 0; background: linear-gradient(135deg, rgba(59,130,246,0.1) 0%, rgba(13,17,23,0) 100%); border-left: 4px solid var(--accent-blue);">
-                    <div class="flex-between">
-                        <div class="d-flex gap-3 align-items-center">
-                            <span style="font-size: 24px;">🚔</span>
-                            <div>
-                                <div style="font-size: 13px; font-weight: 700;">Bhatpara Police Station</div>
-                                <div style="font-size: 11px; color: var(--text-muted);">Distance: 1.2 KM (Jurisdiction)</div>
-                            </div>
-                        </div>
-                        <button class="cp-btn-primary" style="width: auto; padding: 6px 12px; font-size: 11px;" onclick="window.open('tel:100')">Call</button>
+            <!-- SHARE LIVE LOCATION FEATURE -->
+            <div style="padding: 0 16px;">
+                <div class="cp-card" style="margin: 0; background: var(--card-bg); border-left: 4px solid #ef4444; padding: 16px; display: flex; gap: 12px; align-items: center;" onclick="showToast('Live location tracking activated.')">
+                    <div style="font-size: 24px;">📍</div>
+                    <div style="flex: 1;">
+                        <div style="font-size: 14px; font-weight: 800; margin-bottom: 4px;">Share Live Location</div>
+                        <div style="font-size: 11px; color: var(--text-muted); line-height: 1.4;">Send your real-time GPS coordinates to emergency contacts instantly.</div>
                     </div>
-                </div>
-
-                <!-- Specialized Helplines -->
-                <div>
-                    <h4 style="font-size: 12px; color: var(--text-muted); margin: 0 0 10px 0; font-weight: 700;">National Helplines</h4>
-                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
-                        <div class="cp-card flex-between" style="padding: 10px; margin:0;" onclick="window.open('tel:1091')">
-                            <span style="font-size: 12px; font-weight: 600;">Women Helpline</span> <span style="color:var(--accent-red); font-weight: 800;">1091</span>
-                        </div>
-                        <div class="cp-card flex-between" style="padding: 10px; margin:0;" onclick="window.open('tel:102')">
-                            <span style="font-size: 12px; font-weight: 600;">Ambulance</span> <span style="color:var(--accent-red); font-weight: 800;">102</span>
-                        </div>
-                        <div class="cp-card flex-between" style="padding: 10px; margin:0;" onclick="window.open('tel:1098')">
-                            <span style="font-size: 12px; font-weight: 600;">Child Helpline</span> <span style="color:var(--accent-red); font-weight: 800;">1098</span>
-                        </div>
-                        <div class="cp-card flex-between" style="padding: 10px; margin:0;" onclick="window.open('tel:112')">
-                            <span style="font-size: 12px; font-weight: 600;">All-in-One (Emergency)</span> <span style="color:var(--accent-red); font-weight: 800;">112</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Citizen Rights Guide -->
-                <div class="cp-card" style="padding: 0; overflow: hidden; margin: 0;">
-                    <div style="padding: 12px 16px; background: rgba(150,150,150,0.05); font-size: 12px; font-weight: 700;">Citizen Legal Rights & Safety Guide</div>
-                    <div style="padding: 12px 16px; border-bottom: 1px solid var(--card-border);">
-                        <div style="font-size: 13px; font-weight: 700; color: var(--accent-blue);">Right to File Zero FIR</div>
-                        <div style="font-size: 11px; color: var(--text-muted); margin-top: 4px; line-height: 1.4;">A police station cannot refuse to register an FIR based on jurisdiction. You can file a Zero FIR anywhere.</div>
-                    </div>
-                    <div style="padding: 12px 16px; border-bottom: 1px solid var(--card-border);">
-                        <div style="font-size: 13px; font-weight: 700; color: var(--accent-blue);">Women's Arrest Rights</div>
-                        <div style="font-size: 11px; color: var(--text-muted); margin-top: 4px; line-height: 1.4;">Women cannot be arrested before 6 AM and after 6 PM except in special cases with magistrate's permission.</div>
-                    </div>
-                    <div style="padding: 12px 16px;">
-                        <div style="font-size: 13px; font-weight: 700; color: var(--accent-blue);">Traffic Police Checks</div>
-                        <div style="font-size: 11px; color: var(--text-muted); margin-top: 4px; line-height: 1.4;">Only an officer of Sub-Inspector (SI) rank or above can penalize you for traffic violations.</div>
-                    </div>
+                    <span style="color: var(--text-muted); font-size: 22px;">›</span>
                 </div>
             </div>
 
         </main>
+
+        <!-- GLOBAL BOTTOM NAVIGATION -->
+        <bottom-nav></bottom-nav>
     </div>
 
-    <!-- Fake Silent Mode Overlay -->
-    <div id="silent-overlay">
-        <div style="font-size: 40px; margin-bottom: 20px;">🛡️</div>
-        <div style="font-size: 14px; font-weight: 700;">Silent SOS Active</div>
-        <div style="font-size: 10px; opacity: 0.5; margin-top: 5px;">Alerts sent. Location tracking in background.</div>
-        <button style="margin-top: 50px; background: transparent; border: 1px solid #444; color: #444; padding: 10px 20px; border-radius: 8px;" onclick="deactivateSilentMode()">Deactivate (Enter PIN)</button>
-    </div>
-
+    <!-- CORE SCRIPTS -->
     <script src="https://anupsharmasharma012-debug.github.io/citypulse-core/config.js"></script>
     <script src="https://anupsharmasharma012-debug.github.io/citypulse-core/store.js"></script>
     <script src="https://anupsharmasharma012-debug.github.io/citypulse-core/components.js"></script>
-
+    
     <script>
-        // TAB SWITCHING LOGIC
-        function switchSosTab(tab) {
-            document.getElementById('tab-action').style.display = tab === 'action' ? 'flex' : 'none';
-            document.getElementById('tab-info').style.display = tab === 'info' ? 'flex' : 'none';
-            document.getElementById('tab-btn-action').className = tab === 'action' ? 'sos-tab active' : 'sos-tab';
-            document.getElementById('tab-btn-info').className = tab === 'info' ? 'sos-tab active' : 'sos-tab';
-        }
-
-        // HOLD-TO-TRIGGER LOGIC
-        let holdTimer;
-        let isHolding = false;
-        
-        function startHold() {
-            isHolding = true;
-            document.getElementById('hold-wrapper').classList.add('holding');
-            document.getElementById('sos-btn').style.transform = 'scale(0.95)';
-            
-            // 3 seconds timer
-            holdTimer = setTimeout(() => {
-                if(isHolding) {
-                    triggerSOS();
-                }
-            }, 3000);
-        }
-
-        function cancelHold() {
-            if(!isHolding) return;
-            isHolding = false;
-            clearTimeout(holdTimer);
-            document.getElementById('hold-wrapper').classList.remove('holding');
-            document.getElementById('sos-btn').style.transform = 'scale(1)';
-        }
-
-        function triggerSOS() {
-            cancelHold(); // reset UI
-            showLoader();
-            setTimeout(() => {
-                hideLoader();
-                // Screen Flashes Red
-                document.body.style.backgroundColor = "rgba(239, 68, 68, 0.2)";
-                showToast("SOS ACTIVATED! Police & Contacts Notified.");
-                setTimeout(() => { document.body.style.backgroundColor = "var(--bg-color)"; }, 3000);
-            }, 1000);
-        }
-
-        // SILENT MODE LOGIC
-        function activateSilentMode() {
-            document.getElementById('main-ui').style.display = 'none';
-            document.getElementById('silent-overlay').style.display = 'flex';
-        }
-        function deactivateSilentMode() {
-            let pin = prompt("Enter 4-Digit Security PIN to deactivate:");
-            if(pin) {
-                document.getElementById('main-ui').style.display = 'block';
-                document.getElementById('silent-overlay').style.display = 'none';
+        // Check saved theme on load
+        window.addEventListener('DOMContentLoaded', () => {
+            const savedTheme = localStorage.getItem('cp_theme');
+            if (savedTheme === 'dark') {
+                document.body.classList.add('dark-mode');
             }
-        }
-
-        // LOUD ALARM LOGIC (Visual simulation + System Beep simulation)
-        function playLoudAlarm() {
-            showToast("⚠️ LOUD SIREN ACTIVATED ⚠️");
-            // Native audio simulation via web audio API is possible, but for UI visual:
-            let i = 0;
-            let flash = setInterval(() => {
-                document.body.style.backgroundColor = i % 2 === 0 ? "var(--accent-red)" : "var(--bg-color)";
-                i++;
-                if(i > 6) { clearInterval(flash); document.body.style.backgroundColor = "var(--bg-color)"; }
-            }, 300);
-        }
+        });
     </script>
 </body>
 </html>
