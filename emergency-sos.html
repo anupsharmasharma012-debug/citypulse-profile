@@ -11,23 +11,16 @@
         :root {
             --sos-red: #ef4444;
             --sos-dark-red: #b91c1c;
-            --sos-maroon: #4c0519; /* Deep Maroon */
+            --sos-maroon: #500716; /* Deep Maroon */
         }
 
-        /* CUSTOM MAROON FADE BACKGROUND */
-        body {
+        /* FIX: OVERRIDE CONTAINER BACKGROUND INSTEAD OF BODY */
+        .max-width-container {
             background: linear-gradient(180deg, var(--sos-maroon) 0%, #9f1239 12%, var(--bg-color) 35%) !important;
-            background-repeat: no-repeat;
-            background-attachment: fixed;
+            min-height: 100vh;
         }
-        body.dark-mode {
+        body.dark-mode .max-width-container {
             background: linear-gradient(180deg, var(--sos-maroon) 0%, #7f1d1d 15%, var(--bg-color) 40%) !important;
-        }
-
-        /* Make Topbar Transparent to show Maroon */
-        city-topbar {
-            --bg-color: transparent !important;
-            color: white !important;
         }
 
         /* The Big Panic Button (Hold to Trigger) */
@@ -60,7 +53,7 @@
             -webkit-user-select: none;
         }
         .panic-btn:active { 
-            transform: scale(0.90); /* Shrinks when held */
+            transform: scale(0.90);
             background: #7f1d1d;
         }
         .panic-btn span { font-size: 11px; font-weight: 700; opacity: 0.9; margin-top: 6px; letter-spacing: 1px; text-transform: uppercase; text-align: center; }
@@ -157,13 +150,13 @@
 <body>
     <div class="max-width-container">
         
-        <!-- TOPBAR (Transparent so maroon background shows) -->
-        <div style="padding: 14px 16px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100;">
-            <div style="display: flex; align-items: center; gap: 10px; color: white;">
-                <button onclick="window.history.back()" style="background: transparent; border: none; font-size: 20px; cursor: pointer; color: inherit;">←</button>
-                <span style="font-size: 16px; font-weight: 700;">Emergency SOS</span>
+        <!-- FIXED TOPBAR (With explicitly visible white text) -->
+        <div style="padding: 14px 16px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; color: #ffffff !important;">
+            <div style="display: flex; align-items: center; gap: 10px;">
+                <button onclick="window.history.back()" style="background: transparent; border: none; font-size: 20px; cursor: pointer; color: #ffffff !important;">←</button>
+                <span style="font-size: 16px; font-weight: 700; color: #ffffff !important;">Emergency SOS</span>
             </div>
-            <div style="color: white; font-size: 20px;" onclick="showSOSToast('Add to Home Screen for Lock Screen Access')">⚙️</div>
+            <div style="font-size: 20px; cursor: pointer;" onclick="showSOSToast('Add to Home Screen for Lock Screen Access')">⚙️</div>
         </div>
 
         <!-- SOS NOTIFICATION TOAST -->
@@ -188,7 +181,7 @@
                 </button>
             </div>
 
-            <!-- EMERGENCY ACTION TOOLS (Added from Notes) -->
+            <!-- EMERGENCY ACTION TOOLS -->
             <div class="tools-row">
                 <div class="tool-btn" onclick="showSOSToast('🔇 Silent Panic Mode Activated! Alerts sent without noise.', true)">
                     <span style="font-size: 22px;">📴</span>
@@ -300,7 +293,7 @@
                 </div>
             </div>
 
-            <!-- LEGAL RIGHTS & SAFETY GUIDE (Added from Notes) -->
+            <!-- LEGAL RIGHTS & SAFETY GUIDE -->
             <div class="section-header">Know Your Rights</div>
             <div style="padding: 0 16px;">
                 <div class="emergency-grid" style="padding: 0; margin-bottom: 0;">
@@ -353,20 +346,18 @@
         let progress = 0;
 
         function startHold(e) {
-            e.preventDefault(); // Prevent accidental scrolling
+            e.preventDefault(); 
             progressBar.style.display = 'block';
             progress = 0;
             
-            // Fill bar over 3 seconds
             progressInterval = setInterval(() => {
-                progress += 3.33; // ~100% in 3 seconds
+                progress += 3.33; 
                 progressBar.style.width = progress + '%';
                 if(progress >= 100) {
                     clearInterval(progressInterval);
                 }
             }, 100);
 
-            // Trigger SOS after 3 seconds
             holdTimer = setTimeout(() => {
                 triggerSmartSOS();
                 resetHold();
