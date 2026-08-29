@@ -6,7 +6,6 @@
     <title>CityPulse - My Profile</title>
     <link rel="stylesheet" href="https://anupsharmasharma012-debug.github.io/citypulse-core/style.css">
     <style>
-        /* Dynamic Theme Variables (Default Light, overridden if dark class is active) */
         :root {
             --bg-color: #f8fafc;
             --card-bg: #ffffff;
@@ -30,13 +29,12 @@
         
         .profile-banner { background: linear-gradient(135deg, #2563eb 100%, #1d4ed8 0%); padding: 24px 16px 50px 16px; color: white; }
 
-        /* Toggle Switch */
-        .toggle-switch { position: relative; display: inline-block; width: 40px; height: 22px; }
-        .toggle-switch input { opacity: 0; width: 0; height: 0; }
-        .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #cbd5e1; transition: .4s; border-radius: 22px; }
-        .slider:before { position: absolute; content: ""; height: 16px; width: 16px; left: 3px; bottom: 3px; background-color: white; transition: .4s; border-radius: 50%; }
-        input:checked + .slider { background-color: #2563eb; }
-        input:checked + .slider:before { transform: translateX(18px); }
+        /* Bottom Sheet Modal for Language Selection */
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); display: none; justify-content: center; align-items: flex-end; z-index: 999; }
+        .modal-sheet { background: var(--card-bg); width: 100%; max-width: 480px; border-radius: 20px 20px 0 0; padding: 20px; animation: slideUp 0.3s ease-out; }
+        @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
+        .lang-option { padding: 12px 16px; border-radius: 10px; margin-bottom: 8px; font-weight: 600; cursor: pointer; border: 1px solid var(--card-border); display: flex; justify-content: space-between; align-items: center; }
+        .lang-option:active { background: rgba(37,99,235,0.1); border-color: #2563eb; }
     </style>
 </head>
 <body>
@@ -79,7 +77,7 @@
             </div>
 
             <!-- GROUP 1: PREFERENCES -->
-            <div class="group-title">Preferences</div>
+            <div class="group-title">Preferences & Safety</div>
             <div class="cp-card" style="padding: 0; overflow: hidden; margin: 0; border-radius: 14px; background: var(--card-bg);">
                 <a href="security.html" class="profile-row">
                     <div class="d-flex gap-3 align-items-center"><span style="font-size: 18px;">🛡️</span> Account Safety & Security</div>
@@ -112,25 +110,22 @@
                 </div>
             </div>
 
-            <!-- GROUP 3: APP PREFERENCES (Dark Mode Toggle & Notifications here) -->
+            <!-- GROUP 3: APP PREFERENCES -->
             <div class="group-title">App Preferences</div>
             <div class="cp-card" style="padding: 0; overflow: hidden; margin: 0; border-radius: 14px; background: var(--card-bg);">
-                <a href="settings.html" class="profile-row">
+                <!-- Language selection triggers Bottom Sheet Modal directly -->
+                <div class="profile-row" onclick="openLangModal()">
                     <div class="d-flex gap-3 align-items-center"><span style="font-size: 18px;">🗣️</span> Language Selection</div>
-                    <span style="color: var(--text-muted);">English ›</span>
-                </a>
+                    <span style="color: var(--text-muted);" id="currentLangText">English ›</span>
+                </div>
                 <a href="notifications-setup.html" class="profile-row">
-                    <div class="d-flex gap-3 align-items-center"><span style="font-size: 18px;">🔔</span> Notifications & DND</div>
+                    <div class="d-flex gap-3 align-items-center"><span style="font-size: 18px;">🔔</span> Notifications & Alerts</div>
                     <span style="color: var(--text-muted);">›</span>
                 </a>
-                <!-- Dark Mode Toggle Button Restored -->
-                <div class="profile-row">
-                    <div class="d-flex gap-3 align-items-center"><span style="font-size: 18px;">🌙</span> Dark Mode Theme</div>
-                    <label class="toggle-switch">
-                        <input type="checkbox" id="themeToggle" onchange="toggleDarkMode(this)">
-                        <span class="slider"></span>
-                    </label>
-                </div>
+                <a href="settings.html" class="profile-row">
+                    <div class="d-flex gap-3 align-items-center"><span style="font-size: 18px;">⚙️</span> App Settings & Theme</div>
+                    <span style="color: var(--text-muted);">›</span>
+                </a>
             </div>
 
             <!-- GROUP 4: OTHERS -->
@@ -155,30 +150,41 @@
         <bottom-nav></bottom-nav>
     </div>
 
+    <!-- LANGUAGE BOTTOM SHEET MODAL -->
+    <div class="modal-overlay" id="langModal" onclick="closeLangModal(event)">
+        <div class="modal-sheet" onclick="event.stopPropagation()">
+            <div class="flex-between" style="margin-bottom: 16px;">
+                <h3 style="margin: 0; font-size: 16px;">Select Language</h3>
+                <span style="cursor: pointer; font-size: 18px; font-weight: bold;" onclick="closeLangModal()">✕</span>
+            </div>
+            <div class="lang-option" onclick="setLanguage('English')"><span>🇬🇧 English</span> <span>✓</span></div>
+            <div class="lang-option" onclick="setLanguage('हिन्दी (Hindi)')"><span>🇮🇳 हिन्दी (Hindi)</span></div>
+            <div class="lang-option" onclick="setLanguage('বাংলা (Bengali)')"><span>🇮🇳 বাংলা (Bengali)</span></div>
+        </div>
+    </div>
+
     <script src="https://anupsharmasharma012-debug.github.io/citypulse-core/config.js"></script>
     <script src="https://anupsharmasharma012-debug.github.io/citypulse-core/store.js"></script>
     <script src="https://anupsharmasharma012-debug.github.io/citypulse-core/components.js"></script>
     <script>
-        // Check saved theme on load
+        // Theme check on load
         window.addEventListener('DOMContentLoaded', () => {
-            const savedTheme = localStorage.getItem('cp_theme');
-            if (savedTheme === 'dark') {
+            if (localStorage.getItem('cp_theme') === 'dark') {
                 document.body.classList.add('dark-mode');
-                document.getElementById('themeToggle').checked = true;
             }
         });
 
-        // Toggle Dark Mode function
-        function toggleDarkMode(checkbox) {
-            if (checkbox.checked) {
-                document.body.classList.add('dark-mode');
-                localStorage.setItem('cp_theme', 'dark');
-                showToast('Dark Mode Enabled');
-            } else {
-                document.body.classList.remove('dark-mode');
-                localStorage.setItem('cp_theme', 'light');
-                showToast('Light Mode Enabled');
-            }
+        // Language Modal Logic
+        function openLangModal() {
+            document.getElementById('langModal').style.display = 'flex';
+        }
+        function closeLangModal() {
+            document.getElementById('langModal').style.display = 'none';
+        }
+        function setLanguage(langName) {
+            document.getElementById('currentLangText').innerText = langName + ' ›';
+            showToast('Language changed to ' + langName);
+            closeLangModal();
         }
     </script>
 </body>
