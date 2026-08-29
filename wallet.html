@@ -3,75 +3,299 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CityPulse - Wallet & History</title>
+    <title>CityPulse Pay - Wallet</title>
+    <!-- Core Global Design System -->
     <link rel="stylesheet" href="https://anupsharmasharma012-debug.github.io/citypulse-core/style.css">
+    <style>
+        /* WALLET SPECIFIC COLORS */
+        :root {
+            --cp-blue: #1e3a8a;
+            --cp-light-blue: #3b82f6;
+            --cp-green: #10b981;
+            --cp-red: #ef4444;
+        }
+
+        /* Seamless Header Background (Deep Blue) */
+        .wallet-header-wrapper {
+            background: linear-gradient(135deg, var(--cp-blue) 0%, #1e40af 100%);
+            padding-bottom: 60px; /* Space for the overlapping card */
+            border-bottom-left-radius: 30px;
+            border-bottom-right-radius: 30px;
+            position: relative;
+        }
+
+        /* Override Topbar for dark background */
+        city-topbar { display: block; }
+        city-topbar > div { background: transparent !important; border-bottom: none !important; color: white !important; }
+        city-topbar button { color: white !important; }
+
+        /* THE PREMIUM BALANCE CARD (Overlaps the header) */
+        .balance-card {
+            margin: -45px 16px 24px 16px;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0.05) 100%);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            padding: 24px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Decorative Background elements inside the card */
+        .balance-card::before {
+            content: ''; position: absolute; top: -30px; right: -30px;
+            width: 120px; height: 120px; border-radius: 50%;
+            background: radial-gradient(circle, rgba(59,130,246,0.5) 0%, transparent 70%);
+            z-index: 0;
+        }
+        .card-content { position: relative; z-index: 1; }
+
+        .balance-title { font-size: 13px; font-weight: 600; opacity: 0.8; margin-bottom: 8px; display: flex; align-items: center; gap: 8px; }
+        .balance-amount { font-size: 36px; font-weight: 900; letter-spacing: -1px; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
+        
+        .add-money-btn {
+            background: white; color: var(--cp-blue); font-size: 13px; font-weight: 800;
+            padding: 12px 20px; border-radius: 12px; display: inline-flex; align-items: center; gap: 8px;
+            border: none; cursor: pointer; transition: transform 0.2s; box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+        .add-money-btn:active { transform: scale(0.95); }
+
+        /* QUICK ACTIONS GRID */
+        .action-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; padding: 0 16px 24px 16px; }
+        .action-item { display: flex; flex-direction: column; align-items: center; gap: 8px; cursor: pointer; -webkit-tap-highlight-color: transparent; }
+        .action-item:active .action-icon { transform: scale(0.92); }
+        .action-icon {
+            width: 54px; height: 54px; border-radius: 16px;
+            background: var(--card-bg); border: 1px solid var(--card-border);
+            display: flex; justify-content: center; align-items: center;
+            font-size: 24px; box-shadow: 0 4px 12px rgba(0,0,0,0.03); transition: transform 0.2s;
+        }
+        .action-text { font-size: 11px; font-weight: 700; color: var(--text-main); text-align: center; }
+
+        /* PROMO BANNER */
+        .wallet-promo {
+            margin: 0 16px 24px 16px; background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(52, 211, 153, 0.2) 100%);
+            border: 1px solid rgba(16, 185, 129, 0.2); border-radius: 16px; padding: 16px;
+            display: flex; align-items: center; gap: 12px; cursor: pointer;
+        }
+
+        /* RECENT TRANSACTIONS */
+        .section-header { font-size: 14px; font-weight: 800; color: var(--text-main); margin: 0 16px 16px 16px; display: flex; justify-content: space-between; align-items: center; }
+        .view-all { font-size: 12px; color: var(--accent-blue); font-weight: 700; cursor: pointer; }
+        
+        .tx-list { padding: 0 16px 100px 16px; display: flex; flex-direction: column; gap: 12px; }
+        .tx-item {
+            background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 16px;
+            padding: 16px; display: flex; justify-content: space-between; align-items: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.02); cursor: pointer;
+        }
+        .tx-item:active { transform: scale(0.98); }
+        .tx-left { display: flex; align-items: center; gap: 12px; }
+        .tx-icon { width: 42px; height: 42px; border-radius: 12px; display: flex; justify-content: center; align-items: center; font-size: 20px; }
+        .tx-title { font-size: 14px; font-weight: 800; color: var(--text-main); margin-bottom: 2px; }
+        .tx-date { font-size: 11px; color: var(--text-muted); font-weight: 600; }
+        .tx-right { text-align: right; }
+        .tx-amount { font-size: 15px; font-weight: 800; margin-bottom: 2px; }
+        .tx-status { font-size: 10px; font-weight: 700; text-transform: uppercase; }
+
+        .amt-minus { color: var(--text-main); }
+        .amt-plus { color: var(--cp-green); }
+
+        /* TOAST */
+        #custom-toast {
+            position: fixed; bottom: -100px; left: 50%; transform: translateX(-50%);
+            background: #1f2937; color: #ffffff; padding: 12px 24px; border-radius: 30px;
+            font-size: 12px; font-weight: 600; z-index: 9999; box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            transition: bottom 0.3s ease; pointer-events: none; white-space: nowrap;
+        }
+        #custom-toast.show { bottom: 80px; }
+    </style>
 </head>
 <body>
-    <div class="max-width-container">
-        <city-topbar title="Wallet & Transactions"></city-topbar>
+    <div class="max-width-container" style="background: var(--bg-color);">
         
-        <main style="padding: 10px 16px; margin-bottom: 80px;" class="flex-column gap-4">
-            
-            <!-- Wallet Balance Card -->
-            <div class="cp-card" style="background: linear-gradient(135deg, var(--accent-blue) 0%, #1e3a8a 100%); color: #fff; border: none; padding: 20px;">
-                <div style="font-size: 12px; opacity: 0.8; font-weight: 600;">Total CP Balance</div>
-                <div class="flex-between" style="margin-top: 5px;">
-                    <div style="font-size: 32px; font-weight: 800;">₹ 1,250.00</div>
-                    <button style="background: rgba(255,255,255,0.2); border: none; color: #fff; padding: 8px 16px; border-radius: 20px; font-weight: 700; cursor: pointer;" onclick="showToast('Gateway Opening...')">+ Add Money</button>
-                </div>
-                <div style="margin-top: 15px; font-size: 11px; opacity: 0.8;">CP Coins: 🪙 150 (₹15 value)</div>
-            </div>
+        <!-- HEADER BACKGROUND -->
+        <div class="wallet-header-wrapper">
+            <city-topbar title="CityPulse Pay"></city-topbar>
+            <!-- Extra space to let the card float -->
+            <div style="height: 40px;"></div>
+        </div>
 
-            <!-- Quick Actions -->
-            <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; text-align: center;">
-                <div class="cp-card" style="padding: 12px; cursor: pointer;" onclick="showToast('Scanning QR...')">
-                    <div style="font-size: 24px; margin-bottom: 4px;">📷</div>
-                    <div style="font-size: 10px; font-weight: 700;">Scan & Pay</div>
-                </div>
-                <div class="cp-card" style="padding: 12px; cursor: pointer;">
-                    <div style="font-size: 24px; margin-bottom: 4px;">🎁</div>
-                    <div style="font-size: 10px; font-weight: 700;">Gift Cards</div>
-                </div>
-                <div class="cp-card" style="padding: 12px; cursor: pointer;">
-                    <div style="font-size: 24px; margin-bottom: 4px;">💸</div>
-                    <div style="font-size: 10px; font-weight: 700;">Send to Bank</div>
-                </div>
-            </div>
-
-            <!-- Transaction History -->
-            <div>
-                <h3 style="font-size: 14px; margin: 0 0 12px 0;">Recent Transactions</h3>
-                <div class="cp-card flex-column gap-2" style="padding: 0; overflow: hidden;">
-                    
-                    <div class="flex-between" style="padding: 16px; border-bottom: 1px solid var(--card-border);">
-                        <div class="d-flex gap-3 align-items-center">
-                            <div style="width: 40px; height: 40px; background: rgba(239, 68, 68, 0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 16px;">🚕</div>
-                            <div>
-                                <div style="font-size: 13px; font-weight: 700;">CityPulse Ride</div>
-                                <div style="font-size: 10px; color: var(--text-muted);">Today, 10:45 AM</div>
-                            </div>
-                        </div>
-                        <div style="font-size: 13px; font-weight: 700; color: var(--text-main);">- ₹ 120.00</div>
+        <main>
+            <!-- THE PREMIUM GLASS BALANCE CARD -->
+            <div class="balance-card">
+                <div class="card-content">
+                    <div class="balance-title">
+                        Available Balance 
+                        <span id="eye-icon" style="cursor: pointer; font-size: 16px;" onclick="toggleBalance()">👁️</span>
                     </div>
+                    <div class="balance-amount" id="balance-text">₹ 1,250.00</div>
+                    
+                    <button class="add-money-btn" onclick="showSafeToast('Opening Payment Gateway...')">
+                        <span style="font-size: 16px;">➕</span> Add Money
+                    </button>
+                </div>
+            </div>
 
-                    <div class="flex-between" style="padding: 16px; border-bottom: 1px solid var(--card-border);">
-                        <div class="d-flex gap-3 align-items-center">
-                            <div style="width: 40px; height: 40px; background: rgba(16, 185, 129, 0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 16px;">💳</div>
-                            <div>
-                                <div style="font-size: 13px; font-weight: 700;">Money Added</div>
-                                <div style="font-size: 10px; color: var(--text-muted);">Yesterday, 5:00 PM</div>
-                            </div>
+            <!-- QUICK ACTIONS -->
+            <div class="action-grid">
+                <div class="action-item" onclick="showSafeToast('Opening Camera for QR...')">
+                    <div class="action-icon" style="color: #2563eb; background: rgba(59, 130, 246, 0.1);">📱</div>
+                    <div class="action-text">Scan QR</div>
+                </div>
+                <div class="action-item" onclick="showSafeToast('Loading Contacts...')">
+                    <div class="action-icon" style="color: #8b5cf6; background: rgba(139, 92, 246, 0.1);">💸</div>
+                    <div class="action-text">Pay Phone</div>
+                </div>
+                <div class="action-item" onclick="showSafeToast('Opening Bank Transfer...')">
+                    <div class="action-icon" style="color: #059669; background: rgba(16, 185, 129, 0.1);">🏦</div>
+                    <div class="action-text">To Bank</div>
+                </div>
+                <div class="action-item" onclick="showSafeToast('Fetching History...')">
+                    <div class="action-icon" style="color: #ea580c; background: rgba(234, 88, 12, 0.1);">📜</div>
+                    <div class="action-text">History</div>
+                </div>
+            </div>
+
+            <!-- CASHBACK PROMO -->
+            <div class="wallet-promo" onclick="showSafeToast('Applying Grocery Promo...')">
+                <span style="font-size: 28px;">🎁</span>
+                <div>
+                    <div style="font-size: 13px; font-weight: 800; color: var(--text-main);">Get 5% Cashback!</div>
+                    <div style="font-size: 11px; font-weight: 600; color: var(--text-muted); margin-top: 2px;">Pay at Bhatpara local groceries using CityPulse Pay.</div>
+                </div>
+            </div>
+
+            <!-- RECENT TRANSACTIONS -->
+            <div class="section-header">
+                Recent Transactions
+                <span class="view-all" onclick="showSafeToast('Loading All Transactions...')">View All</span>
+            </div>
+            
+            <div class="tx-list">
+                <!-- Transaction 1: Grocery (Paid) -->
+                <div class="tx-item" onclick="showSafeToast('Transaction Details: Grocery')">
+                    <div class="tx-left">
+                        <div class="tx-icon" style="background: rgba(239, 68, 68, 0.1); color: #ef4444;">🛒</div>
+                        <div>
+                            <div class="tx-title">Bhatpara Grocery</div>
+                            <div class="tx-date">Today, 10:45 AM</div>
                         </div>
-                        <div style="font-size: 13px; font-weight: 700; color: var(--accent-green);">+ ₹ 500.00</div>
+                    </div>
+                    <div class="tx-right">
+                        <div class="tx-amount amt-minus">- ₹450</div>
+                        <div class="tx-status" style="color: var(--text-muted);">Paid</div>
+                    </div>
+                </div>
+
+                <!-- Transaction 2: Added Money -->
+                <div class="tx-item" onclick="showSafeToast('Transaction Details: Added from HDFC')">
+                    <div class="tx-left">
+                        <div class="tx-icon" style="background: rgba(16, 185, 129, 0.1); color: #10b981;">💳</div>
+                        <div>
+                            <div class="tx-title">Money Added</div>
+                            <div class="tx-date">Yesterday, 04:20 PM</div>
+                        </div>
+                    </div>
+                    <div class="tx-right">
+                        <div class="tx-amount amt-plus">+ ₹1000</div>
+                        <div class="tx-status" style="color: #10b981;">Success</div>
+                    </div>
+                </div>
+
+                <!-- Transaction 3: Services (Paid) -->
+                <div class="tx-item" onclick="showSafeToast('Transaction Details: Electricity Bill')">
+                    <div class="tx-left">
+                        <div class="tx-icon" style="background: rgba(59, 130, 246, 0.1); color: #3b82f6;">⚡</div>
+                        <div>
+                            <div class="tx-title">WBSEDCL Bill</div>
+                            <div class="tx-date">28 Aug, 09:15 AM</div>
+                        </div>
+                    </div>
+                    <div class="tx-right">
+                        <div class="tx-amount amt-minus">- ₹850</div>
+                        <div class="tx-status" style="color: var(--text-muted);">Paid</div>
+                    </div>
+                </div>
+
+                 <!-- Transaction 4: Failed Transfer -->
+                 <div class="tx-item" onclick="showSafeToast('Reason: Network Issue')">
+                    <div class="tx-left">
+                        <div class="tx-icon" style="background: rgba(107, 114, 128, 0.1); color: #6b7280;">👤</div>
+                        <div>
+                            <div class="tx-title">Ramesh Electrician</div>
+                            <div class="tx-date">26 Aug, 02:10 PM</div>
+                        </div>
+                    </div>
+                    <div class="tx-right">
+                        <div class="tx-amount amt-minus" style="color: #6b7280;">- ₹200</div>
+                        <div class="tx-status" style="color: #ef4444;">Failed</div>
                     </div>
                 </div>
             </div>
         </main>
+
+        <bottom-nav></bottom-nav>
     </div>
 
+    <!-- IN-APP TOAST -->
+    <div id="custom-toast"></div>
+
+    <!-- CORE SCRIPTS -->
     <script src="https://anupsharmasharma012-debug.github.io/citypulse-core/config.js"></script>
     <script src="https://anupsharmasharma012-debug.github.io/citypulse-core/store.js"></script>
     <script src="https://anupsharmasharma012-debug.github.io/citypulse-core/components.js"></script>
+    
+    <script>
+        // Check Dark Mode
+        window.addEventListener('DOMContentLoaded', () => {
+            if (localStorage.getItem('cp_theme') === 'dark') {
+                document.body.classList.add('dark-mode');
+            }
+            
+            // Fix Topbar Transparency in Wallet specifically
+            setTimeout(() => {
+                const topbar = document.querySelector('city-topbar');
+                if (topbar && topbar.firstElementChild) {
+                    topbar.firstElementChild.style.setProperty('background', 'transparent', 'important');
+                    topbar.firstElementChild.style.setProperty('border', 'none', 'important');
+                    // Change topbar icon/title text to white for this deep blue background
+                    topbar.style.color = "white";
+                }
+            }, 100);
+        });
+
+        // Toggle Balance Logic (Hide/Show)
+        let isBalanceHidden = false;
+        const actualBalance = "₹ 1,250.00";
+        const hiddenBalance = "••••••••";
+
+        function toggleBalance() {
+            const balanceEl = document.getElementById('balance-text');
+            const eyeIcon = document.getElementById('eye-icon');
+            
+            isBalanceHidden = !isBalanceHidden;
+            if (isBalanceHidden) {
+                balanceEl.innerText = hiddenBalance;
+                eyeIcon.innerText = "🔒";
+            } else {
+                balanceEl.innerText = actualBalance;
+                eyeIcon.innerText = "👁️";
+            }
+        }
+
+        // Custom Safe Toast for actions
+        function showSafeToast(msg) {
+            const toast = document.getElementById('custom-toast');
+            toast.innerText = msg;
+            toast.classList.add('show');
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 2500);
+        }
+    </script>
 </body>
 </html>
-
