@@ -10,108 +10,114 @@
         /* SOS Specific Colors & Animations */
         :root {
             --sos-red: #ef4444;
-            --sos-dark-red: #dc2626;
-            --sos-light-red: #fee2e2;
-        }
-        body.dark-mode {
-            --sos-light-red: rgba(239, 68, 68, 0.15);
+            --sos-dark-red: #b91c1c;
+            --sos-maroon: #4c0519; /* Deep Maroon */
         }
 
-        /* The Big Panic Button */
+        /* CUSTOM MAROON FADE BACKGROUND */
+        body {
+            background: linear-gradient(180deg, var(--sos-maroon) 0%, #9f1239 12%, var(--bg-color) 35%) !important;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+        }
+        body.dark-mode {
+            background: linear-gradient(180deg, var(--sos-maroon) 0%, #7f1d1d 15%, var(--bg-color) 40%) !important;
+        }
+
+        /* Make Topbar Transparent to show Maroon */
+        city-topbar {
+            --bg-color: transparent !important;
+            color: white !important;
+        }
+
+        /* The Big Panic Button (Hold to Trigger) */
         .panic-button-container {
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
-            padding: 40px 0;
+            padding: 20px 0 30px 0;
             position: relative;
         }
         .panic-btn {
             width: 180px;
             height: 180px;
             border-radius: 50%;
-            background: linear-gradient(135deg, var(--sos-red) 0%, #991b1b 100%);
+            background: linear-gradient(135deg, var(--sos-red) 0%, #7f1d1d 100%);
             color: white;
             font-size: 32px;
             font-weight: 900;
-            border: none;
-            box-shadow: 0 15px 35px rgba(239, 68, 68, 0.4);
+            border: 4px solid rgba(255,255,255,0.2);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
             cursor: pointer;
             z-index: 2;
-            transition: transform 0.1s;
+            transition: transform 0.2s, background 0.3s;
+            user-select: none;
+            -webkit-user-select: none;
         }
-        .panic-btn:active { transform: scale(0.95); }
-        .panic-btn span { font-size: 13px; font-weight: 600; opacity: 0.9; margin-top: 4px; letter-spacing: 0.5px; text-transform: uppercase; text-align: center; }
+        .panic-btn:active { 
+            transform: scale(0.90); /* Shrinks when held */
+            background: #7f1d1d;
+        }
+        .panic-btn span { font-size: 11px; font-weight: 700; opacity: 0.9; margin-top: 6px; letter-spacing: 1px; text-transform: uppercase; text-align: center; }
 
         /* Radar Pulse Animation */
         .pulse-ring {
             position: absolute;
+            top: 20px;
             width: 180px;
             height: 180px;
             border-radius: 50%;
-            background: rgba(239, 68, 68, 0.4);
+            background: rgba(239, 68, 68, 0.3);
             z-index: 1;
-            animation: pulse 2s infinite ease-out;
+            animation: pulse 2.5s infinite ease-out;
         }
-        .pulse-ring:nth-child(2) { animation-delay: 0.6s; }
+        .pulse-ring:nth-child(2) { animation-delay: 0.8s; }
         
         @keyframes pulse {
             0% { transform: scale(1); opacity: 1; }
-            100% { transform: scale(1.8); opacity: 0; }
+            100% { transform: scale(2); opacity: 0; }
         }
 
-        /* Emergency Grid */
-        .emergency-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
+        /* Emergency Action Tools (Siren & Silent) */
+        .tools-row {
+            display: flex;
             gap: 12px;
             padding: 0 16px;
             margin-bottom: 24px;
         }
-        .e-card {
-            background: var(--card-bg);
-            border: 1px solid var(--card-border);
-            border-radius: 16px;
-            padding: 14px 12px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
+        .tool-btn {
+            flex: 1;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 14px 10px;
+            border-radius: 14px;
+            color: white;
+            text-align: center;
+            font-size: 12px;
+            font-weight: 700;
             cursor: pointer;
-            transition: transform 0.2s, box-shadow 0.2s;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
         }
+        .tool-btn:active { transform: scale(0.95); }
+
+        /* Emergency Grid */
+        .emergency-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; padding: 0 16px; margin-bottom: 24px; }
+        .e-card { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 16px; padding: 14px 12px; display: flex; align-items: center; gap: 10px; cursor: pointer; transition: transform 0.2s; box-shadow: 0 4px 10px rgba(0,0,0,0.03); }
         .e-card:active { transform: scale(0.96); }
-        .e-icon {
-            width: 38px;
-            height: 38px;
-            border-radius: 12px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 18px;
-        }
-        .call-badge {
-            background: rgba(239, 68, 68, 0.1);
-            color: var(--sos-red);
-            width: 26px;
-            height: 26px;
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 12px;
-        }
+        .e-icon { width: 38px; height: 38px; border-radius: 12px; display: flex; justify-content: center; align-items: center; font-size: 18px; }
+        .call-badge { background: rgba(239, 68, 68, 0.1); color: var(--sos-red); width: 26px; height: 26px; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 12px; }
         
-        .section-header {
-            font-size: 12px;
-            font-weight: 800;
-            color: var(--text-muted);
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin: 0 16px 12px 16px;
-        }
+        .section-header { font-size: 12px; font-weight: 800; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; margin: 0 16px 12px 16px; }
 
         /* SOS Custom Toast */
         #sos-toast {
@@ -135,13 +141,30 @@
             max-width: 90%;
         }
         #sos-toast.show { top: 70px; }
+
+        /* Progress Bar for Hold */
+        #hold-progress {
+            width: 0%;
+            height: 4px;
+            background: #fff;
+            border-radius: 2px;
+            margin-top: 8px;
+            transition: width 0.1s linear;
+            display: none;
+        }
     </style>
 </head>
 <body>
     <div class="max-width-container">
         
-        <!-- CORE TOPBAR -->
-        <city-topbar title="Emergency SOS"></city-topbar>
+        <!-- TOPBAR (Transparent so maroon background shows) -->
+        <div style="padding: 14px 16px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100;">
+            <div style="display: flex; align-items: center; gap: 10px; color: white;">
+                <button onclick="window.history.back()" style="background: transparent; border: none; font-size: 20px; cursor: pointer; color: inherit;">←</button>
+                <span style="font-size: 16px; font-weight: 700;">Emergency SOS</span>
+            </div>
+            <div style="color: white; font-size: 20px;" onclick="showSOSToast('Add to Home Screen for Lock Screen Access')">⚙️</div>
+        </div>
 
         <!-- SOS NOTIFICATION TOAST -->
         <div id="sos-toast">📍 Fetching Live Location...</div>
@@ -149,21 +172,35 @@
         <main style="margin-bottom: 90px;">
             
             <!-- ALERT BANNER -->
-            <div style="background: var(--sos-light-red); color: var(--sos-dark-red); padding: 12px 16px; font-size: 12px; font-weight: 600; text-align: center; display: flex; justify-content: center; align-items: center; gap: 8px;">
-                <span style="font-size: 16px;">⚠️</span> Tap to alert 3 contacts & call Police.
+            <div style="margin: 0 16px 10px 16px; background: rgba(255,255,255,0.15); backdrop-filter: blur(4px); color: white; padding: 10px 16px; font-size: 11px; font-weight: 600; text-align: center; border-radius: 8px; border: 1px solid rgba(255,255,255,0.2);">
+                ⚠️ Hold button for 3 seconds to avoid accidental SOS.
             </div>
 
-            <!-- SMART PANIC BUTTON (SMS + Call) -->
+            <!-- SMART PANIC BUTTON (Hold to Trigger) -->
             <div class="panic-button-container">
                 <div class="pulse-ring"></div>
                 <div class="pulse-ring"></div>
-                <button class="panic-btn" onclick="triggerSmartSOS()">
+                
+                <button class="panic-btn" id="sos-btn">
                     SOS
-                    <span>Alert Family<br>& Call 112</span>
+                    <span>Hold 3 Seconds<br>To Alert Family</span>
+                    <div id="hold-progress"></div>
                 </button>
             </div>
 
-            <!-- QUICK CALL GRID (With Call Logos) -->
+            <!-- EMERGENCY ACTION TOOLS (Added from Notes) -->
+            <div class="tools-row">
+                <div class="tool-btn" onclick="showSOSToast('🔇 Silent Panic Mode Activated! Alerts sent without noise.', true)">
+                    <span style="font-size: 22px;">📴</span>
+                    Silent Panic
+                </div>
+                <div class="tool-btn" onclick="showSOSToast('🔊 Loud Siren & Flashlight triggered!', true)">
+                    <span style="font-size: 22px;">🚨</span>
+                    Loud Alarm
+                </div>
+            </div>
+
+            <!-- QUICK CALL GRID -->
             <div class="section-header">National Helplines</div>
             <div class="emergency-grid">
                 <div onclick="window.location.href='tel:100'" class="e-card">
@@ -203,11 +240,9 @@
                 </div>
             </div>
 
-            <!-- LOCAL EMERGENCY DIRECTORY (Expanded) -->
+            <!-- LOCAL EMERGENCY DIRECTORY -->
             <div class="section-header">City Directory & Utilities</div>
             <div style="padding: 0 16px; display: flex; flex-direction: column; gap: 10px; margin-bottom: 24px;">
-                
-                <!-- Police -->
                 <div class="cp-card flex-between" style="margin: 0; padding: 12px 16px;" onclick="window.location.href='tel:100'">
                     <div class="d-flex align-items-center gap-3">
                         <span style="font-size: 20px;">🏢</span>
@@ -219,7 +254,6 @@
                     <div style="color: var(--accent-blue); font-size: 18px;">📞</div>
                 </div>
 
-                <!-- Hospital -->
                 <div class="cp-card flex-between" style="margin: 0; padding: 12px 16px;" onclick="window.location.href='tel:102'">
                     <div class="d-flex align-items-center gap-3">
                         <span style="font-size: 20px;">🏥</span>
@@ -231,7 +265,6 @@
                     <div style="color: var(--accent-blue); font-size: 18px;">📞</div>
                 </div>
 
-                <!-- Blood Bank -->
                 <div class="cp-card flex-between" style="margin: 0; padding: 12px 16px;" onclick="showSOSToast('Calling Local Blood Bank...')">
                     <div class="d-flex align-items-center gap-3">
                         <span style="font-size: 20px;">🩸</span>
@@ -243,7 +276,6 @@
                     <div style="color: var(--accent-blue); font-size: 18px;">📞</div>
                 </div>
 
-                <!-- Electricity -->
                 <div class="cp-card flex-between" style="margin: 0; padding: 12px 16px;" onclick="window.location.href='tel:1912'">
                     <div class="d-flex align-items-center gap-3">
                         <span style="font-size: 20px;">⚡</span>
@@ -254,11 +286,10 @@
                     </div>
                     <div style="color: var(--accent-blue); font-size: 18px;">📞</div>
                 </div>
-
             </div>
 
-            <!-- SHARE LIVE LOCATION FEATURE -->
-            <div style="padding: 0 16px;">
+            <!-- SHARE LIVE LOCATION -->
+            <div style="padding: 0 16px; margin-bottom: 16px;">
                 <div class="cp-card" style="margin: 0; background: var(--card-bg); border-left: 4px solid #ef4444; padding: 16px; display: flex; gap: 12px; align-items: center;" onclick="showSOSToast('Live location tracking activated.')">
                     <div style="font-size: 24px;">📍</div>
                     <div style="flex: 1;">
@@ -269,9 +300,27 @@
                 </div>
             </div>
 
+            <!-- LEGAL RIGHTS & SAFETY GUIDE (Added from Notes) -->
+            <div class="section-header">Know Your Rights</div>
+            <div style="padding: 0 16px;">
+                <div class="emergency-grid" style="padding: 0; margin-bottom: 0;">
+                    <div class="e-card" onclick="showSOSToast('Opening Quick Safety Guide...')">
+                        <div class="e-icon" style="background: rgba(168, 85, 247, 0.15); color: #a855f7;">📖</div>
+                        <div style="flex: 1;">
+                            <div style="font-size: 13px; font-weight: 800;">Safety Guide</div>
+                        </div>
+                    </div>
+                    <div class="e-card" onclick="showSOSToast('Opening Citizen Legal Rights...')">
+                        <div class="e-icon" style="background: rgba(245, 158, 11, 0.15); color: #f59e0b;">⚖️</div>
+                        <div style="flex: 1;">
+                            <div style="font-size: 13px; font-weight: 800;">Legal Rights</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
         </main>
 
-        <!-- GLOBAL BOTTOM NAVIGATION -->
         <bottom-nav></bottom-nav>
     </div>
 
@@ -281,41 +330,74 @@
     <script src="https://anupsharmasharma012-debug.github.io/citypulse-core/components.js"></script>
     
     <script>
-        // Check saved theme on load
         window.addEventListener('DOMContentLoaded', () => {
             if (localStorage.getItem('cp_theme') === 'dark') {
                 document.body.classList.add('dark-mode');
             }
         });
 
-        // Custom SOS Notification Logic
+        // Toast Logic
         function showSOSToast(message, isRed = false) {
             const toast = document.getElementById('sos-toast');
             toast.innerHTML = message;
-            if(isRed) {
-                toast.style.background = '#ef4444';
-            } else {
-                toast.style.background = '#1f2937';
-            }
+            toast.style.background = isRed ? '#ef4444' : '#1f2937';
             toast.classList.add('show');
-            setTimeout(() => {
-                toast.classList.remove('show');
+            setTimeout(() => { toast.classList.remove('show'); }, 3500);
+        }
+
+        // HOLD-TO-TRIGGER LOGIC
+        const sosBtn = document.getElementById('sos-btn');
+        const progressBar = document.getElementById('hold-progress');
+        let holdTimer;
+        let progressInterval;
+        let progress = 0;
+
+        function startHold(e) {
+            e.preventDefault(); // Prevent accidental scrolling
+            progressBar.style.display = 'block';
+            progress = 0;
+            
+            // Fill bar over 3 seconds
+            progressInterval = setInterval(() => {
+                progress += 3.33; // ~100% in 3 seconds
+                progressBar.style.width = progress + '%';
+                if(progress >= 100) {
+                    clearInterval(progressInterval);
+                }
+            }, 100);
+
+            // Trigger SOS after 3 seconds
+            holdTimer = setTimeout(() => {
+                triggerSmartSOS();
+                resetHold();
             }, 3000);
         }
 
-        // Smart SOS Trigger Logic (Simulates App Backend SMS sending + Direct Call)
+        function resetHold() {
+            clearTimeout(holdTimer);
+            clearInterval(progressInterval);
+            progressBar.style.width = '0%';
+            progressBar.style.display = 'none';
+        }
+
+        // Mouse Events
+        sosBtn.addEventListener('mousedown', startHold);
+        sosBtn.addEventListener('mouseup', resetHold);
+        sosBtn.addEventListener('mouseleave', resetHold);
+
+        // Touch Events for Mobile
+        sosBtn.addEventListener('touchstart', startHold, {passive: false});
+        sosBtn.addEventListener('touchend', resetHold);
+        sosBtn.addEventListener('touchcancel', resetHold);
+
+        // Trigger SOS Logic
         function triggerSmartSOS() {
             showSOSToast('📍 Fetching precise location...', false);
-            
-            // Wait 1.5 seconds, then show SMS Sent message
             setTimeout(() => {
                 showSOSToast('🚨 Location & Alert SMS sent to 3 saved contacts!', true);
-                
-                // Wait another 1.5 seconds, then dial 112
                 setTimeout(() => {
                     window.location.href = 'tel:112';
                 }, 1500);
-                
             }, 1500);
         }
     </script>
