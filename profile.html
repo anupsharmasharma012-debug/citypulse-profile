@@ -6,7 +6,7 @@
     <title>CityPulse - My Profile</title>
     <link rel="stylesheet" href="https://anupsharmasharma012-debug.github.io/citypulse-core/style.css">
     <style>
-        /* Force Light Theme by Default unless dark mode is explicitly toggled */
+        /* Dynamic Theme Variables (Default Light, overridden if dark class is active) */
         :root {
             --bg-color: #f8fafc;
             --card-bg: #ffffff;
@@ -14,23 +14,35 @@
             --text-muted: #64748b;
             --card-border: #e2e8f0;
         }
+        body.dark-mode {
+            --bg-color: #0f172a;
+            --card-bg: #1e293b;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --card-border: #334155;
+        }
 
-        /* Gojek Style Group Headings */
+        body { background-color: var(--bg-color); color: var(--text-main); transition: background 0.3s, color 0.3s; }
         .group-title { font-size: 11px; color: var(--text-muted); font-weight: 800; text-transform: uppercase; margin: 18px 0 8px 4px; letter-spacing: 0.5px; }
         
-        /* Smooth Row Styling */
         .profile-row { display: flex; justify-content: space-between; align-items: center; padding: 14px 16px; text-decoration: none; color: var(--text-main); font-size: 14px; border-bottom: 1px solid var(--card-border); background: var(--card-bg); cursor: pointer; transition: background 0.2s; }
         .profile-row:last-child { border-bottom: none; }
-        .profile-row:active { background: rgba(150,150,150,0.05); }
         
-        /* Premium Modern Top Header Gradient (Replaced harsh green) */
         .profile-banner { background: linear-gradient(135deg, #2563eb 100%, #1d4ed8 0%); padding: 24px 16px 50px 16px; color: white; }
+
+        /* Toggle Switch */
+        .toggle-switch { position: relative; display: inline-block; width: 40px; height: 22px; }
+        .toggle-switch input { opacity: 0; width: 0; height: 0; }
+        .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #cbd5e1; transition: .4s; border-radius: 22px; }
+        .slider:before { position: absolute; content: ""; height: 16px; width: 16px; left: 3px; bottom: 3px; background-color: white; transition: .4s; border-radius: 50%; }
+        input:checked + .slider { background-color: #2563eb; }
+        input:checked + .slider:before { transform: translateX(18px); }
     </style>
 </head>
-<body style="background: var(--bg-color);">
+<body>
     <div class="max-width-container">
         
-        <!-- TOP BANNER WITH BACK BUTTON -->
+        <!-- TOP BANNER -->
         <div class="profile-banner">
             <div class="flex-between" style="align-items: center;">
                 <button onclick="window.history.back()" style="background: transparent; border: none; color: white; font-size: 22px; cursor: pointer;">←</button>
@@ -41,10 +53,10 @@
 
         <main style="padding: 0 16px; margin-top: -35px; margin-bottom: 90px; display: flex; flex-direction: column; gap: 4px;">
             
-            <!-- FLOATING IDENTITY CARD (Properly visible & spaced) -->
-            <div class="cp-card flex-between" onclick="window.location.href='edit-profile.html'" style="margin: 0; background: var(--card-bg); border-radius: 16px; box-shadow: 0 10px 25px rgba(0,0,0,0.08); padding: 16px; cursor: pointer; border-left: 4px solid var(--accent-blue);">
+            <!-- FLOATING IDENTITY CARD -->
+            <div class="cp-card flex-between" onclick="window.location.href='edit-profile.html'" style="margin: 0; background: var(--card-bg); border-radius: 16px; box-shadow: 0 10px 25px rgba(0,0,0,0.08); padding: 16px; cursor: pointer; border-left: 4px solid #2563eb;">
                 <div class="d-flex align-items-center gap-3">
-                    <div style="width: 55px; height: 55px; background: rgba(59,130,246,0.1); border: 2px solid var(--accent-blue); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 20px; font-weight: bold; color: var(--accent-blue);">AS</div>
+                    <div style="width: 55px; height: 55px; background: rgba(37,99,235,0.1); border: 2px solid #2563eb; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 20px; font-weight: bold; color: #2563eb;">AS</div>
                     <div>
                         <h3 style="margin: 0 0 2px 0; font-size: 16px; font-weight: 700; color: var(--text-main);">Anup Sharma</h3>
                         <p style="margin: 0 0 4px 0; font-size: 12px; color: var(--text-muted);">+91 98837 64231</p>
@@ -55,7 +67,7 @@
             </div>
 
             <!-- PROMO BANNER -->
-            <div style="margin-top: 12px; background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%); border-radius: 14px; padding: 12px 16px; display: flex; justify-content: space-between; align-items: center; color: white; cursor: pointer; box-shadow: 0 4px 12px rgba(245,158,11,0.2);" onclick="showToast('Exclusive rewards await you!')">
+            <div style="margin-top: 12px; background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%); border-radius: 14px; padding: 12px 16px; display: flex; justify-content: space-between; align-items: center; color: white; cursor: pointer; box-shadow: 0 4px 12px rgba(245,158,11,0.2);" onclick="showToast('Exclusive rewards await!')">
                 <div class="d-flex align-items-center gap-3">
                     <span style="font-size: 22px;">⭐</span>
                     <div>
@@ -68,15 +80,11 @@
 
             <!-- GROUP 1: PREFERENCES -->
             <div class="group-title">Preferences</div>
-            <div class="cp-card" style="padding: 0; overflow: hidden; margin: 0; border-radius: 14px;">
+            <div class="cp-card" style="padding: 0; overflow: hidden; margin: 0; border-radius: 14px; background: var(--card-bg);">
                 <a href="security.html" class="profile-row">
-                    <div class="d-flex gap-3 align-items-center"><span style="font-size: 18px;">🛡️</span> Account Safety & Lock</div>
+                    <div class="d-flex gap-3 align-items-center"><span style="font-size: 18px;">🛡️</span> Account Safety & Security</div>
                     <span style="color: var(--text-muted);">›</span>
                 </a>
-                <div class="profile-row" onclick="showToast('CityPulse Plus subscription active')">
-                    <div class="d-flex gap-3 align-items-center"><span style="font-size: 18px;">👑</span> CityPulse Plus <span style="background: rgba(59,130,246,0.1); color: var(--accent-blue); font-size: 9px; padding: 2px 6px; border-radius: 6px; font-weight: 700; margin-left: 6px;">Active</span></div>
-                    <span style="color: var(--text-muted);">›</span>
-                </div>
                 <a href="location.html" class="profile-row">
                     <div class="d-flex gap-3 align-items-center"><span style="font-size: 18px;">📍</span> Saved Addresses</div>
                     <span style="color: var(--text-muted);">›</span>
@@ -89,7 +97,7 @@
 
             <!-- GROUP 2: YOUR ACTIVITIES -->
             <div class="group-title">Your Activities</div>
-            <div class="cp-card" style="padding: 0; overflow: hidden; margin: 0; border-radius: 14px;">
+            <div class="cp-card" style="padding: 0; overflow: hidden; margin: 0; border-radius: 14px; background: var(--card-bg);">
                 <a href="activity.html" class="profile-row">
                     <div class="d-flex gap-3 align-items-center"><span style="font-size: 18px;">📂</span> Activities & History</div>
                     <span style="color: var(--text-muted);">›</span>
@@ -98,66 +106,45 @@
                     <div class="d-flex gap-3 align-items-center"><span style="font-size: 18px;">🔖</span> Wishlist & Saved Items</div>
                     <span style="color: var(--text-muted);">›</span>
                 </a>
-                <div class="profile-row" onclick="showToast('No active vouchers right now')">
+                <div class="profile-row" onclick="showToast('No active vouchers')">
                     <div class="d-flex gap-3 align-items-center"><span style="font-size: 18px;">🎁</span> Promos & Vouchers</div>
-                    <span style="color: var(--text-muted);">›</span>
-                </div>
-                <div class="profile-row" onclick="showToast('Complaints module linked')">
-                    <div class="d-flex gap-3 align-items-center"><span style="font-size: 18px;">📢</span> My Complaints & Tracking</div>
                     <span style="color: var(--text-muted);">›</span>
                 </div>
             </div>
 
-            <!-- GROUP 3: APP PREFERENCES -->
+            <!-- GROUP 3: APP PREFERENCES (Dark Mode Toggle & Notifications here) -->
             <div class="group-title">App Preferences</div>
-            <div class="cp-card" style="padding: 0; overflow: hidden; margin: 0; border-radius: 14px;">
+            <div class="cp-card" style="padding: 0; overflow: hidden; margin: 0; border-radius: 14px; background: var(--card-bg);">
                 <a href="settings.html" class="profile-row">
-                    <div class="d-flex gap-3 align-items-center"><span style="font-size: 18px;">🗣️</span> Languages</div>
+                    <div class="d-flex gap-3 align-items-center"><span style="font-size: 18px;">🗣️</span> Language Selection</div>
                     <span style="color: var(--text-muted);">English ›</span>
                 </a>
                 <a href="notifications-setup.html" class="profile-row">
                     <div class="d-flex gap-3 align-items-center"><span style="font-size: 18px;">🔔</span> Notifications & DND</div>
                     <span style="color: var(--text-muted);">›</span>
                 </a>
-                <a href="emergency-sos.html" class="profile-row" style="background: rgba(239, 68, 68, 0.02);">
-                    <div class="d-flex gap-3 align-items-center"><span style="font-size: 18px;">🚨</span> Emergency SOS Contacts</div>
-                    <span style="color: var(--text-muted);">›</span>
-                </a>
-            </div>
-
-            <!-- GROUP 4: MORE FROM CITYPULSE -->
-            <div class="group-title">More from CityPulse</div>
-            <div class="cp-card" style="padding: 0; overflow: hidden; margin: 0; border-radius: 14px;">
-                <div class="profile-row" onclick="showToast('Business profile feature coming soon')">
-                    <div class="d-flex gap-3 align-items-center"><span style="font-size: 18px;">🏢</span> Business Profile</div>
-                    <span style="color: var(--text-muted);">›</span>
-                </div>
-                <div class="profile-row" onclick="showToast('Partner registration portal')">
-                    <div class="d-flex gap-3 align-items-center"><span style="font-size: 18px;">🤝</span> Join as Partner / Merchant</div>
-                    <span style="color: var(--text-muted);">›</span>
-                </div>
-                <div class="profile-row" onclick="showToast('Referral link copied!')">
-                    <div class="d-flex gap-3 align-items-center"><span style="font-size: 18px;">💸</span> Refer & Earn</div>
-                    <span style="color: var(--text-muted);">›</span>
+                <!-- Dark Mode Toggle Button Restored -->
+                <div class="profile-row">
+                    <div class="d-flex gap-3 align-items-center"><span style="font-size: 18px;">🌙</span> Dark Mode Theme</div>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="themeToggle" onchange="toggleDarkMode(this)">
+                        <span class="slider"></span>
+                    </label>
                 </div>
             </div>
 
-            <!-- GROUP 5: OTHERS -->
-            <div class="group-title">Others</div>
-            <div class="cp-card" style="padding: 0; overflow: hidden; margin: 0; border-radius: 14px;">
+            <!-- GROUP 4: OTHERS -->
+            <div class="group-title">Others & Support</div>
+            <div class="cp-card" style="padding: 0; overflow: hidden; margin: 0; border-radius: 14px; background: var(--card-bg);">
                 <a href="support.html" class="profile-row">
-                    <div class="d-flex gap-3 align-items-center"><span style="font-size: 18px;">💬</span> Help & Reports</div>
+                    <div class="d-flex gap-3 align-items-center"><span style="font-size: 18px;">💬</span> Help, Support & Legal</div>
                     <span style="color: var(--text-muted);">›</span>
                 </a>
-                <a href="support.html" class="profile-row">
-                    <div class="d-flex gap-3 align-items-center"><span style="font-size: 18px;">⚖️</span> Terms & Privacy Policy</div>
-                    <span style="color: var(--text-muted);">›</span>
-                </a>
-                <div class="profile-row" onclick="showToast('Thank you for rating CityPulse 5 Stars!')">
+                <div class="profile-row" onclick="showToast('Thank you for rating 5 Stars!')">
                     <div class="d-flex gap-3 align-items-center"><span style="font-size: 18px;">⭐</span> Rate CityPulse App</div>
                     <span style="color: var(--text-muted);">›</span>
                 </div>
-                <div onclick="showToast('Securely Logging Out...')" class="profile-row" style="color: var(--accent-red); background: rgba(239, 68, 68, 0.02);">
+                <div onclick="showToast('Logging out...')" class="profile-row" style="color: #ef4444; background: rgba(239, 68, 68, 0.02);">
                     <div class="d-flex gap-3 align-items-center"><span style="font-size: 18px;">🚪</span> Logout of Account</div>
                     <span>›</span>
                 </div>
@@ -168,9 +155,31 @@
         <bottom-nav></bottom-nav>
     </div>
 
-    <!-- Master Scripts -->
     <script src="https://anupsharmasharma012-debug.github.io/citypulse-core/config.js"></script>
     <script src="https://anupsharmasharma012-debug.github.io/citypulse-core/store.js"></script>
     <script src="https://anupsharmasharma012-debug.github.io/citypulse-core/components.js"></script>
+    <script>
+        // Check saved theme on load
+        window.addEventListener('DOMContentLoaded', () => {
+            const savedTheme = localStorage.getItem('cp_theme');
+            if (savedTheme === 'dark') {
+                document.body.classList.add('dark-mode');
+                document.getElementById('themeToggle').checked = true;
+            }
+        });
+
+        // Toggle Dark Mode function
+        function toggleDarkMode(checkbox) {
+            if (checkbox.checked) {
+                document.body.classList.add('dark-mode');
+                localStorage.setItem('cp_theme', 'dark');
+                showToast('Dark Mode Enabled');
+            } else {
+                document.body.classList.remove('dark-mode');
+                localStorage.setItem('cp_theme', 'light');
+                showToast('Light Mode Enabled');
+            }
+        }
+    </script>
 </body>
 </html>
