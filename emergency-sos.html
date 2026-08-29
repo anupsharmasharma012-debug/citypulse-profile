@@ -11,10 +11,10 @@
         :root {
             --sos-red: #ef4444;
             --sos-dark-red: #b91c1c;
-            --sos-maroon: #500716; /* Deep Maroon */
+            --sos-maroon: #500716; 
         }
 
-        /* FIX: OVERRIDE CONTAINER BACKGROUND INSTEAD OF BODY */
+        /* OVERRIDE CONTAINER BACKGROUND */
         .max-width-container {
             background: linear-gradient(180deg, var(--sos-maroon) 0%, #9f1239 12%, var(--bg-color) 35%) !important;
             min-height: 100vh;
@@ -76,7 +76,7 @@
             100% { transform: scale(2); opacity: 0; }
         }
 
-        /* Emergency Action Tools (Siren & Silent) */
+        /* FIX: Emergency Action Tools (Now Solid Cards for 100% Visibility) */
         .tools-row {
             display: flex;
             gap: 12px;
@@ -85,21 +85,21 @@
         }
         .tool-btn {
             flex: 1;
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            padding: 14px 10px;
-            border-radius: 14px;
-            color: white;
+            background: var(--card-bg); /* Adaptive Background */
+            border: 1px solid var(--card-border);
+            padding: 12px 10px;
+            border-radius: 16px;
+            color: var(--text-main); /* Adaptive Text Color */
             text-align: center;
-            font-size: 12px;
-            font-weight: 700;
+            font-size: 13px;
+            font-weight: 800;
             cursor: pointer;
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 6px;
+            gap: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            transition: transform 0.2s;
         }
         .tool-btn:active { transform: scale(0.95); }
 
@@ -150,7 +150,7 @@
 <body>
     <div class="max-width-container">
         
-        <!-- FIXED TOPBAR (With explicitly visible white text) -->
+        <!-- FIXED TOPBAR -->
         <div style="padding: 14px 16px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; color: #ffffff !important;">
             <div style="display: flex; align-items: center; gap: 10px;">
                 <button onclick="window.history.back()" style="background: transparent; border: none; font-size: 20px; cursor: pointer; color: #ffffff !important;">←</button>
@@ -181,15 +181,15 @@
                 </button>
             </div>
 
-            <!-- EMERGENCY ACTION TOOLS -->
+            <!-- EMERGENCY ACTION TOOLS (Updated with Solid Cards & Icon Boxes) -->
             <div class="tools-row">
                 <div class="tool-btn" onclick="showSOSToast('🔇 Silent Panic Mode Activated! Alerts sent without noise.', true)">
-                    <span style="font-size: 22px;">📴</span>
-                    Silent Panic
+                    <div style="background: rgba(107, 114, 128, 0.15); width: 42px; height: 42px; border-radius: 12px; display: flex; justify-content: center; align-items: center; font-size: 20px;">📴</div>
+                    <div>Silent Panic</div>
                 </div>
                 <div class="tool-btn" onclick="showSOSToast('🔊 Loud Siren & Flashlight triggered!', true)">
-                    <span style="font-size: 22px;">🚨</span>
-                    Loud Alarm
+                    <div style="background: rgba(239, 68, 68, 0.15); width: 42px; height: 42px; border-radius: 12px; display: flex; justify-content: center; align-items: center; font-size: 20px;">🚨</div>
+                    <div>Loud Alarm</div>
                 </div>
             </div>
 
