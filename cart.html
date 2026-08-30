@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CityPulse - Your Cart</title>
+    <link rel="stylesheet" href="https://anupsharmasharma012-debug.github.io/citypulse-core/style.css">
+    <style>
+        :root {
+            --bg-light: #f8fafc;
+            --cp-blue: #3b82f6;
+            --cp-green: #10b981;
+            --cp-orange: #f59e0b;
+        }
+        body, .max-width-container { background-color: var(--bg-light); }
+
+        /* Cart Item Card */
+        .cart-item { background: var(--card-bg); border-radius: 16px; padding: 16px; margin: 0 16px 12px 16px; display: flex; gap: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.03); border: 1px solid var(--card-border); }
+        .item-img-box { width: 60px; height: 60px; background: rgba(59, 130, 246, 0.1); border-radius: 12px; display: flex; justify-content: center; align-items: center; font-size: 28px; }
+        .item-details { flex: 1; display: flex; flex-direction: column; justify-content: center; }
+        .item-name { font-size: 14px; font-weight: 700; color: var(--text-main); margin-bottom: 4px; }
+        .item-price { font-size: 14px; font-weight: 800; color: var(--text-main); }
+        .item-mrp { font-size: 11px; color: var(--text-muted); text-decoration: line-through; margin-left: 6px; font-weight: 600; }
+        
+        /* Qty Control */
+        .qty-control { display: flex; align-items: center; background: rgba(59, 130, 246, 0.1); border-radius: 8px; border: 1px solid rgba(59, 130, 246, 0.2); overflow: hidden; }
+        .qty-btn { width: 28px; height: 28px; display: flex; justify-content: center; align-items: center; font-weight: 800; color: var(--cp-blue); cursor: pointer; user-select: none; }
+        .qty-btn:active { background: rgba(59, 130, 246, 0.2); }
+        .qty-num { font-size: 13px; font-weight: 800; width: 24px; text-align: center; color: var(--cp-blue); }
+
+        /* Bill Details Card */
+        .bill-card { background: var(--card-bg); border-radius: 16px; padding: 16px; margin: 0 16px 24px 16px; box-shadow: 0 4px 10px rgba(0,0,0,0.03); border: 1px solid var(--card-border); }
+        .bill-row { display: flex; justify-content: space-between; font-size: 12px; color: var(--text-muted); margin-bottom: 10px; font-weight: 600; }
+        .bill-row.total { font-size: 15px; color: var(--text-main); font-weight: 800; border-top: 1px dashed var(--card-border); padding-top: 12px; margin-top: 4px; margin-bottom: 0; }
+        
+        /* Coupons */
+        .coupon-box { margin: 0 16px 16px 16px; background: rgba(16, 185, 129, 0.05); border: 1px dashed var(--cp-green); border-radius: 12px; padding: 12px 16px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; }
+        .coupon-box:active { transform: scale(0.98); }
+
+        /* Address Box */
+        .address-box { margin: 0 16px 20px 16px; background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 16px; padding: 16px; display: flex; gap: 12px; align-items: center; }
+
+        /* Sticky Footer Checkout */
+        .checkout-footer { position: fixed; bottom: 0; left: 50%; transform: translateX(-50%); width: 100%; max-width: 480px; background: var(--card-bg); padding: 16px; box-sizing: border-box; border-top: 1px solid var(--card-border); display: flex; justify-content: space-between; align-items: center; z-index: 100; box-shadow: 0 -4px 20px rgba(0,0,0,0.05); }
+        .pay-btn { background: var(--cp-blue); color: white; border: none; padding: 14px 24px; border-radius: 12px; font-size: 15px; font-weight: 800; cursor: pointer; box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4); display: flex; align-items: center; gap: 8px; }
+        .pay-btn:active { transform: scale(0.96); }
+    </style>
+</head>
+<body>
+    <div class="max-width-container" style="min-height: 100vh; padding-bottom: 90px; position: relative;">
+        
+        <city-topbar title="Review Cart (2 Items)"></city-topbar>
+        
+        <main style="padding-top: 10px;">
+            
+            <!-- Delivery ETA Banner -->
+            <div style="margin: 0 16px 16px 16px; background: linear-gradient(135deg, rgba(59,130,246,0.1) 0%, rgba(37,99,235,0.05) 100%); border-radius: 12px; padding: 10px 16px; display: flex; gap: 10px; align-items: center; border: 1px solid rgba(59,130,246,0.2);">
+                <span style="font-size: 20px;">⚡</span>
+                <div>
+                    <div style="font-size: 12px; font-weight: 800; color: var(--cp-blue);">Delivery in 15-20 mins</div>
+                    <div style="font-size: 10px; color: var(--text-muted); font-weight: 600;">Fastest delivery to Bhatpara</div>
+                </div>
+            </div>
+
+            <!-- CART ITEMS -->
+            <h4 style="margin: 0 0 10px 20px; font-size: 12px; color: var(--text-muted); text-transform: uppercase; font-weight: 800;">Items in Cart</h4>
+            
+            <!-- Item 1: Grocery -->
+            <div class="cart-item">
+                <div class="item-img-box">🥛</div>
+                <div class="item-details">
+                    <div class="item-name">Amul Taaza Toned Milk (1L)</div>
+                    <div class="item-price">₹72 <span class="item-mrp">₹75</span></div>
+                </div>
+                <div style="display: flex; align-items: flex-end;">
+                    <div class="qty-control">
+                        <div class="qty-btn" onclick="showToast('Quantity decreased')">−</div>
+                        <div class="qty-num">2</div>
+                        <div class="qty-btn" onclick="showToast('Quantity increased')">+</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Item 2: Service -->
+            <div class="cart-item">
+                <div class="item-img-box" style="background: rgba(245, 158, 11, 0.1);">🔧</div>
+                <div class="item-details">
+                    <div class="item-name">Electrician (Visit Charge)</div>
+                    <div style="font-size: 10px; color: var(--text-muted); font-weight: 600; margin-bottom: 4px;">Ramesh Electricals</div>
+                    <div class="item-price">₹150</div>
+                </div>
+                <div style="display: flex; align-items: flex-end;">
+                    <div class="qty-control">
+                        <div class="qty-btn" style="color: var(--cp-orange);">🗑️</div>
+                        <div class="qty-num" style="color: var(--cp-orange);">1</div>
+                        <div class="qty-btn" style="color: var(--cp-orange);">+</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ADD MORE BUTTON -->
+            <div style="text-align: center; margin-bottom: 20px;">
+                <button style="background: transparent; border: 1px dashed var(--text-muted); color: var(--text-main); font-size: 12px; font-weight: 700; padding: 10px 20px; border-radius: 20px; cursor: pointer;" onclick="window.history.back()">+ Add more items</button>
+            </div>
+
+            <!-- OFFERS & COUPONS -->
+            <div class="coupon-box" onclick="showToast('Opening Coupons...')">
+                <div style="display: flex; align-items: center; gap: 12px;">
+                    <span style="font-size: 20px;">🎟️</span>
+                    <div>
+                        <div style="font-size: 13px; font-weight: 800; color: var(--cp-green);">Apply Promo Code</div>
+                        <div style="font-size: 10px; color: var(--text-muted); font-weight: 600;">Save ₹50 on this order!</div>
+                    </div>
+                </div>
+                <span style="color: var(--cp-green); font-weight: bold;">›</span>
+            </div>
+
+            <!-- BILL DETAILS -->
+            <h4 style="margin: 0 0 10px 20px; font-size: 12px; color: var(--text-muted); text-transform: uppercase; font-weight: 800;">Bill Summary</h4>
+            <div class="bill-card">
+                <div class="bill-row">
+                    <span>Item Total</span>
+                    <span>₹294.00</span>
+                </div>
+                <div class="bill-row">
+                    <span>Handling Fee & GST</span>
+                    <span>₹12.50</span>
+                </div>
+                <div class="bill-row">
+                    <span>Delivery Fee</span>
+                    <span><span style="text-decoration: line-through; margin-right: 5px;">₹30</span> <span style="color: var(--cp-green); font-weight: 800;">FREE</span></span>
+                </div>
+                <div class="bill-row total">
+                    <span>Grand Total</span>
+                    <span>₹306.50</span>
+                </div>
+            </div>
+
+            <!-- DELIVERY ADDRESS -->
+            <h4 style="margin: 0 0 10px 20px; font-size: 12px; color: var(--text-muted); text-transform: uppercase; font-weight: 800;">Delivering To</h4>
+            <div class="address-box">
+                <div style="font-size: 24px; background: rgba(59, 130, 246, 0.1); border-radius: 12px; padding: 8px;">🏠</div>
+                <div style="flex: 1;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2px;">
+                        <span style="font-size: 14px; font-weight: 800; color: var(--text-main);">Home</span>
+                        <span style="font-size: 11px; color: var(--cp-blue); font-weight: 800; cursor: pointer;" onclick="window.location.href='location.html'">CHANGE</span>
+                    </div>
+                    <div style="font-size: 11px; color: var(--text-muted); line-height: 1.4; font-weight: 600;">Ward 12, Bhatpara Main Road, 743123</div>
+                </div>
+            </div>
+
+        </main>
+
+        <!-- STICKY CHECKOUT FOOTER -->
+        <div class="checkout-footer">
+            <div>
+                <div style="font-size: 11px; color: var(--text-muted); font-weight: 700; text-transform: uppercase;">Pay using Wallet</div>
+                <div style="font-size: 18px; font-weight: 900; color: var(--text-main);">₹306.50</div>
+            </div>
+            <!-- Links to the Wallet page for payment simulation -->
+            <button class="pay-btn" onclick="window.location.href='https://anupsharmasharma012-debug.github.io/citypulse-profile/wallet.html'">
+                Proceed to Pay <span>➔</span>
+            </button>
+        </div>
+
+    </div>
+
+    <!-- Master Scripts -->
+    <script src="https://anupsharmasharma012-debug.github.io/citypulse-core/config.js"></script>
+    <script src="https://anupsharmasharma012-debug.github.io/citypulse-core/store.js"></script>
+    <script src="https://anupsharmasharma012-debug.github.io/citypulse-core/components.js"></script>
+
+    <script>
+        // Check Dark Mode
+        window.addEventListener('DOMContentLoaded', () => {
+            if (localStorage.getItem('cp_theme') === 'dark') {
+                document.body.classList.add('dark-mode');
+            }
+        });
+
+        function showToast(msg) {
+            alert(msg); // Replace with your UI toast if needed
+        }
+    </script>
+</body>
+</html>
+
