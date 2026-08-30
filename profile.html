@@ -4,155 +4,89 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CityPulse - My Profile</title>
-    <!-- Core Global Design System -->
     <link rel="stylesheet" href="https://anupsharmasharma012-debug.github.io/citypulse-core/style.css">
     <style>
-        /* PROFILE SPECIFIC STYLING */
-        .profile-header-bg {
-            background: linear-gradient(135deg, #4f46e5 0%, #3b82f6 100%);
-            padding: 20px 16px 60px 16px;
-            border-bottom-left-radius: 30px;
-            border-bottom-right-radius: 30px;
-            color: white;
-            position: relative;
-            z-index: 1;
+        :root {
+            --bg-color: #f8fafc;
+            --card-bg: #ffffff;
+            --text-main: #0f172a;
+            --text-muted: #64748b;
+            --card-border: #e2e8f0;
+        }
+        body.dark-mode {
+            --bg-color: #0f172a;
+            --card-bg: #1e293b;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --card-border: #334155;
         }
 
-        /* Topbar transparent override */
-        city-topbar { display: block; }
-        city-topbar > div { background: transparent !important; border: none !important; color: white !important; box-shadow: none !important; }
-        city-topbar button { color: white !important; }
-
-        /* User Info Section */
-        .user-info {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-            margin-top: 10px;
-        }
-        .user-avatar {
-            width: 70px; height: 70px;
-            border-radius: 50%;
-            background: #ffffff;
-            border: 3px solid rgba(255, 255, 255, 0.3);
-            display: flex; justify-content: center; align-items: center;
-            font-size: 30px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-        }
-        .user-details h1 { font-size: 20px; font-weight: 800; margin: 0 0 4px 0; }
-        .user-details p { font-size: 13px; font-weight: 600; color: rgba(255, 255, 255, 0.8); margin: 0; }
+        body { background-color: var(--bg-color); color: var(--text-main); transition: background 0.3s, color 0.3s; }
+        .group-title { font-size: 11px; color: var(--text-muted); font-weight: 800; text-transform: uppercase; margin: 18px 0 8px 4px; letter-spacing: 0.5px; }
         
-        .edit-btn {
-            background: rgba(255, 255, 255, 0.2);
-            border: none; color: white;
-            padding: 6px 12px; border-radius: 20px;
-            font-size: 11px; font-weight: 700; cursor: pointer;
-            margin-top: 8px; backdrop-filter: blur(4px);
-        }
-
-        /* Mini Wallet Card */
-        .mini-wallet-card {
-            margin: -30px 16px 24px 16px;
-            background: var(--card-bg);
-            border: 1px solid var(--card-border);
-            border-radius: 20px;
-            padding: 16px 20px;
-            display: flex; justify-content: space-between; align-items: center;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.06);
-            position: relative; z-index: 10;
-            text-decoration: none; color: inherit; /* Acts as a link */
-            -webkit-tap-highlight-color: transparent;
-        }
-        .mini-wallet-card:active { transform: scale(0.97); }
+        .profile-row { display: flex; justify-content: space-between; align-items: center; padding: 14px 16px; text-decoration: none; color: var(--text-main); font-size: 14px; border-bottom: 1px solid var(--card-border); background: var(--card-bg); cursor: pointer; transition: background 0.2s; -webkit-tap-highlight-color: transparent;}
+        .profile-row:last-child { border-bottom: none; }
+        .profile-row:active { background: var(--bg-color); }
         
+        .profile-banner { background: linear-gradient(135deg, #2563eb 100%, #1d4ed8 0%); padding: 24px 16px 50px 16px; color: white; }
+
+        /* Bottom Sheet Modal for Language Selection */
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); display: none; justify-content: center; align-items: flex-end; z-index: 999; }
+        .modal-sheet { background: var(--card-bg); width: 100%; max-width: 480px; border-radius: 20px 20px 0 0; padding: 20px; animation: slideUp 0.3s ease-out; }
+        @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
+        .lang-option { padding: 12px 16px; border-radius: 10px; margin-bottom: 8px; font-weight: 600; cursor: pointer; border: 1px solid var(--card-border); display: flex; justify-content: space-between; align-items: center; }
+        .lang-option:active { background: rgba(37,99,235,0.1); border-color: #2563eb; }
+
+        /* 🔥 NEW ADDITION: Mini Wallet Card CSS */
+        .mini-wallet-card { 
+            background: var(--card-bg); border: 1px solid var(--card-border); 
+            border-radius: 16px; padding: 16px; margin-top: 12px;
+            display: flex; justify-content: space-between; align-items: center; 
+            text-decoration: none; color: inherit; -webkit-tap-highlight-color: transparent; 
+            box-shadow: 0 6px 15px rgba(0,0,0,0.04); transition: transform 0.2s; 
+        }
+        .mini-wallet-card:active { transform: scale(0.98); }
         .wallet-left { display: flex; align-items: center; gap: 12px; }
-        .wallet-icon { 
-            width: 40px; height: 40px; border-radius: 12px;
-            background: rgba(37, 99, 235, 0.1); color: #2563eb;
-            display: flex; justify-content: center; align-items: center; font-size: 20px;
-        }
+        .wallet-icon { width: 42px; height: 42px; border-radius: 12px; background: rgba(37, 99, 235, 0.1); color: #2563eb; display: flex; justify-content: center; align-items: center; font-size: 20px; }
         .wallet-bal-title { font-size: 11px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; }
-        .wallet-bal-amt { font-size: 18px; font-weight: 900; color: var(--text-main); }
-        .wallet-right-btn {
-            background: #10b981; color: white; padding: 8px 16px;
-            border-radius: 12px; font-size: 12px; font-weight: 800;
-        }
+        .wallet-bal-amt { font-size: 18px; font-weight: 900; color: var(--text-main); margin-top: 2px; }
+        .wallet-right-btn { background: #10b981; color: white; padding: 8px 16px; border-radius: 10px; font-size: 12px; font-weight: 800; border: none; box-shadow: 0 2px 8px rgba(16, 185, 129, 0.3);}
 
-        /* Dashboard Menu Options */
-        .menu-section {
-            background: var(--card-bg);
-            border: 1px solid var(--card-border);
-            border-radius: 20px;
-            margin: 0 16px 24px 16px;
-            overflow: hidden;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.02);
-        }
-        
-        /* 🚨 Using standard <a> tags for bulletproof linking */
-        .menu-item {
-            display: flex; align-items: center; gap: 16px;
-            padding: 16px 20px;
-            border-bottom: 1px solid var(--card-border);
-            text-decoration: none; color: var(--text-main);
-            background: var(--card-bg);
-            -webkit-tap-highlight-color: transparent;
-            transition: background 0.2s;
-        }
-        .menu-item:last-child { border-bottom: none; }
-        .menu-item:active { background: var(--bg-color); }
-        
-        .menu-icon {
-            width: 38px; height: 38px; border-radius: 10px;
-            display: flex; justify-content: center; align-items: center;
-            font-size: 18px;
-        }
-        .menu-text { flex: 1; font-size: 14px; font-weight: 700; }
-        .menu-arrow { color: var(--text-muted); font-size: 14px; font-weight: bold; }
-
-        /* Specific Icon Colors */
-        .icon-orders { background: rgba(245, 158, 11, 0.1); color: #f59e0b; }
-        .icon-wishlist { background: rgba(236, 72, 153, 0.1); color: #ec4899; }
-        .icon-sos { background: rgba(239, 68, 68, 0.1); color: #ef4444; }
-        .icon-settings { background: rgba(107, 114, 128, 0.1); color: #6b7280; }
-        .icon-theme { background: rgba(139, 92, 246, 0.1); color: #8b5cf6; }
-        .icon-logout { background: rgba(225, 29, 72, 0.1); color: #e11d48; }
-
-        /* Toggle Switch for Dark Mode */
-        .toggle-switch {
-            width: 44px; height: 24px;
-            background: #d1d5db; border-radius: 12px;
-            position: relative; transition: 0.3s;
-        }
-        .toggle-circle {
-            width: 20px; height: 20px;
-            background: white; border-radius: 50%;
-            position: absolute; top: 2px; left: 2px;
-            transition: 0.3s; box-shadow: 0 2px 4px rgba(0,0,0,0.2);
-        }
+        /* 🔥 NEW ADDITION: Dark Mode Toggle Switch CSS */
+        .toggle-switch { width: 44px; height: 24px; background: #d1d5db; border-radius: 12px; position: relative; transition: 0.3s; }
+        .toggle-circle { width: 20px; height: 20px; background: white; border-radius: 50%; position: absolute; top: 2px; left: 2px; transition: 0.3s; box-shadow: 0 2px 4px rgba(0,0,0,0.2); }
         body.dark-mode .toggle-switch { background: #3b82f6; }
         body.dark-mode .toggle-circle { left: 22px; }
-
     </style>
 </head>
 <body>
     <div class="max-width-container">
         
-        <!-- HEADER PROFILE INFO -->
-        <div class="profile-header-bg">
-            <city-topbar title="My Profile"></city-topbar>
-            
-            <div class="user-info">
-                <div class="user-avatar">😎</div>
-                <div class="user-details">
-                    <h1>Anup Sharma</h1>
-                    <p>+91 98765 43210</p>
-                    <button class="edit-btn">Edit Profile ✏️</button>
-                </div>
+        <!-- TOP BANNER -->
+        <div class="profile-banner">
+            <div class="flex-between" style="align-items: center;">
+                <button onclick="window.history.back()" style="background: transparent; border: none; color: white; font-size: 22px; cursor: pointer;">←</button>
+                <span style="font-size: 16px; font-weight: 700;">My Profile</span>
+                <span style="width: 22px;"></span>
             </div>
         </div>
 
-        <main style="padding-bottom: 100px;">
-            <!-- MINI WALLET CARD (Links directly to your new Wallet page) -->
+        <main style="padding: 0 16px; margin-top: -35px; margin-bottom: 90px; display: flex; flex-direction: column; gap: 4px;">
+            
+            <!-- FLOATING IDENTITY CARD (Original preserved) -->
+            <div class="cp-card flex-between" onclick="window.location.href='edit-profile.html'" style="margin: 0; background: var(--card-bg); border-radius: 16px; box-shadow: 0 10px 25px rgba(0,0,0,0.08); padding: 16px; cursor: pointer; border-left: 4px solid #2563eb;">
+                <div class="d-flex align-items-center gap-3">
+                    <div style="width: 55px; height: 55px; background: rgba(37,99,235,0.1); border: 2px solid #2563eb; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 20px; font-weight: bold; color: #2563eb;">AS</div>
+                    <div>
+                        <h3 style="margin: 0 0 2px 0; font-size: 16px; font-weight: 700; color: var(--text-main);">Anup Sharma</h3>
+                        <p style="margin: 0 0 4px 0; font-size: 12px; color: var(--text-muted);">+91 98837 64231</p>
+                        <span class="cp-badge-success" style="font-size: 9px; padding: 2px 6px;">Verified Resident</span>
+                    </div>
+                </div>
+                <span style="color: var(--text-muted); font-size: 22px;">›</span>
+            </div>
+
+            <!-- 🔥 MERGED: MINI WALLET CARD -->
             <a href="https://anupsharmasharma012-debug.github.io/citypulse-profile/wallet.html" class="mini-wallet-card">
                 <div class="wallet-left">
                     <div class="wallet-icon">💳</div>
@@ -164,76 +98,162 @@
                 <div class="wallet-right-btn">Top Up</div>
             </a>
 
-            <!-- DASHBOARD MENU 1: Activity & Orders -->
-            <div class="menu-section">
-                <!-- Links to future orders page -->
-                <a href="#" class="menu-item" onclick="alert('My Orders page coming soon!')">
-                    <div class="menu-icon icon-orders">📦</div>
-                    <div class="menu-text">My Orders & Bookings</div>
-                    <div class="menu-arrow">❯</div>
+            <!-- PROMO BANNER (Original preserved) -->
+            <div style="margin-top: 12px; background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%); border-radius: 14px; padding: 12px 16px; display: flex; justify-content: space-between; align-items: center; color: white; cursor: pointer; box-shadow: 0 4px 12px rgba(245,158,11,0.2);" onclick="showToast('Exclusive rewards await!')">
+                <div class="d-flex align-items-center gap-3">
+                    <span style="font-size: 22px;">⭐</span>
+                    <div>
+                        <div style="font-size: 13px; font-weight: 700;">Join CityPulse Star</div>
+                        <div style="font-size: 10px; opacity: 0.9;">Exclusive cashbacks & rewards await</div>
+                    </div>
+                </div>
+                <span style="font-size: 18px;">›</span>
+            </div>
+
+            <!-- GROUP 1: PREFERENCES & SAFETY -->
+            <div class="group-title">Preferences & Safety</div>
+            <div class="cp-card" style="padding: 0; overflow: hidden; margin: 0; border-radius: 14px; background: var(--card-bg);">
+                <a href="security.html" class="profile-row">
+                    <div class="d-flex gap-3 align-items-center"><span style="font-size: 18px;">🛡️</span> Account Safety & Security</div>
+                    <span style="color: var(--text-muted);">›</span>
                 </a>
-                
-                <!-- Links to future wishlist page -->
-                <a href="#" class="menu-item" onclick="alert('Wishlist page coming soon!')">
-                    <div class="menu-icon icon-wishlist">❤️</div>
-                    <div class="menu-text">My Wishlist</div>
-                    <div class="menu-arrow">❯</div>
+                <div class="profile-row" onclick="showToast('CityPulse Plus subscription active')">
+                    <div class="d-flex gap-3 align-items-center"><span style="font-size: 18px;">👑</span> CityPulse Plus <span style="background: rgba(37,99,235,0.1); color: var(--accent-blue); font-size: 9px; padding: 2px 6px; border-radius: 6px; font-weight: 700; margin-left: 6px;">Active</span></div>
+                    <span style="color: var(--text-muted);">›</span>
+                </div>
+                <a href="location.html" class="profile-row">
+                    <div class="d-flex gap-3 align-items-center"><span style="font-size: 18px;">📍</span> Saved Addresses</div>
+                    <span style="color: var(--text-muted);">›</span>
                 </a>
-                
-                <!-- Links to active SOS Hub -->
-                <a href="https://anupsharmasharma012-debug.github.io/citypulse-profile/emergency-sos.html" class="menu-item">
-                    <div class="menu-icon icon-sos">🚨</div>
-                    <div class="menu-text" style="color: #ef4444;">Emergency (SOS) Hub</div>
-                    <div class="menu-arrow">❯</div>
+                <!-- Updated Payment link to point directly to Wallet Repo -->
+                <a href="https://anupsharmasharma012-debug.github.io/citypulse-profile/wallet.html" class="profile-row">
+                    <div class="d-flex gap-3 align-items-center"><span style="font-size: 18px;">💰</span> Payment Methods & Wallet</div>
+                    <span style="color: var(--text-muted);">›</span>
                 </a>
             </div>
 
-            <!-- DASHBOARD MENU 2: Settings & Preferences -->
-            <div class="menu-section">
-                <div class="menu-item" onclick="toggleDarkMode()" style="cursor: pointer;">
-                    <div class="menu-icon icon-theme">🌙</div>
-                    <div class="menu-text">Dark Mode</div>
+            <!-- GROUP 2: YOUR ACTIVITIES -->
+            <div class="group-title">Your Activities</div>
+            <div class="cp-card" style="padding: 0; overflow: hidden; margin: 0; border-radius: 14px; background: var(--card-bg);">
+                <!-- Assuming you will create an orders/activity page later -->
+                <a href="activity.html" class="profile-row">
+                    <div class="d-flex gap-3 align-items-center"><span style="font-size: 18px;">📂</span> Activities & Orders</div>
+                    <span style="color: var(--text-muted);">›</span>
+                </a>
+                <a href="wishlist.html" class="profile-row">
+                    <div class="d-flex gap-3 align-items-center"><span style="font-size: 18px;">🔖</span> Wishlist & Saved Items</div>
+                    <span style="color: var(--text-muted);">›</span>
+                </a>
+                <div class="profile-row" onclick="showToast('No active vouchers')">
+                    <div class="d-flex gap-3 align-items-center"><span style="font-size: 18px;">🎁</span> Promos & Vouchers</div>
+                    <span style="color: var(--text-muted);">›</span>
+                </div>
+            </div>
+
+            <!-- GROUP 3: APP PREFERENCES -->
+            <div class="group-title">App Preferences</div>
+            <div class="cp-card" style="padding: 0; overflow: hidden; margin: 0; border-radius: 14px; background: var(--card-bg);">
+                
+                <!-- 🔥 MERGED: Dark Mode Toggle -->
+                <div class="profile-row" onclick="toggleDarkMode()">
+                    <div class="d-flex gap-3 align-items-center"><span style="font-size: 18px;">🌙</span> Dark Mode</div>
                     <div class="toggle-switch"><div class="toggle-circle"></div></div>
                 </div>
-                
-                <a href="#" class="menu-item" onclick="alert('Settings coming soon!')">
-                    <div class="menu-icon icon-settings">⚙️</div>
-                    <div class="menu-text">Account Settings</div>
-                    <div class="menu-arrow">❯</div>
+
+                <div class="profile-row" onclick="openLangModal()">
+                    <div class="d-flex gap-3 align-items-center"><span style="font-size: 18px;">🗣️</span> Language Selection</div>
+                    <span style="color: var(--text-muted);" id="currentLangText">English ›</span>
+                </div>
+                <a href="notifications-setup.html" class="profile-row">
+                    <div class="d-flex gap-3 align-items-center"><span style="font-size: 18px;">🔔</span> Notifications & Alerts</div>
+                    <span style="color: var(--text-muted);">›</span>
+                </a>
+                <a href="settings.html" class="profile-row">
+                    <div class="d-flex gap-3 align-items-center"><span style="font-size: 18px;">⚙️</span> App Settings & Theme</div>
+                    <span style="color: var(--text-muted);">›</span>
                 </a>
             </div>
 
-            <!-- LOGOUT BUTTON -->
-            <div class="menu-section">
-                <a href="#" class="menu-item" onclick="alert('Logging out...')">
-                    <div class="menu-icon icon-logout">🚪</div>
-                    <div class="menu-text" style="color: #e11d48;">Log Out</div>
-                </a>
+            <!-- GROUP 4: MORE FROM CITYPULSE -->
+            <div class="group-title">More from CityPulse</div>
+            <div class="cp-card" style="padding: 0; overflow: hidden; margin: 0; border-radius: 14px; background: var(--card-bg);">
+                <div class="profile-row" onclick="showToast('Business Profile management portal')">
+                    <div class="d-flex gap-3 align-items-center"><span style="font-size: 18px;">🏢</span> Business Profile</div>
+                    <span style="color: var(--text-muted);">›</span>
+                </div>
+                <div class="profile-row" onclick="showToast('Partner registration & merchant dashboard')">
+                    <div class="d-flex gap-3 align-items-center"><span style="font-size: 18px;">🤝</span> Join as Partner / Merchant</div>
+                    <span style="color: var(--text-muted);">›</span>
+                </div>
+                <div class="profile-row" onclick="showToast('Referral link copied to clipboard!')">
+                    <div class="d-flex gap-3 align-items-center"><span style="font-size: 18px;">💸</span> Refer & Earn</div>
+                    <span style="color: var(--text-muted);">›</span>
+                </div>
             </div>
-            
-            <p style="text-align: center; font-size: 11px; color: var(--text-muted); margin-top: 20px; font-weight: 600;">
-                App Version 1.0.0 (Bhatpara Edition)
-            </p>
+
+            <!-- GROUP 5: OTHERS -->
+            <div class="group-title">Others & Support</div>
+            <div class="cp-card" style="padding: 0; overflow: hidden; margin: 0; border-radius: 14px; background: var(--card-bg);">
+                
+                <!-- Updated: Added SOS link directly into Support -->
+                <a href="https://anupsharmasharma012-debug.github.io/citypulse-profile/emergency-sos.html" class="profile-row">
+                    <div class="d-flex gap-3 align-items-center"><span style="font-size: 18px;">🚨</span> Emergency SOS Hub</div>
+                    <span style="color: var(--text-muted);">›</span>
+                </a>
+
+                <a href="support.html" class="profile-row">
+                    <div class="d-flex gap-3 align-items-center"><span style="font-size: 18px;">💬</span> Help, Support & Legal</div>
+                    <span style="color: var(--text-muted);">›</span>
+                </a>
+                <div class="profile-row" onclick="showToast('Thank you for rating 5 Stars!')">
+                    <div class="d-flex gap-3 align-items-center"><span style="font-size: 18px;">⭐</span> Rate CityPulse App</div>
+                    <span style="color: var(--text-muted);">›</span>
+                </div>
+                <div onclick="showToast('Logging out...')" class="profile-row" style="color: #ef4444; background: rgba(239, 68, 68, 0.02);">
+                    <div class="d-flex gap-3 align-items-center"><span style="font-size: 18px;">🚪</span> Logout of Account</div>
+                    <span>›</span>
+                </div>
+            </div>
 
         </main>
-
+        
         <bottom-nav></bottom-nav>
     </div>
 
-    <!-- CORE SCRIPTS -->
+    <!-- LANGUAGE BOTTOM SHEET MODAL (Original preserved) -->
+    <div class="modal-overlay" id="langModal" onclick="closeLangModal(event)">
+        <div class="modal-sheet" onclick="event.stopPropagation()">
+            <div class="flex-between" style="margin-bottom: 16px;">
+                <h3 style="margin: 0; font-size: 16px;">Select Language</h3>
+                <span style="cursor: pointer; font-size: 18px; font-weight: bold;" onclick="closeLangModal()">✕</span>
+            </div>
+            <div class="lang-option" onclick="setLanguage('English')"><span>🇬🇧 English</span> <span>✓</span></div>
+            <div class="lang-option" onclick="setLanguage('हिन्दी (Hindi)')"><span>🇮🇳 हिन्दी (Hindi)</span></div>
+            <div class="lang-option" onclick="setLanguage('বাংলা (Bengali)')"><span>🇮🇳 বাংলা (Bengali)</span></div>
+        </div>
+    </div>
+
     <script src="https://anupsharmasharma012-debug.github.io/citypulse-core/config.js"></script>
     <script src="https://anupsharmasharma012-debug.github.io/citypulse-core/store.js"></script>
     <script src="https://anupsharmasharma012-debug.github.io/citypulse-core/components.js"></script>
-    
     <script>
-        // Check initial Dark Mode State
+        // Global Theme Sync across all pages and bottom nav components
         window.addEventListener('DOMContentLoaded', () => {
-            if (localStorage.getItem('cp_theme') === 'dark') {
+            const savedTheme = localStorage.getItem('cp_theme') || 'light';
+            if (savedTheme === 'dark') {
                 document.body.classList.add('dark-mode');
+                // Target bottom nav or global containers if loaded dynamically
+                setTimeout(() => {
+                    document.querySelectorAll('bottom-nav, city-topbar').forEach(el => {
+                        if(el.shadowRoot) {
+                            el.shadowRoot.host.classList.add('dark-mode');
+                        }
+                    });
+                }, 200);
             }
         });
 
-        // Fully Functional Dark Mode Toggle for the User
+        // 🔥 NEW ADDITION: Fully Functional Dark Mode Toggle
         function toggleDarkMode() {
             const body = document.body;
             body.classList.toggle('dark-mode');
@@ -244,6 +264,27 @@
             } else {
                 localStorage.setItem('cp_theme', 'light');
             }
+            
+            // Sync bottom nav immediately visually
+            document.querySelectorAll('bottom-nav, city-topbar').forEach(el => {
+                if(el.shadowRoot) {
+                    el.shadowRoot.host.classList.toggle('dark-mode');
+                }
+            });
+        }
+
+        // Original Language Modal Functions
+        function openLangModal() {
+            document.getElementById('langModal').style.display = 'flex';
+        }
+        function closeLangModal() {
+            document.getElementById('langModal').style.display = 'none';
+        }
+        function setLanguage(langName) {
+            document.getElementById('currentLangText').innerText = langName + ' ›';
+            // Assuming showToast is globally defined in components.js or config.js
+            try { showToast('Language changed to ' + langName); } catch(e) { alert('Language changed to ' + langName); }
+            closeLangModal();
         }
     </script>
 </body>
