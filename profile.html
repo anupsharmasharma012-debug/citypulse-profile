@@ -38,7 +38,7 @@
         .menu-arrow { color: var(--text-muted); font-size: 14px; font-weight: bold; }
 
         /* Icon Colors */
-        .icon-cart { background: rgba(16, 185, 129, 0.1); color: #10b981; } /* Naya Cart Icon Style */
+        .icon-cart { background: rgba(16, 185, 129, 0.1); color: #10b981; } 
         .icon-orders { background: rgba(245, 158, 11, 0.1); color: #f59e0b; }
         .icon-wishlist { background: rgba(236, 72, 153, 0.1); color: #ec4899; }
         .icon-sos { background: rgba(239, 68, 68, 0.1); color: #ef4444; }
@@ -99,27 +99,30 @@
                 <div class="wallet-right-btn">Top Up</div>
             </a>
 
-            <!-- GROUP 1: Primary Actions (CART ADDED HERE) -->
+            <!-- GROUP 1: Primary Actions (CART & ORDERS LINKED HERE) -->
             <div class="menu-section">
-                <!-- 🛒 NEW CART BUTTON -->
+                <!-- 🛒 CART BUTTON -->
                 <a href="cart.html" class="menu-item">
                     <div class="menu-icon icon-cart">🛒</div>
                     <div class="menu-text" style="color: #10b981;">My Cart</div>
                     <div class="menu-arrow">❯</div>
                 </a>
 
-                <a href="#" class="menu-item" onclick="alert('My Orders page coming soon!')">
+                <!-- 📦 ORDERS BUTTON (Link Updated) -->
+                <a href="orders.html" class="menu-item">
                     <div class="menu-icon icon-orders">📦</div>
                     <div class="menu-text">My Orders & Bookings</div>
                     <div class="menu-arrow">❯</div>
                 </a>
                 
+                <!-- ❤️ WISHLIST BUTTON -->
                 <a href="wishlist.html" class="menu-item">
                     <div class="menu-icon icon-wishlist">❤️</div>
                     <div class="menu-text">My Wishlist</div>
                     <div class="menu-arrow">❯</div>
                 </a>
                 
+                <!-- 🚨 SOS BUTTON -->
                 <a href="emergency-sos.html" class="menu-item">
                     <div class="menu-icon icon-sos">🚨</div>
                     <div class="menu-text" style="color: #ef4444;">Emergency (SOS) Hub</div>
