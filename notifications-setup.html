@@ -3,57 +3,154 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CityPulse - Notifications Setup</title>
+    <title>CityPulse - Notification Preferences</title>
     <link rel="stylesheet" href="https://anupsharmasharma012-debug.github.io/citypulse-core/style.css">
     <style>
-        .toggle-switch { position: relative; display: inline-block; width: 40px; height: 22px; }
+        :root {
+            --bg-light: #f3f4f6;
+            --cp-blue: #3b82f6;
+        }
+        body, .max-width-container { background-color: var(--bg-light); }
+
+        /* Premium iOS-style Toggle */
+        .toggle-switch { position: relative; display: inline-block; width: 46px; height: 26px; }
         .toggle-switch input { opacity: 0; width: 0; height: 0; }
-        .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: var(--card-border); transition: .4s; border-radius: 22px; }
-        .slider:before { position: absolute; content: ""; height: 16px; width: 16px; left: 3px; bottom: 3px; background-color: white; transition: .4s; border-radius: 50%; }
-        input:checked + .slider { background-color: var(--accent-blue); }
-        input:checked + .slider:before { transform: translateX(18px); }
+        .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #d1d5db; transition: .3s; border-radius: 26px; }
+        .slider:before { position: absolute; content: ""; height: 22px; width: 22px; left: 2px; bottom: 2px; background-color: white; transition: .3s; border-radius: 50%; box-shadow: 0 2px 4px rgba(0,0,0,0.2); }
+        input:checked + .slider { background-color: var(--cp-blue); }
+        input:checked + .slider:before { transform: translateX(20px); }
+        input:disabled + .slider { opacity: 0.6; cursor: not-allowed; }
+
+        /* Premium Cards */
+        .notif-card { background: #ffffff; border-radius: 16px; margin: 0 16px 24px 16px; padding: 0; box-shadow: 0 4px 12px rgba(0,0,0,0.03); border: 1px solid rgba(0,0,0,0.04); }
+        .notif-row { display: flex; justify-content: space-between; align-items: center; padding: 16px; border-bottom: 1px solid #f3f4f6; }
+        .notif-row:last-child { border-bottom: none; }
+        
+        .icon-box { width: 36px; height: 36px; border-radius: 10px; display: flex; justify-content: center; align-items: center; font-size: 18px; margin-right: 12px; }
+        .row-text { font-size: 14px; font-weight: 700; color: #111827; }
+        .row-sub { font-size: 11px; color: #6b7280; margin-top: 2px; line-height: 1.3; }
+
+        .section-title { font-size: 12px; font-weight: 800; color: #6b7280; text-transform: uppercase; margin: 0 0 10px 24px; letter-spacing: 0.5px; }
+
+        /* Modern Time Picker */
+        .time-picker { background: #f3f4f6; border: 1px solid #e5e7eb; padding: 8px 12px; border-radius: 10px; font-size: 14px; font-weight: 700; color: #111827; outline: none; width: 100%; box-sizing: border-box; }
+        .time-box { flex: 1; display: flex; flex-direction: column; gap: 4px; }
     </style>
 </head>
 <body>
     <div class="max-width-container">
-        <city-topbar title="Notifications & Alerts"></city-topbar>
+        <city-topbar title="Notification Setup"></city-topbar>
         
-        <main style="padding: 10px 16px; margin-bottom: 80px;" class="flex-column gap-4">
+        <main style="padding-top: 16px; padding-bottom: 80px;">
             
-            <div>
-                <h4 style="font-size: 11px; color: var(--text-muted); margin: 0 0 8px 10px; font-weight: 800; text-transform: uppercase;">Alert Preferences</h4>
-                <div class="cp-card" style="padding: 0; overflow: hidden; margin: 0;">
-                    
-                    <div class="flex-between" style="padding: 16px; border-bottom: 1px solid var(--card-border);">
+            <!-- Quiet Hours (DND) -->
+            <div class="section-title">Do Not Disturb (DND)</div>
+            <div class="notif-card" style="border-left: 4px solid #f59e0b;">
+                <div class="notif-row">
+                    <div style="display: flex; align-items: center;">
+                        <div class="icon-box" style="background: rgba(245, 158, 11, 0.1); color: #f59e0b;">🌙</div>
                         <div>
-                            <div style="font-size: 14px; font-weight: 600;">Transactions & Alerts</div>
-                            <div style="font-size: 10px; color: var(--text-muted); margin-top: 2px;">Essential wallet updates</div>
+                            <div class="row-text">Night Mode / DND</div>
+                            <div class="row-sub">Mute non-emergency alerts</div>
                         </div>
-                        <label class="toggle-switch"><input type="checkbox" checked disabled><span class="slider"></span></label>
                     </div>
+                    <label class="toggle-switch"><input type="checkbox" id="dnd-toggle" onchange="toggleDND()"><span class="slider"></span></label>
+                </div>
+                
+                <div id="dnd-times" style="display: none; padding: 0 16px 16px 16px; border-top: 1px solid #f3f4f6; margin-top: 4px;">
+                    <div style="display: flex; gap: 16px; margin-top: 12px;">
+                        <div class="time-box">
+                            <label style="font-size: 10px; color: #6b7280; font-weight: 800; text-transform: uppercase;">From</label>
+                            <input type="time" class="time-picker" value="22:00">
+                        </div>
+                        <div class="time-box">
+                            <label style="font-size: 10px; color: #6b7280; font-weight: 800; text-transform: uppercase;">To</label>
+                            <input type="time" class="time-picker" value="07:00">
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-                    <div class="flex-between" style="padding: 16px; border-bottom: 1px solid var(--card-border);">
+            <!-- Categories -->
+            <div class="section-title">Alert Categories</div>
+            <div class="notif-card">
+                
+                <div class="notif-row">
+                    <div style="display: flex; align-items: center;">
+                        <div class="icon-box" style="background: rgba(239, 68, 68, 0.1); color: #ef4444;">🚨</div>
                         <div>
-                            <div style="font-size: 14px; font-weight: 600;">Marketing & Offers</div>
-                            <div style="font-size: 10px; color: var(--text-muted); margin-top: 2px;">Promo codes and discounts</div>
+                            <div class="row-text">Civic & Emergency</div>
+                            <div class="row-sub">Ward alerts, water/power supply updates</div>
                         </div>
-                        <label class="toggle-switch"><input type="checkbox"><span class="slider"></span></label>
                     </div>
+                    <label class="toggle-switch"><input type="checkbox" checked onchange="showToast('Preference Saved')"><span class="slider"></span></label>
+                </div>
 
-                    <div class="flex-between" style="padding: 16px;">
+                <div class="notif-row">
+                    <div style="display: flex; align-items: center;">
+                        <div class="icon-box" style="background: rgba(16, 185, 129, 0.1); color: #10b981;">💰</div>
                         <div>
-                            <div style="font-size: 14px; font-weight: 600;">Do Not Disturb (DND)</div>
-                            <div style="font-size: 10px; color: var(--text-muted); margin-top: 2px;">Mute alerts during night</div>
+                            <div class="row-text">Wallet & Payments</div>
+                            <div class="row-sub">Receipts & debits (Cannot be disabled)</div>
                         </div>
-                        <label class="toggle-switch"><input type="checkbox" onchange="showToast('DND mode enabled for 8 hours')"><span class="slider"></span></label>
                     </div>
+                    <label class="toggle-switch"><input type="checkbox" checked disabled><span class="slider"></span></label>
+                </div>
 
+                <div class="notif-row">
+                    <div style="display: flex; align-items: center;">
+                        <div class="icon-box" style="background: rgba(59, 130, 246, 0.1); color: #3b82f6;">📰</div>
+                        <div>
+                            <div class="row-text">News & Weather</div>
+                            <div class="row-sub">Morning briefs & local news</div>
+                        </div>
+                    </div>
+                    <label class="toggle-switch"><input type="checkbox" checked onchange="showToast('Preference Saved')"><span class="slider"></span></label>
+                </div>
+
+                <div class="notif-row">
+                    <div style="display: flex; align-items: center;">
+                        <div class="icon-box" style="background: rgba(249, 115, 22, 0.1); color: #f97316;">🎁</div>
+                        <div>
+                            <div class="row-text">Promos & Offers</div>
+                            <div class="row-sub">Discounts from local merchants</div>
+                        </div>
+                    </div>
+                    <label class="toggle-switch"><input type="checkbox" onchange="showToast('Preference Saved')"><span class="slider"></span></label>
+                </div>
+
+            </div>
+
+            <!-- Device Settings -->
+            <div class="section-title">Device Settings</div>
+            <div class="notif-card">
+                <div class="notif-row">
+                    <div style="display: flex; align-items: center;">
+                        <div class="icon-box" style="background: rgba(139, 92, 246, 0.1); color: #8b5cf6;">📳</div>
+                        <div>
+                            <div class="row-text">Vibrate on Alert</div>
+                        </div>
+                    </div>
+                    <label class="toggle-switch"><input type="checkbox" checked onchange="showToast('Vibration Setting Updated')"><span class="slider"></span></label>
                 </div>
             </div>
 
         </main>
     </div>
-
     <script src="https://anupsharmasharma012-debug.github.io/citypulse-core/components.js"></script>
+    <script>
+        function toggleDND() {
+            const isChecked = document.getElementById('dnd-toggle').checked;
+            const timeBox = document.getElementById('dnd-times');
+            if (isChecked) {
+                timeBox.style.display = 'block';
+                showToast('DND Mode Activated');
+            } else {
+                timeBox.style.display = 'none';
+                showToast('DND Mode Deactivated');
+            }
+        }
+        function showToast(msg) { alert(msg); /* Replace with core toast */ }
+    </script>
 </body>
 </html>
