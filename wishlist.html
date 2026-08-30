@@ -6,56 +6,90 @@
     <title>CityPulse - My Wishlist</title>
     <link rel="stylesheet" href="https://anupsharmasharma012-debug.github.io/citypulse-core/style.css">
     <style>
-        .wl-tabs { display: flex; background: rgba(150,150,150,0.1); border-radius: 12px; margin-bottom: 16px; padding: 4px; }
-        .wl-tab { flex: 1; text-align: center; padding: 10px; font-size: 13px; font-weight: 700; border-radius: 8px; cursor: pointer; color: var(--text-muted); }
-        .wl-tab.active { background: var(--card-bg); color: var(--text-main); box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
+        :root {
+            --bg-light: #f8fafc;
+            --cp-pink: #ec4899;
+            --cp-blue: #3b82f6;
+            --cp-green: #10b981;
+        }
+        body, .max-width-container { background-color: var(--bg-light); }
+
+        /* Wishlist Grid & Cards */
+        .wishlist-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; padding: 16px; }
+        .wish-card { background: var(--card-bg); border-radius: 16px; overflow: hidden; border: 1px solid var(--card-border); box-shadow: 0 4px 10px rgba(0,0,0,0.03); display: flex; flex-direction: column; position: relative; }
+        
+        .wish-img-area { height: 110px; background: rgba(236, 72, 153, 0.05); display: flex; justify-content: center; align-items: center; font-size: 40px; position: relative; }
+        .remove-heart { position: absolute; top: 8px; right: 8px; background: white; width: 28px; height: 28px; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 14px; box-shadow: 0 2px 6px rgba(0,0,0,0.1); cursor: pointer; }
+        
+        .wish-content { padding: 12px; display: flex; flex-direction: column; flex: 1; justify-content: space-between; }
+        .wish-title { font-size: 13px; font-weight: 800; color: var(--text-main); margin-bottom: 2px; }
+        .wish-sub { font-size: 10px; color: var(--text-muted); font-weight: 600; margin-bottom: 8px; }
+        .wish-price { font-size: 14px; font-weight: 900; color: var(--text-main); margin-bottom: 10px; }
+        
+        .add-to-cart-btn { background: rgba(59, 130, 246, 0.1); color: var(--cp-blue); border: none; padding: 8px; border-radius: 10px; font-size: 11px; font-weight: 800; text-align: center; cursor: pointer; transition: background 0.2s; }
+        .add-to-cart-btn:active { background: rgba(59, 130, 246, 0.2); }
     </style>
 </head>
 <body>
-    <div class="max-width-container">
-        <city-topbar title="My Wishlist"></city-topbar>
+    <div class="max-width-container" style="min-height: 100vh;">
         
-        <main style="padding: 10px 16px; margin-bottom: 80px;" class="flex-column gap-3">
+        <city-topbar title="My Wishlist (2)"></city-topbar>
+        
+        <main style="padding-bottom: 90px;">
             
-            <div class="wl-tabs">
-                <div class="wl-tab active">🛍️ Products</div>
-                <div class="wl-tab" onclick="window.location.href='activity.html'">🏬 Saved Shops</div>
-            </div>
-
-            <!-- Wishlist Items -->
-            <div class="cp-card flex-between" style="padding: 12px; margin: 0;">
-                <div class="d-flex gap-3 align-items-center">
-                    <div style="width: 60px; height: 60px; background: rgba(59,130,246,0.1); border-radius: 8px; display: flex; justify-content: center; align-items: center; font-size: 24px;">👟</div>
-                    <div>
-                        <div style="font-size: 13px; font-weight: 700;">Mens Running Shoes (Black)</div>
-                        <div style="font-size: 11px; color: var(--text-muted);">Bhatpara Sports Mart</div>
-                        <div style="font-size: 14px; font-weight: 800; color: var(--accent-blue); margin-top: 4px;">₹ 899 <span style="font-size: 10px; text-decoration: line-through; color: var(--text-muted);">₹ 1,299</span></div>
+            <div class="wishlist-grid">
+                
+                <!-- Item 1 -->
+                <div class="wish-card">
+                    <div class="wish-img-area">
+                        <span>🎧</span>
+                        <div class="remove-heart" onclick="this.parentElement.parentElement.style.display='none'; showToast('Removed from Wishlist')">❤️</div>
+                    </div>
+                    <div class="wish-content">
+                        <div>
+                            <div class="wish-title">boAt Rockerz Wireless</div>
+                            <div class="wish-sub">Electronics • In Stock</div>
+                            <div class="wish-price">₹1,299 <span style="font-size: 10px; color: var(--text-muted); text-decoration: line-through;">₹2,999</span></div>
+                        </div>
+                        <button class="add-to-cart-btn" onclick="showToast('Moved to Cart 🛒')">Move to Cart</button>
                     </div>
                 </div>
-                <div class="flex-column gap-2">
-                    <button class="cp-btn-primary" style="padding: 6px 12px; font-size: 11px;">Add to Cart</button>
-                    <button style="background: transparent; border: none; color: var(--accent-red); font-size: 18px; cursor: pointer;" onclick="showToast('Removed from wishlist')">🗑️</button>
-                </div>
-            </div>
 
-            <div class="cp-card flex-between" style="padding: 12px; margin: 0;">
-                <div class="d-flex gap-3 align-items-center">
-                    <div style="width: 60px; height: 60px; background: rgba(59,130,246,0.1); border-radius: 8px; display: flex; justify-content: center; align-items: center; font-size: 24px;">👕</div>
-                    <div>
-                        <div style="font-size: 13px; font-weight: 700;">Oversized Parachute T-Shirt</div>
-                        <div style="font-size: 11px; color: var(--text-muted);">Gupta Garments</div>
-                        <div style="font-size: 14px; font-weight: 800; color: var(--accent-blue); margin-top: 4px;">₹ 450</div>
+                <!-- Item 2 -->
+                <div class="wish-card">
+                    <div class="wish-img-area" style="background: rgba(16, 185, 129, 0.05);">
+                        <span>⚡</span>
+                        <div class="remove-heart" onclick="this.parentElement.parentElement.style.display='none'; showToast('Removed from Wishlist')">❤️</div>
+                    </div>
+                    <div class="wish-content">
+                        <div>
+                            <div class="wish-title">Microtek Solar Inverter</div>
+                            <div class="wish-sub">Home Energy • 1kW</div>
+                            <div class="wish-price">₹18,500</div>
+                        </div>
+                        <button class="add-to-cart-btn" onclick="showToast('Moved to Cart 🛒')">Move to Cart</button>
                     </div>
                 </div>
-                <div class="flex-column gap-2">
-                    <button class="cp-btn-primary" style="padding: 6px 12px; font-size: 11px;">Add to Cart</button>
-                    <button style="background: transparent; border: none; color: var(--accent-red); font-size: 18px; cursor: pointer;">🗑️</button>
-                </div>
+
             </div>
 
         </main>
+        
+        <bottom-nav></bottom-nav>
     </div>
+
+    <!-- Master Scripts -->
+    <script src="https://anupsharmasharma012-debug.github.io/citypulse-core/config.js"></script>
+    <script src="https://anupsharmasharma012-debug.github.io/citypulse-core/store.js"></script>
     <script src="https://anupsharmasharma012-debug.github.io/citypulse-core/components.js"></script>
+
+    <script>
+        window.addEventListener('DOMContentLoaded', () => {
+            if (localStorage.getItem('cp_theme') === 'dark') {
+                document.body.classList.add('dark-mode');
+            }
+        });
+        function showToast(msg) { alert(msg); }
+    </script>
 </body>
 </html>
-
