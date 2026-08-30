@@ -7,7 +7,7 @@
     <!-- Core Global Design System -->
     <link rel="stylesheet" href="https://anupsharmasharma012-debug.github.io/citypulse-core/style.css">
     <style>
-        /* PROFILE SPECIFIC STYLING (From New Design) */
+        /* PROFILE SPECIFIC STYLING */
         .profile-header-bg {
             background: linear-gradient(135deg, #4f46e5 0%, #3b82f6 100%);
             padding: 20px 16px 60px 16px;
@@ -79,7 +79,7 @@
         .menu-text { flex: 1; font-size: 14px; font-weight: 700; }
         .menu-arrow { color: var(--text-muted); font-size: 14px; font-weight: bold; }
 
-        /* Icon Colors (Mapped for all old & new features) */
+        /* Icon Colors */
         .icon-orders { background: rgba(245, 158, 11, 0.1); color: #f59e0b; }
         .icon-wishlist { background: rgba(236, 72, 153, 0.1); color: #ec4899; }
         .icon-sos { background: rgba(239, 68, 68, 0.1); color: #ef4444; }
@@ -95,6 +95,10 @@
         .icon-partner { background: rgba(6, 182, 212, 0.1); color: #06b6d4; }
         .icon-support { background: rgba(107, 114, 128, 0.1); color: #6b7280; }
         .icon-rate { background: rgba(234, 179, 8, 0.1); color: #eab308; }
+        
+        /* New Icons for the Missing Options */
+        .icon-security { background: rgba(16, 185, 129, 0.1); color: #10b981; } /* Green */
+        .icon-notification { background: rgba(234, 179, 8, 0.1); color: #eab308; } /* Yellow/Amber */
 
         /* Toggle Switch for Dark Mode */
         .toggle-switch { width: 44px; height: 24px; background: #d1d5db; border-radius: 12px; position: relative; transition: 0.3s; }
@@ -105,7 +109,7 @@
         /* Badges for active plans/texts */
         .status-badge { background: rgba(37,99,235,0.1); color: var(--accent-blue); font-size: 10px; padding: 3px 8px; border-radius: 8px; font-weight: 800; }
 
-        /* Bottom Sheet Modal for Language Selection (From old code) */
+        /* Bottom Sheet Modal for Language Selection */
         .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); display: none; justify-content: center; align-items: flex-end; z-index: 999; }
         .modal-sheet { background: var(--card-bg); width: 100%; max-width: 480px; border-radius: 20px 20px 0 0; padding: 20px; animation: slideUp 0.3s ease-out; }
         @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
@@ -116,7 +120,7 @@
 <body>
     <div class="max-width-container">
         
-        <!-- HEADER PROFILE INFO (New Design) -->
+        <!-- HEADER PROFILE INFO -->
         <div class="profile-header-bg">
             <city-topbar title="My Profile"></city-topbar>
             
@@ -164,7 +168,7 @@
                 </a>
             </div>
 
-            <!-- GROUP 2: Rewards & Memberships (From Old Code) -->
+            <!-- GROUP 2: Rewards & Memberships -->
             <div class="menu-section">
                 <div class="menu-item" onclick="alert('CityPulse Plus subscription details')">
                     <div class="menu-icon icon-plus">👑</div>
@@ -185,7 +189,7 @@
                 </div>
             </div>
 
-            <!-- GROUP 3: Settings & Preferences -->
+            <!-- GROUP 3: Settings & Preferences (Missing Options Added Here) -->
             <div class="menu-section">
                 <!-- Dark Mode -->
                 <div class="menu-item" onclick="toggleDarkMode()">
@@ -194,12 +198,26 @@
                     <div class="toggle-switch"><div class="toggle-circle"></div></div>
                 </div>
                 
-                <!-- Language (Old Code integration) -->
+                <!-- Language -->
                 <div class="menu-item" onclick="openLangModal()">
                     <div class="menu-icon icon-lang">🗣️</div>
                     <div class="menu-text">Language Selection</div>
                     <div style="font-size: 12px; color: var(--text-muted); font-weight: 700;" id="currentLangText">English ❯</div>
                 </div>
+
+                <!-- Missing Option 1: Notifications -->
+                <a href="notifications-setup.html" class="menu-item">
+                    <div class="menu-icon icon-notification">🔔</div>
+                    <div class="menu-text">Notifications & Alerts</div>
+                    <div class="menu-arrow">❯</div>
+                </a>
+
+                <!-- Missing Option 2: Security -->
+                <a href="security.html" class="menu-item">
+                    <div class="menu-icon icon-security">🛡️</div>
+                    <div class="menu-text">Account Safety & Security</div>
+                    <div class="menu-arrow">❯</div>
+                </a>
 
                 <a href="location.html" class="menu-item">
                     <div class="menu-icon icon-address">📍</div>
@@ -214,7 +232,7 @@
                 </a>
             </div>
 
-            <!-- GROUP 4: Business & Support (From Old Code) -->
+            <!-- GROUP 4: Business & Support -->
             <div class="menu-section">
                 <div class="menu-item" onclick="alert('Business Profile Portal')">
                     <div class="menu-icon icon-business">🏢</div>
@@ -258,7 +276,7 @@
         <bottom-nav></bottom-nav>
     </div>
 
-    <!-- LANGUAGE BOTTOM SHEET MODAL (From Old Code) -->
+    <!-- LANGUAGE BOTTOM SHEET MODAL -->
     <div class="modal-overlay" id="langModal" onclick="closeLangModal(event)">
         <div class="modal-sheet" onclick="event.stopPropagation()">
             <div class="flex-between" style="margin-bottom: 16px;">
@@ -296,7 +314,7 @@
             }
         }
 
-        // Functional Language Modal (From Old Code)
+        // Functional Language Modal
         function openLangModal() {
             document.getElementById('langModal').style.display = 'flex';
         }
