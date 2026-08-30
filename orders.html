@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CityPulse - My Orders</title>
+    <link rel="stylesheet" href="https://anupsharmasharma012-debug.github.io/citypulse-core/style.css">
+    <style>
+        :root {
+            --bg-light: #f8fafc;
+            --cp-blue: #3b82f6;
+            --cp-green: #10b981;
+            --cp-orange: #f59e0b;
+            --cp-red: #ef4444;
+        }
+        body, .max-width-container { background-color: var(--bg-light); }
+
+        /* Premium Tab System */
+        .order-tabs { display: flex; background: rgba(150,150,150,0.1); border-radius: 12px; margin: 16px; padding: 4px; }
+        .order-tab { flex: 1; text-align: center; padding: 10px; font-size: 13px; font-weight: 700; border-radius: 8px; cursor: pointer; color: var(--text-muted); transition: 0.2s; -webkit-tap-highlight-color: transparent;}
+        .order-tab.active { background: var(--card-bg); color: var(--text-main); box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
+
+        /* Order Cards */
+        .order-card { background: var(--card-bg); border-radius: 16px; padding: 16px; margin: 0 16px 16px 16px; box-shadow: 0 4px 12px rgba(0,0,0,0.03); border: 1px solid var(--card-border); }
+        .order-header { display: flex; justify-content: space-between; align-items: flex-start; border-bottom: 1px dashed var(--card-border); padding-bottom: 12px; margin-bottom: 12px; }
+        
+        .vendor-icon { width: 44px; height: 44px; border-radius: 12px; display: flex; justify-content: center; align-items: center; font-size: 22px; }
+        .vendor-name { font-size: 14px; font-weight: 800; color: var(--text-main); margin-bottom: 2px; }
+        .order-date { font-size: 11px; color: var(--text-muted); font-weight: 600; }
+        
+        /* Status Badges */
+        .status-badge { font-size: 10px; font-weight: 800; padding: 4px 8px; border-radius: 8px; text-transform: uppercase; }
+        .status-live { background: rgba(59, 130, 246, 0.1); color: var(--cp-blue); }
+        .status-done { background: rgba(16, 185, 129, 0.1); color: var(--cp-green); }
+        .status-cancel { background: rgba(239, 68, 68, 0.1); color: var(--cp-red); }
+
+        /* Item List */
+        .item-list { font-size: 12px; color: var(--text-muted); font-weight: 600; line-height: 1.5; margin-bottom: 12px; }
+        .order-total { font-size: 14px; font-weight: 800; color: var(--text-main); }
+
+        /* Actions */
+        .order-actions { display: flex; gap: 10px; margin-top: 14px; }
+        .action-btn { flex: 1; padding: 10px; border-radius: 10px; font-size: 12px; font-weight: 800; text-align: center; cursor: pointer; transition: transform 0.1s; -webkit-tap-highlight-color: transparent;}
+        .action-btn:active { transform: scale(0.96); }
+        .btn-primary { background: var(--cp-blue); color: white; border: none; }
+        .btn-outline { background: transparent; color: var(--text-main); border: 1px solid var(--card-border); }
+
+        /* Live Tracking Stepper UI */
+        .track-stepper { display: flex; justify-content: space-between; position: relative; margin: 15px 0 10px 0; }
+        .track-line { position: absolute; top: 50%; left: 10%; right: 10%; height: 2px; background: var(--card-border); z-index: 1; transform: translateY(-50%); }
+        .track-line-fill { position: absolute; top: 50%; left: 10%; width: 50%; height: 2px; background: var(--cp-blue); z-index: 2; transform: translateY(-50%); }
+        .step { position: relative; z-index: 3; display: flex; flex-direction: column; align-items: center; gap: 4px; background: var(--card-bg); padding: 0 4px; }
+        .step-dot { width: 14px; height: 14px; border-radius: 50%; background: var(--card-border); border: 2px solid var(--card-bg); }
+        .step.active .step-dot { background: var(--cp-blue); box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2); }
+        .step-text { font-size: 9px; font-weight: 800; color: var(--text-muted); text-transform: uppercase; }
+        .step.active .step-text { color: var(--cp-blue); }
+    </style>
+</head>
+<body>
+    <div class="max-width-container" style="min-height: 100vh;">
+        
+        <city-topbar title="Orders & Bookings"></city-topbar>
+        
+        <main style="padding-bottom: 90px;">
+            
+            <!-- Tab Switcher -->
+            <div class="order-tabs">
+                <div class="order-tab active" id="tab-active-btn" onclick="switchTab('active')">Live Orders (1)</div>
+                <div class="order-tab" id="tab-past-btn" onclick="switchTab('past')">Past History</div>
+            </div>
+
+            <!-- ================= ACTIVE ORDERS VIEW ================= -->
+            <div id="view-active">
+                
+                <!-- Live Grocery Order -->
+                <div class="order-card" style="border-left: 4px solid var(--cp-blue);">
+                    <div class="order-header">
+                        <div style="display: flex; gap: 12px;">
+                            <div class="vendor-icon" style="background: rgba(59, 130, 246, 0.1);">🛒</div>
+                            <div>
+                                <div class="vendor-name">Bhatpara Grocery Mart</div>
+                                <div class="order-date">Order #CP-8492 • Today, 02:30 PM</div>
+                            </div>
+                        </div>
+                        <div class="status-badge status-live">On The Way</div>
+                    </div>
+
+                    <!-- Beautiful Live Tracking Stepper -->
+                    <div class="track-stepper">
+                        <div class="track-line"></div>
+                        <div class="track-line-fill"></div>
+                        <div class="step active">
+                            <div class="step-dot"></div><div class="step-text">Placed</div>
+                        </div>
+                        <div class="step active">
+                            <div class="step-dot"></div><div class="step-text">Packed</div>
+                        </div>
+                        <div class="step active">
+                            <div class="step-dot"></div><div class="step-text" style="animation: pulse 1s infinite alternate;">On Way</div>
+                        </div>
+                        <div class="step">
+                            <div class="step-dot"></div><div class="step-text">Done</div>
+                        </div>
+                    </div>
+
+                    <div class="item-list" style="margin-top: 16px;">
+                        1x Amul Taaza Milk (1L), 2x Ashirvaad Atta (5kg), 1x Tata Salt
+                    </div>
+                    
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <div class="order-total">Total: ₹645.00</div>
+                        <div style="font-size: 11px; font-weight: 700; color: var(--cp-blue);">OTP: 4921</div>
+                    </div>
+
+                    <div class="order-actions">
+                        <div class="action-btn btn-outline" onclick="showToast('Calling Delivery Partner...')">📞 Call Rider</div>
+                        <div class="action-btn btn-primary" onclick="showToast('Opening Live Map Tracking...')">📍 Track Order</div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- ================= PAST ORDERS VIEW ================= -->
+            <div id="view-past" style="display: none;">
+                
+                <!-- Past Service Booking (Electrician) -->
+                <div class="order-card">
+                    <div class="order-header">
+                        <div style="display: flex; gap: 12px;">
+                            <div class="vendor-icon" style="background: rgba(245, 158, 11, 0.1);">🔌</div>
+                            <div>
+                                <div class="vendor-name">Ramesh Electricals</div>
+                                <div class="order-date">Booking #SRV-102 • 28 Aug 2026</div>
+                            </div>
+                        </div>
+                        <div class="status-badge status-done">Completed</div>
+                    </div>
+
+                    <div class="item-list">
+                        Service: Ceiling Fan Repair & Wiring check.<br>
+                        Professional: Ramesh Kr.
+                    </div>
+                    
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <div class="order-total">Paid: ₹150.00</div>
+                        <div style="font-size: 12px;">⭐⭐⭐⭐⭐</div>
+                    </div>
+
+                    <div class="order-actions">
+                        <div class="action-btn btn-outline" onclick="showToast('Downloading Invoice PDF...')">📄 Invoice</div>
+                        <div class="action-btn btn-primary" onclick="showToast('Rebooking Service...')">Rebook Service</div>
+                    </div>
+                </div>
+
+                <!-- Past Ride (Auto/Cab) -->
+                <div class="order-card">
+                    <div class="order-header">
+                        <div style="display: flex; gap: 12px;">
+                            <div class="vendor-icon" style="background: rgba(16, 185, 129, 0.1);">🛺</div>
+                            <div>
+                                <div class="vendor-name">CityPulse Auto Ride</div>
+                                <div class="order-date">Ride #RD-443 • 26 Aug 2026</div>
+                            </div>
+                        </div>
+                        <div class="status-badge status-cancel">Cancelled</div>
+                    </div>
+
+                    <div class="item-list">
+                        From: Bhatpara Station<br>
+                        To: Shyamnagar Market
+                    </div>
+                    
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <div class="order-total" style="color: var(--text-muted);">₹0.00</div>
+                        <div style="font-size: 11px; color: var(--cp-red); font-weight: 700;">Driver Cancelled</div>
+                    </div>
+
+                    <div class="order-actions">
+                        <div class="action-btn btn-outline" onclick="showToast('Opening Support Chat...')">🎧 Support</div>
+                    </div>
+                </div>
+
+            </div>
+
+        </main>
+        
+        <bottom-nav></bottom-nav>
+    </div>
+
+    <!-- Master Scripts -->
+    <script src="https://anupsharmasharma012-debug.github.io/citypulse-core/config.js"></script>
+    <script src="https://anupsharmasharma012-debug.github.io/citypulse-core/store.js"></script>
+    <script src="https://anupsharmasharma012-debug.github.io/citypulse-core/components.js"></script>
+
+    <script>
+        // Check Dark Mode
+        window.addEventListener('DOMContentLoaded', () => {
+            if (localStorage.getItem('cp_theme') === 'dark') {
+                document.body.classList.add('dark-mode');
+            }
+        });
+
+        // Tab Switching Logic
+        function switchTab(tab) {
+            // Update Buttons
+            document.getElementById('tab-active-btn').classList.remove('active');
+            document.getElementById('tab-past-btn').classList.remove('active');
+            document.getElementById(`tab-${tab}-btn`).classList.add('active');
+
+            // Update Views
+            document.getElementById('view-active').style.display = tab === 'active' ? 'block' : 'none';
+            document.getElementById('view-past').style.display = tab === 'past' ? 'block' : 'none';
+        }
+
+        function showToast(msg) {
+            alert(msg); // Replace with your custom toast logic
+        }
+    </script>
+</body>
+</html>
