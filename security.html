@@ -6,71 +6,98 @@
     <title>CityPulse - Security</title>
     <link rel="stylesheet" href="https://anupsharmasharma012-debug.github.io/citypulse-core/style.css">
     <style>
-        .toggle-switch { position: relative; display: inline-block; width: 40px; height: 22px; }
-        .toggle-switch input { opacity: 0; width: 0; height: 0; }
-        .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: var(--card-border); transition: .4s; border-radius: 22px; }
-        .slider:before { position: absolute; content: ""; height: 16px; width: 16px; left: 3px; bottom: 3px; background-color: white; transition: .4s; border-radius: 50%; }
-        input:checked + .slider { background-color: var(--accent-blue); }
-        input:checked + .slider:before { transform: translateX(18px); }
+        /* Bottom Sheet Modal Styles */
+        .sheet-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 1999; display: none; backdrop-filter: blur(2px); opacity: 0; transition: opacity 0.3s; }
+        .bottom-sheet { position: fixed; bottom: -100%; left: 50%; transform: translateX(-50%); width: 100%; max-width: 480px; background: var(--bg-color); border-radius: 24px 24px 0 0; z-index: 2000; padding: 24px; box-sizing: border-box; transition: bottom 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); border-top: 1px solid var(--card-border); }
+        .show-modal .sheet-overlay { display: block; opacity: 1; }
+        .show-modal .bottom-sheet { bottom: 0; }
     </style>
 </head>
 <body>
-    <div class="max-width-container">
-        <city-topbar title="Security & App Lock"></city-topbar>
+    <div class="max-width-container" id="main-container">
+        <city-topbar title="Account Safety & Security"></city-topbar>
         
         <main style="padding: 10px 16px; margin-bottom: 80px;" class="flex-column gap-4">
             
-            <!-- App Lock Deep Options -->
-            <div class="cp-card flex-column gap-3" style="margin: 0;">
-                <h3 style="margin: 0; font-size: 14px;">App Lock Settings</h3>
-                
-                <div class="flex-between" style="border-bottom: 1px solid var(--card-border); padding-bottom: 12px;">
-                    <div>
-                        <div style="font-size: 13px; font-weight: 700;">Biometric Unlock</div>
-                        <div style="font-size: 11px; color: var(--text-muted);">Use Fingerprint or Face ID</div>
-                    </div>
-                    <label class="toggle-switch"><input type="checkbox" checked><span class="slider"></span></label>
-                </div>
-
-                <div style="border-bottom: 1px solid var(--card-border); padding-bottom: 12px;">
-                    <label style="font-size: 11px; color: var(--text-muted); font-weight: 600;">Fallback Lock Type</label>
-                    <select class="cp-input" style="margin-top: 6px;">
-                        <option selected>4-Digit PIN</option>
-                        <option>Pattern Lock</option>
-                        <option>Alphanumeric Password</option>
-                    </select>
-                </div>
-
-                <div class="flex-between" style="cursor: pointer; border-bottom: 1px solid var(--card-border); padding-bottom: 12px;" onclick="showToast('Verification Required')">
-                    <div>
-                        <div style="font-size: 13px; font-weight: 700;">Change Current PIN / Pattern</div>
-                        <div style="font-size: 11px; color: var(--text-muted);">Set a new lock code</div>
-                    </div>
-                    <span style="color: var(--text-muted);">›</span>
-                </div>
-
-                <div style="text-align: center; padding-top: 8px;">
-                    <button style="background: transparent; border: none; color: var(--accent-blue); font-size: 12px; font-weight: 700; cursor: pointer; text-decoration: underline;" onclick="showToast('OTP sent to your registered mobile number')">Forgot PIN / Password?</button>
-                </div>
-            </div>
-
-            <!-- Manage Devices -->
-            <div class="cp-card flex-column gap-3" style="margin: 0;">
-                <h3 style="margin: 0; font-size: 14px;">Connected Devices</h3>
-                <div class="flex-between" style="padding: 12px; background: rgba(150,150,150,0.05); border: 1px solid var(--card-border); border-radius: 10px;">
-                    <div class="d-flex gap-3 align-items-center">
-                        <span style="font-size: 20px;">💻</span>
-                        <div>
-                            <div style="font-size: 13px; font-weight: 700;">Windows PC / Edge</div>
-                            <div style="font-size: 10px; color: var(--text-muted);">Kolkata • Last active 3 days ago</div>
+            <div>
+                <h4 style="font-size: 11px; color: var(--text-muted); margin: 0 0 8px 10px; font-weight: 800; text-transform: uppercase;">Security Settings</h4>
+                <div class="cp-card" style="padding: 0; overflow: hidden; margin: 0;">
+                    
+                    <div class="flex-between" style="padding: 16px; border-bottom: 1px solid var(--card-border); cursor: pointer;" onclick="openModal('applock-modal')">
+                        <div class="d-flex gap-3 align-items-center">
+                            <span style="font-size: 20px;">🔒</span>
+                            <div style="font-size: 14px; font-weight: 600;">App Lock & MPIN</div>
                         </div>
+                        <span style="font-size: 11px; color: var(--text-muted);">Disabled ›</span>
                     </div>
-                    <button style="background: rgba(239, 68, 68, 0.1); border: none; color: var(--accent-red); padding: 6px 10px; border-radius: 6px; font-size: 11px; font-weight: 700; cursor: pointer;">Remove</button>
+
+                    <div class="flex-between" style="padding: 16px; cursor: pointer;" onclick="openModal('devices-modal')">
+                        <div class="d-flex gap-3 align-items-center">
+                            <span style="font-size: 20px;">📱</span>
+                            <div style="font-size: 14px; font-weight: 600;">Manage Devices</div>
+                        </div>
+                        <span style="font-size: 11px; color: var(--accent-blue); font-weight: 700;">1 Active ›</span>
+                    </div>
+
                 </div>
             </div>
 
         </main>
     </div>
+
+    <!-- MODALS SECTION -->
+    <div class="sheet-overlay" id="overlay" onclick="closeAllModals()"></div>
+
+    <!-- Manage Devices Modal -->
+    <div class="bottom-sheet" id="devices-modal">
+        <div style="width: 40px; height: 5px; background: var(--card-border); border-radius: 10px; margin: 0 auto 20px auto;"></div>
+        <h3 style="margin: 0 0 16px 0; font-size: 18px;">Active Sessions</h3>
+        <div class="flex-column gap-3">
+            <div class="flex-between" style="padding: 12px; background: rgba(16,185,129,0.1); border: 1px solid var(--accent-green); border-radius: 10px;">
+                <div>
+                    <div style="font-size: 13px; font-weight: 700;">Current Device (Chrome)</div>
+                    <div style="font-size: 11px; color: var(--text-muted);">Bhatpara, WB • Active Now</div>
+                </div>
+                <span style="font-size: 11px; color: var(--accent-green); font-weight: 700;">This Phone</span>
+            </div>
+            <div class="flex-between" style="padding: 12px; border: 1px solid var(--card-border); border-radius: 10px;">
+                <div>
+                    <div style="font-size: 13px; font-weight: 700;">Desktop (Windows 11)</div>
+                    <div style="font-size: 11px; color: var(--text-muted);">Kolkata, WB • Last seen 2 days ago</div>
+                </div>
+                <button style="background: rgba(239, 68, 68, 0.1); border: none; color: var(--accent-red); padding: 6px 12px; border-radius: 8px; font-size: 11px; font-weight: 700; cursor: pointer;">Logout</button>
+            </div>
+            <button class="cp-btn-primary" style="margin-top: 10px; background: var(--text-main); color: var(--bg-color);" onclick="showToast('Logged out from all other devices'); closeAllModals()">Log out from all other devices</button>
+        </div>
+    </div>
+
+    <!-- App Lock Modal -->
+    <div class="bottom-sheet" id="applock-modal">
+        <div style="width: 40px; height: 5px; background: var(--card-border); border-radius: 10px; margin: 0 auto 20px auto;"></div>
+        <h3 style="margin: 0 0 8px 0; font-size: 18px; text-align: center;">Set 4-Digit MPIN</h3>
+        <p style="font-size: 12px; color: var(--text-muted); text-align: center; margin-bottom: 20px;">Use this PIN to securely open CityPulse or authorize payments.</p>
+        
+        <div style="display: flex; justify-content: center; gap: 15px; margin-bottom: 30px;">
+            <input type="password" maxlength="1" style="width: 45px; height: 50px; font-size: 24px; text-align: center; border-radius: 10px; border: 1px solid var(--accent-blue); background: var(--bg-color); color: var(--text-main);" placeholder="•">
+            <input type="password" maxlength="1" style="width: 45px; height: 50px; font-size: 24px; text-align: center; border-radius: 10px; border: 1px solid var(--accent-blue); background: var(--bg-color); color: var(--text-main);" placeholder="•">
+            <input type="password" maxlength="1" style="width: 45px; height: 50px; font-size: 24px; text-align: center; border-radius: 10px; border: 1px solid var(--accent-blue); background: var(--bg-color); color: var(--text-main);" placeholder="•">
+            <input type="password" maxlength="1" style="width: 45px; height: 50px; font-size: 24px; text-align: center; border-radius: 10px; border: 1px solid var(--accent-blue); background: var(--bg-color); color: var(--text-main);" placeholder="•">
+        </div>
+        
+        <button class="cp-btn-primary" onclick="showLoader(); setTimeout(() => { hideLoader(); showToast('App Lock Enabled Successfully!'); closeAllModals(); }, 1500)">Save & Enable Biometrics</button>
+    </div>
+
     <script src="https://anupsharmasharma012-debug.github.io/citypulse-core/components.js"></script>
+    <script>
+        function openModal(modalId) {
+            document.getElementById('main-container').classList.add('show-modal');
+            document.querySelectorAll('.bottom-sheet').forEach(sheet => { sheet.style.bottom = '-100%'; });
+            document.getElementById(modalId).style.bottom = '0';
+        }
+        function closeAllModals() {
+            document.getElementById('main-container').classList.remove('show-modal');
+            document.querySelectorAll('.bottom-sheet').forEach(sheet => { sheet.style.bottom = '-100%'; });
+        }
+    </script>
 </body>
 </html>
